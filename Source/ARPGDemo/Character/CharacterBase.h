@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
+#include "ARPGDemo/Data/AbilitySetBase.h"
 #include "CharacterBase.generated.h"
 
 UCLASS()
@@ -15,6 +16,9 @@ class ARPGDEMO_API ACharacterBase : public ACharacter, public IAbilitySystemInte
 protected:
 	UPROPERTY()
 	UAbilitySystemComponent* AbilitySystemComponent;
+
+	UPROPERTY()
+	UAbilitySetBase* AbilitySetBase;
 	
 public:
 	ACharacterBase();
