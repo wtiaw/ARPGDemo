@@ -4,26 +4,31 @@
 
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
-#include "ARPGDemo/Character/Player/PlayerCharacter.h"
 #include "ARPGDemo/Data/AbilityData.h"
-#include "GameplayAbility_Avoid.generated.h"
+#include "GameplayAbility_Base.generated.h"
 
 /**
- * 闪避技能
+ * 
  */
 UCLASS()
-class ARPGDEMO_API UGameplayAbility_Avoid : public UGameplayAbility
+class ARPGDEMO_API UGameplayAbility_Base : public UGameplayAbility
 {
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(BlueprintReadOnly, EditAnywhere)
-	UAnimMontage* Avoid;
-
+	/**
+	 * @brief 技能数据
+	 */
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	FAbilityData AbilityData;
+
+private:
+	UFUNCTION()
+	void ShowCoolDownTime();
+
+	FTimerHandle CoolDownTimerHandle;
 	
 public:
 	UFUNCTION(BlueprintCallable)
-	FName GetAvoidDirection(APlayerCharacter* PlayerCharacter);
+	virtual void CoolDown();
 };

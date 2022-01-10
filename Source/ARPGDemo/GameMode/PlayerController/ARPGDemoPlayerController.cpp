@@ -6,6 +6,5 @@
 void AARPGDemoPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-
 	
 }
