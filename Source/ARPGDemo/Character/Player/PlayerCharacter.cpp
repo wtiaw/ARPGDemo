@@ -5,7 +5,6 @@
 
 #include "AbilitySystemComponent.h"
 #include "ARPGDemo/Data/Enum/EGASAbilityInputID.h"
-#include "ARPGDemo/GamePlayAbilitySystem/GameplayAbility/GameplayAbility_Avoid.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
@@ -55,9 +54,7 @@ void APlayerCharacter::PossessedBy(AController* NewController)
 	{
 		return;
 	}
-
-	// GetAbilitySystemComponent()->GiveAbility(
-	// 	FGameplayAbilitySpec(UGameplayAbility_Avoid::StaticClass(), 1, static_cast<int32>(EGASAbilityInputID::Avoid),this));
+	
 	GetAbilitySystemComponent()->GiveAbility(
 		FGameplayAbilitySpec(GameplayAbility_Avoid, 1, static_cast<int32>(EGASAbilityInputID::Avoid),this));
 }

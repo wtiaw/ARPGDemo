@@ -19,6 +19,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UGameplayAbility> GameplayAbility_Avoid;
 
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsAvoid = false;
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
