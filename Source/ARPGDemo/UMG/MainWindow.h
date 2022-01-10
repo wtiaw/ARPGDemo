@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/CanvasPanel.h"
+#include "SkillBar/SkillBar.h"
 #include "MainWindow.generated.h"
 
 /**
@@ -18,4 +19,10 @@ class ARPGDEMO_API UMainWindow : public UUserWidget
 public:
 	UPROPERTY(Meta = (BindWidget))
 	UCanvasPanel* MainPanel;
+
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
+	USkillBar* SkillBar;
+
+public:
+	USkillBar* GetSkillBar();
 };

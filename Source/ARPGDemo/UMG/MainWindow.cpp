@@ -3,3 +3,7 @@
 
 #include "MainWindow.h"
 
+USkillBar* UMainWindow::GetSkillBar()
+{
+	return SkillBar;
+}

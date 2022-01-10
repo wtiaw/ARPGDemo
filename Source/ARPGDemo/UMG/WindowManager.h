@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "WindowType.h"
 #include "WindowManager.generated.h"
 
 /**
@@ -27,6 +28,13 @@ public:
 	UPROPERTY()
 	TSubclassOf<UUserWidget> MainWindowClass;
 
+private:
+	/**
+	 * @brief 窗口字典
+	 */
+	UPROPERTY()
+	TMap<EWindowTypes, UUserWidget*> WindowMap;
+
 public:
 	/**
 	 * @brief 获取单例
@@ -37,6 +45,38 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void BeginPlay();
+
+	/**
+	 * @brief 注册窗口
+	 * @param WindowType 窗口类型
+	 * @param Window 窗口指针
+	 */
+	UFUNCTION(BlueprintCallable)
+	void RegisterWindow(const EWindowTypes WindowType, UUserWidget* Window);
+
+	/**
+	 * @brief 获取窗口
+	 * @param WindowType 窗口类型
+	 * @return 窗口指针（基类）
+	 */
+	UFUNCTION(BlueprintCallable)
+	UUserWidget* GetWindow(const EWindowTypes WindowType);
+
+	/**
+	 * @brief 获取窗口
+	 * @tparam WindowT 窗口泛型
+	 * @param WindowType 窗口类型
+	 * @return 窗口指针
+	 */
+	template <typename WindowT = UUserWidget>
+	WindowT* GetWindow(const EWindowTypes WindowType)
+	{
+		UBaseWindow* Window = GetWindow(WindowType);
+		if (Window)
+			return Cast<WindowT>(Window);
+
+		return nullptr;
+	}
 };
 
 inline UWindowManager* UWindowManager::GetInstance()

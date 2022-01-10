@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AttributeSet.h"
 #include "UObject/NoExportTypes.h"
 #include "AbilitySetBase.generated.h"
 
@@ -13,5 +14,8 @@ UCLASS()
 class ARPGDEMO_API UAbilitySetBase : public UObject
 {
 	GENERATED_BODY()
+
+	FGameplayAttributeData MaxHealth;
 	
+	FGameplayAttributeData CurrentHealth;
 };
