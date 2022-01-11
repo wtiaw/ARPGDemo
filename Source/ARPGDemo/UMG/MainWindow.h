@@ -24,5 +24,7 @@ public:
 	USkillBar* SkillBar;
 
 public:
+	virtual void NativeConstruct() override;
+	
 	USkillBar* GetSkillBar();
 };

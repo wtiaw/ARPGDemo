@@ -18,14 +18,15 @@ class ARPGDEMO_API USkillBar : public UUserWidget
 public:
 	USkillBar(const FObjectInitializer& ObjectInitializer);
 	
-	UPROPERTY(Meta = (BindWidget))
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
 	UHorizontalBox* EffectedAbilityBar;
 
-	UPROPERTY(Meta = (BindWidget))
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
 	UHorizontalBox* CoolDownAbilityBar;
 
 public:
 	virtual void NativeConstruct() override;
+	
 	UFUNCTION(BlueprintCallable)
 	void AbilityCoolDown();
 };
