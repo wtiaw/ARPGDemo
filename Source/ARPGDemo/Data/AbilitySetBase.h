@@ -15,7 +15,13 @@ class ARPGDEMO_API UAbilitySetBase : public UObject
 {
 	GENERATED_BODY()
 
+	/**
+	 * @brief 最大生命值
+	 */
 	FGameplayAttributeData MaxHealth;
-	
+
+	/**
+	 * @brief 当前生命值
+	 */
 	FGameplayAttributeData CurrentHealth;
 };

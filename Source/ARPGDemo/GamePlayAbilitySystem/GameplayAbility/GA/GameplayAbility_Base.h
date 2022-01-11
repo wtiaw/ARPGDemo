@@ -23,9 +23,6 @@ public:
 	FAbilityData AbilityData;
 
 private:
-	UFUNCTION()
-	void ShowCoolDownTime();
-
 	FTimerHandle CoolDownTimerHandle;
 	
 public:

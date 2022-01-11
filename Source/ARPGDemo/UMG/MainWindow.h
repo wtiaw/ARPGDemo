@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/CanvasPanel.h"
-#include "SkillBar/SkillBar.h"
+#include "Skill/SkillBar/SkillBar.h"
 #include "MainWindow.generated.h"
 
 /**

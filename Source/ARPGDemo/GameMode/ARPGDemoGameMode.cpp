@@ -3,7 +3,6 @@
 
 #include "ARPGDemoGameMode.h"
 
-#include "ARPGDemo/UMG/WindowManager.h"
 #include "Kismet/GameplayStatics.h"
 
 AARPGDemoGameMode* AARPGDemoGameMode::Instance = nullptr;

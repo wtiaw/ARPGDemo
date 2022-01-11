@@ -21,6 +21,10 @@ public:
 	static AARPGDemoGameMode* Instance;
 
 public:
+	/**
+	 * @brief 获得玩家控制器
+	 * @return 玩家控制器
+	 */
 	AARPGDemoPlayerController* GetPlayerController();
 	
 	virtual void BeginPlay() override;

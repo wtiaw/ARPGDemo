@@ -35,6 +35,10 @@ private:
 	UPROPERTY()
 	TMap<EWindowTypes, UUserWidget*> WindowMap;
 
+	/**
+	 * @brief 正在活跃的窗口
+	 */
+	TArray<UUserWidget*> ActiveWindows;
 public:
 	/**
 	 * @brief 获取单例
