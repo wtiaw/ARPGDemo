@@ -13,7 +13,7 @@ void UBaseWindow::RegisterWindow(EWindowTypes InWindowType, UBaseWindow* Window)
 void UBaseWindow::NativeConstruct()
 {
 	Super::NativeConstruct();
-
+	
 	RegisterWindow(WindowType,this);
 }
 

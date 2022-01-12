@@ -14,6 +14,11 @@
 #include "Components/CanvasPanelSlot.h"
 #include "Kismet/GameplayStatics.h"
 
+UFloatingWindowBase::UFloatingWindowBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+{
+	bIsFocusable = true;
+}
+
 FVector2D UFloatingWindowBase::GetWindowSize() const
 {
 	return FVector2D(SizeBox->WidthOverride,SizeBox->HeightOverride);
@@ -35,9 +40,16 @@ void UFloatingWindowBase::OnClose()
 		WindowClosed.Broadcast();
 }
 
+void UFloatingWindowBase::Close()
+{
+	UWindowManager::GetInstance()->CloseFloatingWindow(WindowType);
+}
+
 void UFloatingWindowBase::NativeConstruct()
 {
 	Super::NativeConstruct();
+	
+	SetFocus();
 	
 	BtnClose->OnClicked.AddDynamic(this, &UFloatingWindowBase::OnBtnCloseClicked);
 	
@@ -60,7 +72,14 @@ void UFloatingWindowBase::NativeDestruct()
 
 FReply UFloatingWindowBase::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 {
-	return Super::NativeOnKeyDown(InGeometry, InKeyEvent);
+	Super::NativeOnKeyDown(InGeometry, InKeyEvent);
+
+	if(InKeyEvent.GetKey() == EKeys::Escape)
+	{
+		Close();
+	}
+        
+	return FReply::Handled();
 }
 
 FReply UFloatingWindowBase::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
@@ -133,6 +152,24 @@ void UFloatingWindowBase::NativeOnDragDetected(const FGeometry& InGeometry, cons
 	bDragging = true;
 }
 
+FReply UFloatingWindowBase::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
+{
+	Super::NativeOnFocusReceived(InGeometry, InFocusEvent);
+
+	if (WindowOpen.IsBound())
+		WindowOpen.Broadcast();
+	
+	return FReply::Handled();
+}
+
+void UFloatingWindowBase::NativeOnFocusLost(const FFocusEvent& InFocusEvent)
+{
+	if (WindowClosed.IsBound())
+		WindowClosed.Broadcast();
+	
+	Super::NativeOnFocusLost(InFocusEvent);
+}
+
 void UFloatingWindowBase::OnOpenOverride()
 {
 	if(OpenSoundCue)
@@ -151,5 +188,5 @@ void UFloatingWindowBase::OnCloseOverride()
 
 void UFloatingWindowBase::OnBtnCloseClicked()
 {
-	UWindowManager::GetInstance()->CloseFloatingWindow(WindowType);
+	Close();
 }

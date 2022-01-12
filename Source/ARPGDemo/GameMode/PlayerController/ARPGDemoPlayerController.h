@@ -41,13 +41,18 @@ public:
 	
 public:
 	virtual void BeginPlay() override;
-
+	
 	virtual void SetupInputComponent() override;
 
 	/**
 	 * @brief 打开技能菜单
 	 */
 	void OpenSkillWindow();
+
+	/**
+	 * @brief 打开技能菜单
+	 */
+	void OpenMenuWindow();
 
 	/**
 	 * @brief 显示光标
@@ -60,4 +65,16 @@ public:
 	 */
 	UFUNCTION()
 	void OnHideMouseCursor();
+
+	/**
+	 * @brief 显示光标
+	 */
+	UFUNCTION()
+	void ShowCursor();
+	
+	/**
+	 * @brief 隐藏光标
+	 */
+	UFUNCTION()
+	void HideCursor();
 };

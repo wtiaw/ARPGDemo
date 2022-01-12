@@ -26,6 +26,11 @@ enum class EWindowTypes : uint8
 	 * @brief 准星
 	 */
 	HUD_Aim,
+
+	/**
+	 * @brief 显示鼠标光标
+	 */
+	HUD_MouseCursor,
 	
 	/**
 	 * @brief 固定主窗口
@@ -46,4 +51,9 @@ enum class EWindowTypes : uint8
 	* @brief 技能窗口
 	*/
 	Floating_SkillWindow,
+
+	/**
+	* @brief 主菜单窗口
+	*/
+	Menu_MainWindow,
 };

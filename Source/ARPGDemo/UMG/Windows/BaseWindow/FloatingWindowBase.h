@@ -21,6 +21,8 @@ class ARPGDEMO_API UFloatingWindowBase : public UBaseWindow
 	GENERATED_BODY()
 
 public:
+	UFloatingWindowBase(const FObjectInitializer& ObjectInitializer);
+	
 	/**
 	* @brief 浮动窗口打开时的委托
 	*/
@@ -128,6 +130,12 @@ public:
 	UFUNCTION()
 	void OnClose();
 
+	/**
+	* @brief 关闭窗口
+	*/
+	UFUNCTION()
+	void Close();
+
 protected:
 	virtual void NativeConstruct() override;
 	
@@ -144,6 +152,8 @@ protected:
 	virtual FReply NativeOnMouseWheel(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
+	virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent) override;
+	virtual void NativeOnFocusLost(const FFocusEvent& InFocusEvent) override;
 
 	/**
 	* @brief 当窗口打开时触发
