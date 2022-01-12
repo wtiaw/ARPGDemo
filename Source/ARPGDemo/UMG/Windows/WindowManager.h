@@ -3,11 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "WindowType.h"
+#include "BaseWindow/BaseWindow.h"
 #include "WindowManager.generated.h"
 
+
+class UFloatingWindowBase;
+
 /**
- * 
+ * @brief 窗口管理器
  */
 UCLASS()
 class ARPGDEMO_API UWindowManager : public UObject
@@ -26,19 +29,33 @@ public:
 	 * @brief 主窗口类
 	 */
 	UPROPERTY()
-	TSubclassOf<UUserWidget> MainWindowClass;
+	TSubclassOf<UBaseWindow> MainWindowClass;
+
+	/**
+	 * @brief 浮动主窗口类
+	 */
+	UPROPERTY()
+	TSubclassOf<UBaseWindow> FloatingMainWindowClass;
+
+	/**
+	 * @brief HUD主窗口类
+	 */
+	UPROPERTY()
+	TSubclassOf<UBaseWindow> HUDMainWindowClass;
 
 private:
 	/**
 	 * @brief 窗口字典
 	 */
 	UPROPERTY()
-	TMap<EWindowTypes, UUserWidget*> WindowMap;
+	TMap<EWindowTypes, UBaseWindow*> WindowMap;
 
 	/**
-	 * @brief 正在活跃的窗口
+	 * @brief 浮动窗口列表
 	 */
-	TArray<UUserWidget*> ActiveWindows;
+	UPROPERTY()
+	TArray<UFloatingWindowBase*> FloatingWindowList;
+	
 public:
 	/**
 	 * @brief 获取单例
@@ -56,7 +73,7 @@ public:
 	 * @param Window 窗口指针
 	 */
 	UFUNCTION(BlueprintCallable)
-	void RegisterWindow(const EWindowTypes WindowType, UUserWidget* Window);
+	void RegisterWindow(const EWindowTypes WindowType, UBaseWindow* Window);
 
 	/**
 	 * @brief 获取窗口
@@ -64,8 +81,15 @@ public:
 	 * @return 窗口指针（基类）
 	 */
 	UFUNCTION(BlueprintCallable)
-	UUserWidget* GetWindow(const EWindowTypes WindowType);
+	UBaseWindow* GetWindow(const EWindowTypes WindowType);
 
+	/**
+	 * @brief 注销窗口
+	 * @param Window 窗口指针
+	 */
+	UFUNCTION(BlueprintCallable)
+	void UnregisterWindow(UBaseWindow* Window);
+	
 	/**
 	 * @brief 获取窗口
 	 * @tparam WindowT 窗口泛型
@@ -81,6 +105,21 @@ public:
 
 		return nullptr;
 	}
+
+	/**
+	 * @brief 打开浮动窗口
+	 * @param WindowType 窗口类型
+	 * @param WindowPosition 窗口位置
+	 */
+	UFUNCTION(BlueprintCallable)
+	void OpenFloatingWindow(const EWindowTypes WindowType, const FVector2D WindowPosition = FVector2D::ZeroVector);
+	
+	/**
+	 * @brief 关闭浮动窗口
+	 * @param WindowType 窗口类型
+	 */
+	UFUNCTION(BlueprintCallable)
+	void CloseFloatingWindow(const EWindowTypes WindowType);
 };
 
 inline UWindowManager* UWindowManager::GetInstance()

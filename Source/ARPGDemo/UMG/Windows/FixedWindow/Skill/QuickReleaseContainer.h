@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/TextBlock.h"
 #include "QuickReleaseContainer.generated.h"
 
 /**
- * 
+ * @brief 技能快捷释放容器
  */
 UCLASS()
 class ARPGDEMO_API UQuickReleaseContainer : public UUserWidget
@@ -15,6 +16,22 @@ class ARPGDEMO_API UQuickReleaseContainer : public UUserWidget
 	GENERATED_BODY()
 
 public:
+	/**
+	 * @brief 快捷键名称
+	 */
 	UPROPERTY(BlueprintReadOnly,EditAnywhere)
 	FString QuickKeyName;
+
+	/**
+	 * @brief 快捷键文本显示
+	 */
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
+	UTextBlock* QuickKey;
+	
+public:
+	/**
+	 * @brief 设置快捷键文本
+	 */
+	UFUNCTION(BlueprintCallable)
+	void SetQuickName();
 };

@@ -29,4 +29,6 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable)
 	FName GetAvoidDirection(APlayerCharacter* PlayerCharacter);
+
+	virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
 };

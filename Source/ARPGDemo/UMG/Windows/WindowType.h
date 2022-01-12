@@ -18,22 +18,32 @@ enum class EWindowTypes : uint8
 	None,
 
 	/**
-	 * @brief 主窗口
+	 * @brief HUD主窗口
 	 */
-	MainWindow,
+	HUD_MainWindow,
 
 	/**
-	* @brief 浮动主窗口
-	*/
-	FloatingMainWindow,
-
+	 * @brief 准星
+	 */
+	HUD_Aim,
+	
+	/**
+	 * @brief 固定主窗口
+	 */
+	Fixed_MainWindow,
+	
 	/**
 	* @brief 技能栏窗口
 	*/
-	SkillBarWindow,
-
+	Fixed_SkillBarWindow,
+	
+	/**
+	* @brief 浮动主窗口
+	*/
+	Floating_MainWindow,
+	
 	/**
 	* @brief 技能窗口
 	*/
-	SkillWindow,
+	Floating_SkillWindow,
 };

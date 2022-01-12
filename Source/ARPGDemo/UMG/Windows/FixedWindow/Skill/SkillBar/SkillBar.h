@@ -3,21 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "ARPGDemo/UMG/Windows/BaseWindow/BaseWindow.h"
 #include "Components/HorizontalBox.h"
 #include "SkillBar.generated.h"
 
 /**
- * 
+ * @brief 快捷技能栏
  */
 UCLASS()
-class ARPGDEMO_API USkillBar : public UUserWidget
+class ARPGDEMO_API USkillBar : public UBaseWindow
 {
 	GENERATED_BODY()
 
 public:
-	USkillBar(const FObjectInitializer& ObjectInitializer);
-	
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
 	UHorizontalBox* EffectedAbilityBar;
 
@@ -25,8 +23,6 @@ public:
 	UHorizontalBox* CoolDownAbilityBar;
 
 public:
-	virtual void NativeConstruct() override;
-	
 	UFUNCTION(BlueprintCallable)
 	void AbilityCoolDown();
 };

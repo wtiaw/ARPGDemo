@@ -27,3 +27,12 @@ FName UGameplayAbility_Avoid::GetAvoidDirection(APlayerCharacter* PlayerCharacte
 
 	return FName(Direction);
 }
+
+void UGameplayAbility_Avoid::EndAbility(const FGameplayAbilitySpecHandle Handle,
+	const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
+	bool bReplicateEndAbility, bool bWasCancelled)
+{
+	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
+
+	Cast<APlayerCharacter>(ActorInfo->OwnerActor)->bIsAvoid = false;
+}

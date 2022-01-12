@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
-#include "SkillWindow.generated.h"
+#include "ARPGDemo/UMG/Windows/BaseWindow/BaseWindow.h"
+#include "HUDMainWindow.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class ARPGDEMO_API USkillWindow : public UUserWidget
+class ARPGDEMO_API UHUDMainWindow : public UBaseWindow
 {
 	GENERATED_BODY()
 	
