@@ -4,6 +4,7 @@
 #include "MainMenu.h"
 
 #include "ARPGDemo/GameMode/ARPGDemoGameMode.h"
+#include "ARPGDemo/GameMode/PlayerController/ControllerRegistrar.h"
 #include "Kismet/GameplayStatics.h"
 
 UMainMenu::UMainMenu(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
@@ -32,10 +33,10 @@ void UMainMenu::OnClose()
  		WindowClose.Broadcast();
  	}
 
-	if(AARPGDemoGameMode::Instance->GetPlayerController())
+	if(UControllerRegistrar::GetInstance())
 	{
-		WindowOpen.RemoveDynamic(AARPGDemoGameMode::Instance->GetPlayerController(),&AARPGDemoPlayerController::OnShowMouseCursor);
-		WindowClose.RemoveDynamic(AARPGDemoGameMode::Instance->GetPlayerController(),&AARPGDemoPlayerController::OnHideMouseCursor);
+		WindowOpen.RemoveDynamic(UControllerRegistrar::GetInstance(),&UControllerRegistrar::OnShowMouseCursor);
+		WindowClose.RemoveDynamic(UControllerRegistrar::GetInstance(),&UControllerRegistrar::OnHideMouseCursor);
 	}
 }
 
@@ -45,8 +46,8 @@ void UMainMenu::NativeConstruct()
 	
 	Btn_Quit->OnClicked.AddDynamic(this,&UMainMenu::Quit);
 	
-	WindowOpen.AddDynamic(AARPGDemoGameMode::Instance->GetPlayerController(),&AARPGDemoPlayerController::OnShowMouseCursor);
-	WindowClose.AddDynamic(AARPGDemoGameMode::Instance->GetPlayerController(),&AARPGDemoPlayerController::OnHideMouseCursor);
+	WindowOpen.AddDynamic(UControllerRegistrar::GetInstance(),&UControllerRegistrar::OnShowMouseCursor);
+	WindowClose.AddDynamic(UControllerRegistrar::GetInstance(),&UControllerRegistrar::OnHideMouseCursor);
 
 	OnOpen();
 }

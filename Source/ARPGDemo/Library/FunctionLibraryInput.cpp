@@ -57,6 +57,11 @@ void UFunctionLibraryInput::ExecuteActionByActionName(FName InActionName)
 		if (Register->OpenMenuDelegate.IsBound())
 			Register->OpenMenuDelegate.Broadcast();
 	}
+	else if (ActionName == TEXT("ShowMouse"))
+	{
+		if (Register->HideMouseCursor.IsBound())
+			Register->HideMouseCursor.Broadcast();
+	}
 }
 
 void UFunctionLibraryInput::ExecuteActionByKey(FKey InActionKey)

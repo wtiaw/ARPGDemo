@@ -2,9 +2,7 @@
 
 
 #include "FloatingWindowBase.h"
-
-#include "ARPGDemo/GameMode/ARPGDemoGameMode.h"
-#include "ARPGDemo/GameMode/PlayerController/ARPGDemoPlayerController.h"
+#include "ARPGDemo/GameMode/PlayerController/ControllerRegistrar.h"
 #include "ARPGDemo/Library/FunctionLibraryInput.h"
 #include "ARPGDemo/UMG/Windows/WindowManager.h"
 #include "Blueprint/SlateBlueprintLibrary.h"
@@ -49,8 +47,8 @@ void UFloatingWindowBase::NativeConstruct()
 	
 	BtnClose->OnClicked.AddDynamic(this, &UFloatingWindowBase::OnBtnCloseClicked);
 	
-	WindowOpen.AddDynamic(AARPGDemoGameMode::Instance->GetPlayerController(),&AARPGDemoPlayerController::OnShowMouseCursor);
-	WindowClosed.AddDynamic(AARPGDemoGameMode::Instance->GetPlayerController(),&AARPGDemoPlayerController::OnHideMouseCursor);
+	WindowOpen.AddDynamic(UControllerRegistrar::GetInstance(),&UControllerRegistrar::OnShowMouseCursor);
+	WindowClosed.AddDynamic(UControllerRegistrar::GetInstance(),&UControllerRegistrar::OnHideMouseCursor);
 }
 
 void UFloatingWindowBase::NativeDestruct()
@@ -59,10 +57,10 @@ void UFloatingWindowBase::NativeDestruct()
 
 	BtnClose->OnClicked.RemoveDynamic(this, &UFloatingWindowBase::OnBtnCloseClicked);
 
-	if(AARPGDemoGameMode::Instance->GetPlayerController())
+	if(UControllerRegistrar::GetInstance())
 	{
-		WindowOpen.RemoveDynamic(AARPGDemoGameMode::Instance->GetPlayerController(),&AARPGDemoPlayerController::OnShowMouseCursor);
-		WindowClosed.RemoveDynamic(AARPGDemoGameMode::Instance->GetPlayerController(),&AARPGDemoPlayerController::OnHideMouseCursor);
+		WindowOpen.RemoveDynamic(UControllerRegistrar::GetInstance(),&UControllerRegistrar::OnShowMouseCursor);
+		WindowClosed.RemoveDynamic(UControllerRegistrar::GetInstance(),&UControllerRegistrar::OnHideMouseCursor);
 	}
 }
 

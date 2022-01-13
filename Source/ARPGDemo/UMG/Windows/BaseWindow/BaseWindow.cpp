@@ -2,8 +2,7 @@
 
 
 #include "BaseWindow.h"
-
-#include "ARPGDemo/GameMode/ARPGDemoGameMode.h"
+#include "ARPGDemo/GameMode/PlayerController/ControllerRegistrar.h"
 #include "ARPGDemo/Library/FunctionLibraryInput.h"
 #include "ARPGDemo/Library/FunctionLibraryWidget.h"
 #include "ARPGDemo/UMG/Windows/WindowManager.h"
@@ -47,10 +46,10 @@ FReply UBaseWindow::NativeOnMouseButtonDown(const FGeometry& InGeometry, const F
 	
 	if(!UFunctionLibraryWidget::GetMouseHoveredWidget(FloatingMainWindow->Canvas) && !UFunctionLibraryWidget::GetMouseHoveredWidget(MainWindow->MainPanel))
 	{
-		const auto PlayerController = AARPGDemoGameMode::Instance->GetPlayerController();
-		if(PlayerController->HideMouseCursor.IsBound())
+		const auto Register = UControllerRegistrar::GetInstance();
+		if(Register->HideMouseCursor.IsBound())
 		{
-			PlayerController->HideMouseCursor.Broadcast();
+			Register->HideMouseCursor.Broadcast();
 		}
 	}
 
