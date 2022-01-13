@@ -20,5 +20,11 @@ public:
 	*/
 	UFUNCTION(BlueprintCallable)
 	static UWidget* GetHoveredWidget(UPanelWidget* UIParent, FVector2D Position);
+
+	/**
+	* @brief 获取鼠标悬停的UI组件
+	*/
+	UFUNCTION(BlueprintCallable)
+	static UWidget* GetMouseHoveredWidget(UPanelWidget* UIParent);
 };
 

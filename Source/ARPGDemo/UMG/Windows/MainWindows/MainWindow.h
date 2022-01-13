@@ -21,7 +21,7 @@ public:
 	/**
 	 * @brief 主窗口
 	 */
-	UPROPERTY(Meta = (BindWidget))
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
 	UCanvasPanel* MainPanel;
 
 	/**

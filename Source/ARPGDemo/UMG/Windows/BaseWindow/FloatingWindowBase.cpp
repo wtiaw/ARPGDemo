@@ -5,6 +5,7 @@
 
 #include "ARPGDemo/GameMode/ARPGDemoGameMode.h"
 #include "ARPGDemo/GameMode/PlayerController/ARPGDemoPlayerController.h"
+#include "ARPGDemo/Library/FunctionLibraryInput.h"
 #include "ARPGDemo/UMG/Windows/WindowManager.h"
 #include "Blueprint/SlateBlueprintLibrary.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
@@ -14,11 +15,6 @@
 #include "Components/CanvasPanelSlot.h"
 #include "Kismet/GameplayStatics.h"
 
-UFloatingWindowBase::UFloatingWindowBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
-{
-	bIsFocusable = true;
-}
-
 FVector2D UFloatingWindowBase::GetWindowSize() const
 {
 	return FVector2D(SizeBox->WidthOverride,SizeBox->HeightOverride);
@@ -26,18 +22,18 @@ FVector2D UFloatingWindowBase::GetWindowSize() const
 
 void UFloatingWindowBase::OnOpen()
 {
-	OnOpenOverride();
-
 	if (WindowOpen.IsBound())
 		WindowOpen.Broadcast();
+
+	OnOpenOverride();
 }
 
 void UFloatingWindowBase::OnClose()
 {
-	OnCloseOverride();
-
 	if (WindowClosed.IsBound())
 		WindowClosed.Broadcast();
+
+	OnCloseOverride();
 }
 
 void UFloatingWindowBase::Close()
@@ -72,11 +68,12 @@ void UFloatingWindowBase::NativeDestruct()
 
 FReply UFloatingWindowBase::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 {
-	Super::NativeOnKeyDown(InGeometry, InKeyEvent);
-
 	if(InKeyEvent.GetKey() == EKeys::Escape)
 	{
 		Close();
+	}else
+	{
+		UFunctionLibraryInput::ExecuteActionByKey(InKeyEvent.GetKey());
 	}
         
 	return FReply::Handled();
@@ -152,26 +149,10 @@ void UFloatingWindowBase::NativeOnDragDetected(const FGeometry& InGeometry, cons
 	bDragging = true;
 }
 
-FReply UFloatingWindowBase::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
-{
-	Super::NativeOnFocusReceived(InGeometry, InFocusEvent);
-
-	if (WindowOpen.IsBound())
-		WindowOpen.Broadcast();
-	
-	return FReply::Handled();
-}
-
-void UFloatingWindowBase::NativeOnFocusLost(const FFocusEvent& InFocusEvent)
-{
-	if (WindowClosed.IsBound())
-		WindowClosed.Broadcast();
-	
-	Super::NativeOnFocusLost(InFocusEvent);
-}
-
 void UFloatingWindowBase::OnOpenOverride()
 {
+	SetFocus();
+	
 	if(OpenSoundCue)
 	{
 		UGameplayStatics::PlaySound2D(this,OpenSoundCue);

@@ -47,12 +47,7 @@ public:
 	/**
 	 * @brief 打开技能菜单
 	 */
-	void OpenSkillWindow();
-
-	/**
-	 * @brief 打开技能菜单
-	 */
-	void OpenMenuWindow();
+	// void OpenSkillWindow();
 
 	/**
 	 * @brief 显示光标

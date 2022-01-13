@@ -3,9 +3,9 @@
 
 #include "ARPGDemoPlayerController.h"
 
+#include "ControllerRegistrar.h"
 #include "ARPGDemo/UMG/Windows/WindowManager.h"
 #include "ARPGDemo/UMG/Windows/HUD/HUDMouseCursor.h"
-#include "ARPGDemo/UMG/Windows/MenuWindow/MainMenu.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -26,23 +26,9 @@ void AARPGDemoPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
-	InputComponent->BindAction("OpenSkillWindow",IE_Pressed,this,&AARPGDemoPlayerController::OpenSkillWindow);
-	InputComponent->BindAction("OpenMainMenu",IE_Pressed,this,&AARPGDemoPlayerController::OpenMenuWindow);
+	InputComponent->BindAction("OpenSkillWindow",IE_Pressed,UControllerRegistrar::GetInstance(),&UControllerRegistrar::OnOpenSkillWindow);
+	InputComponent->BindAction("OpenMainMenu",IE_Pressed,UControllerRegistrar::GetInstance(),&UControllerRegistrar::OnOpenMenu);
 	InputComponent->BindAction("ShowMouse",IE_Pressed,this,&AARPGDemoPlayerController::OnShowMouseCursor);
-}
-
-void AARPGDemoPlayerController::OpenSkillWindow()
-{
-	UWindowManager::Instance->OpenFloatingWindow(EWindowTypes::Floating_SkillWindow);
-}
-
-void AARPGDemoPlayerController::OpenMenuWindow()
-{
-	TSubclassOf<UBaseWindow> MainMenuClass = LoadClass<UUserWidget>(
-		NULL, TEXT("WidgetBlueprint'/Game/ARPGDemo/Blueprints/UMG/Windows/Menu/WBP_MainMenu.WBP_MainMenu_C'"));
-
-	UMainMenu* MainMenu = Cast<UMainMenu>(CreateWidget(this, MainMenuClass));
-	MainMenu->AddToViewport();
 }
 
 void AARPGDemoPlayerController::OnShowMouseCursor()
@@ -71,6 +57,8 @@ void AARPGDemoPlayerController::ShowCursor()
 	
  	SetInputMode(FInputModeUIOnly());
  	bShowMouseCursor = true;
+
+	UWindowManager::Instance->GetWindow(EWindowTypes::Fixed_MainWindow)->SetFocus();
 }
 
 void AARPGDemoPlayerController::HideCursor()

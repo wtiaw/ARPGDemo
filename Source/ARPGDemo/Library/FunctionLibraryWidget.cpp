@@ -6,8 +6,8 @@
 UWidget* UFunctionLibraryWidget::GetHoveredWidget(UPanelWidget* UIParent, FVector2D Position)
 {
 	const auto Count = UIParent->GetChildrenCount();
-	// for (size_t i = 0; i < Count; ++i)
-	for (auto i = Count - 1; i > -1; --i)
+	for (size_t i = 0; i < Count; ++i)
+	// for (auto i = Count - 1; i > -1; --i)
 	{
 		const auto Child = UIParent->GetChildAt(i);
 		const auto ChildGeometry = Child->GetPaintSpaceGeometry();
@@ -18,6 +18,23 @@ UWidget* UFunctionLibraryWidget::GetHoveredWidget(UPanelWidget* UIParent, FVecto
 		{
 			const auto Hovered = ChildGeometry.GetRenderBoundingRect().ContainsPoint(Position);
 			if (Hovered)
+				return Child;
+		}
+	}
+	return nullptr;
+}
+
+UWidget* UFunctionLibraryWidget::GetMouseHoveredWidget(UPanelWidget* UIParent)
+{
+	const auto Count = UIParent->GetChildrenCount();
+	for (size_t i = 0; i < Count; ++i)
+	{
+		const auto Child = UIParent->GetChildAt(i);
+		if (Child->GetVisibility() == ESlateVisibility::Visible ||
+			Child->GetVisibility() == ESlateVisibility::SelfHitTestInvisible ||
+			Child->GetVisibility() == ESlateVisibility::HitTestInvisible)
+		{
+			if (Child->IsHovered())
 				return Child;
 		}
 	}

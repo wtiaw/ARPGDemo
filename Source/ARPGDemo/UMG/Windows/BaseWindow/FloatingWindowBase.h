@@ -21,8 +21,6 @@ class ARPGDEMO_API UFloatingWindowBase : public UBaseWindow
 	GENERATED_BODY()
 
 public:
-	UFloatingWindowBase(const FObjectInitializer& ObjectInitializer);
-	
 	/**
 	* @brief 浮动窗口打开时的委托
 	*/
@@ -75,7 +73,7 @@ protected:
 	*/
 	UPROPERTY(BlueprintReadOnly)
 	bool bDragging;
-
+	
 	/**
 	 * @brief 拖拽时鼠标的像素位置
 	 */
@@ -152,8 +150,6 @@ protected:
 	virtual FReply NativeOnMouseWheel(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
-	virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent) override;
-	virtual void NativeOnFocusLost(const FFocusEvent& InFocusEvent) override;
 
 	/**
 	* @brief 当窗口打开时触发

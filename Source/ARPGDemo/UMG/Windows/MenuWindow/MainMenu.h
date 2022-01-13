@@ -53,13 +53,15 @@ public:
 	
 	virtual FReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
 
+	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+
 protected:
 	/**
 	* @brief 退出游戏
 	*/
 	UFUNCTION()
 	void Quit();
-	
+
 private:
     /**
      * @brief 菜单打开时调用的方法

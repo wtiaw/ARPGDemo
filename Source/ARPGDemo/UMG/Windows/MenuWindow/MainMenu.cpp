@@ -19,6 +19,8 @@ void UMainMenu::OnOpen()
  	{
  		WindowOpen.Broadcast();
  	}
+
+	SetFocus();
 }
 
 void UMainMenu::OnClose()
@@ -40,8 +42,6 @@ void UMainMenu::OnClose()
 void UMainMenu::NativeConstruct()
 {
 	Super::NativeConstruct();
-
-	SetFocus();
 	
 	Btn_Quit->OnClicked.AddDynamic(this,&UMainMenu::Quit);
 	
@@ -60,8 +60,6 @@ void UMainMenu::NativeDestruct()
 
 FReply UMainMenu::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 {
-	Super::NativeOnKeyDown(InGeometry, InKeyEvent);
-
 	if(InKeyEvent.GetKey() == EKeys::Escape)
     {
         UGameplayStatics::SetGamePaused(this,false);
@@ -70,6 +68,11 @@ FReply UMainMenu::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& 
     }
         
     return FReply::Handled();
+}
+
+FReply UMainMenu::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	return FReply::Handled();
 }
 
 void UMainMenu::Quit()

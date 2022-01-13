@@ -16,6 +16,9 @@ class ARPGDEMO_API UBaseWindow : public UUserWidget
 {
 	GENERATED_BODY()
 
+public:
+	UBaseWindow(const FObjectInitializer& ObjectInitializer);
+	
 protected:
 	/**
 	 * @brief 窗口类型
@@ -33,7 +36,10 @@ protected:
 
 public:
 	virtual void NativeConstruct() override;
-	
+
+	virtual FReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
+
+	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	/**
 	 * @brief 得到窗口类型
 	 * @return 窗口类型
