@@ -5,6 +5,28 @@
 #include "CoreMinimal.h"
 #include "AbilityData.generated.h"
 
+/**
+ * @brief 技能类型
+ */
+UENUM(BluePrintType)
+enum class EAbilityType : uint8
+{
+	/**
+	 * @brief 无
+	 */
+	None,
+
+	/**
+	 * @brief 主动技能
+	 */
+	ActiveSkill,
+
+	/**
+	 * @brief 被动技能
+	 */
+	Passive,
+};
+
 USTRUCT(BlueprintType)
 struct FAbilityData
 {

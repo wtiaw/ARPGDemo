@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SkillItem.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/TextBlock.h"
 #include "QuickReleaseContainer.generated.h"
@@ -27,8 +28,12 @@ public:
 	 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
 	UTextBlock* QuickKey;
+
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
+	USkillItem* SkillItem;
 	
 public:
+	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	/**
 	 * @brief 设置快捷键文本
 	 */
