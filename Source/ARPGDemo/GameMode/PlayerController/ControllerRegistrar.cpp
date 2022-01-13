@@ -7,6 +7,7 @@
 #include "ARPGDemo/UMG/Windows/BaseWindow/BaseWindow.h"
 #include "ARPGDemo/UMG/Windows/HUD/HUDMouseCursor.h"
 #include "ARPGDemo/UMG/Windows/MenuWindow/MainMenu.h"
+#include "Blueprint/WidgetLayoutLibrary.h"
 #include "GameFramework/GameModeBase.h"
 
 UControllerRegistrar* UControllerRegistrar::Instance = nullptr;
@@ -23,8 +24,12 @@ UControllerRegistrar* UControllerRegistrar::GetInstance()
 
 void UControllerRegistrar::Register()
 {
+    OpenSkillWindowDelegate.AddDynamic(this,&UControllerRegistrar::OnOpenSkillWindow);
+    OpenBackpackWindowDelegate.AddDynamic(this,&UControllerRegistrar::OnOpenBackpackWindow);
+    OpenPropertyWindowDelegate.AddDynamic(this,&UControllerRegistrar::OnOpenPropertyWindow);
+	
 	OpenMenuDelegate.AddDynamic(this,&UControllerRegistrar::OnOpenMenu);
-	OpenSkillWindowDelegate.AddDynamic(this,&UControllerRegistrar::OnOpenSkillWindow);
+	
 	ShowMouseCursor.AddDynamic(this,&UControllerRegistrar::OnShowMouseCursor);
     HideMouseCursor.AddDynamic(this,&UControllerRegistrar::OnHideMouseCursor);
 }
@@ -40,13 +45,30 @@ void UControllerRegistrar::OnOpenMenu()
 
 void UControllerRegistrar::OnOpenSkillWindow()
 {
-	UWindowManager::Instance->OpenFloatingWindow(EWindowTypes::Floating_SkillWindow);
+	UWindowManager::GetInstance()->OpenFloatingWindow(EWindowTypes::Floating_SkillWindow);
+}
+
+void UControllerRegistrar::OnOpenBackpackWindow()
+{
+	FVector2D Location = FVector2D::ZeroVector;
+	Location.X += UWidgetLayoutLibrary::GetViewportSize(AARPGDemoGameMode::Instance).X / 4;
+	
+	UWindowManager::GetInstance()->OpenFloatingWindow(EWindowTypes::Floating_BackpackWindow, Location);
+}
+
+void UControllerRegistrar::OnOpenPropertyWindow()
+{
+	FVector2D Location = FVector2D::ZeroVector;
+	Location.X -= UWidgetLayoutLibrary::GetViewportSize(AARPGDemoGameMode::Instance).X / 4;
+	
+	UWindowManager::GetInstance()->OpenFloatingWindow(EWindowTypes::Floating_PropertyWindow, Location);
 }
 
 void UControllerRegistrar::OnShowMouseCursor()
 {
-	UWindowManager::Instance->GetWindow(EWindowTypes::HUD_Aim)->SetVisibility(ESlateVisibility::Collapsed);
-	UHUDMouseCursor* HUDMouseCursor = UWindowManager::Instance->GetWindow<UHUDMouseCursor>(EWindowTypes::HUD_MouseCursor);
+	//隐藏准星
+	UWindowManager::GetInstance()->GetWindow(EWindowTypes::HUD_Aim)->SetVisibility(ESlateVisibility::Collapsed);
+	UHUDMouseCursor* HUDMouseCursor = UWindowManager::GetInstance()->GetWindow<UHUDMouseCursor>(EWindowTypes::HUD_MouseCursor);
 
 	if(HUDMouseCursor)
 		HUDMouseCursor->SetShowMouse();
@@ -58,18 +80,23 @@ void UControllerRegistrar::OnShowMouseCursor()
 	const FVector2D ViewportSize = FVector2D(GEngine->GameViewport->Viewport->GetSizeXY());
 	PlayerController->SetMouseLocation(ViewportSize.X/2,ViewportSize.Y/2);
 
-	UWindowManager::Instance->GetWindow(EWindowTypes::Fixed_MainWindow)->SetFocus();
+	UWindowManager::GetInstance()->GetWindow(EWindowTypes::Fixed_MainWindow)->SetFocus();
 }
 
 void UControllerRegistrar::OnHideMouseCursor()
 {
-	UWindowManager::Instance->GetWindow(EWindowTypes::HUD_Aim)->SetVisibility(ESlateVisibility::HitTestInvisible);
-	UHUDMouseCursor* HUDMouseCursor = UWindowManager::Instance->GetWindow<UHUDMouseCursor>(EWindowTypes::HUD_MouseCursor);
+	UWindowManager::GetInstance()->GetWindow(EWindowTypes::HUD_Aim)->SetVisibility(ESlateVisibility::HitTestInvisible);
+	UHUDMouseCursor* HUDMouseCursor = UWindowManager::GetInstance()->GetWindow<UHUDMouseCursor>(EWindowTypes::HUD_MouseCursor);
 
 	if(HUDMouseCursor)
 		HUDMouseCursor->SetHideMouse();
 
 	const auto PlayerController = AARPGDemoGameMode::Instance->GetPlayerController();
-	PlayerController->SetInputMode(FInputModeGameOnly());
-	PlayerController->bShowMouseCursor = false;
+	
+	//防止退出时崩溃
+	if(PlayerController)
+	{
+		PlayerController->SetInputMode(FInputModeGameOnly());
+		PlayerController->bShowMouseCursor = false;
+	}
 }

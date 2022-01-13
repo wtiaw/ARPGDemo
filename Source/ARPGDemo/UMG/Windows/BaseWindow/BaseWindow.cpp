@@ -18,7 +18,7 @@ UBaseWindow::UBaseWindow(const FObjectInitializer& ObjectInitializer) : Super(Ob
 
 void UBaseWindow::RegisterWindow(EWindowTypes InWindowType, UBaseWindow* Window)
 {
-	UWindowManager::Instance->RegisterWindow(InWindowType,Window);
+	UWindowManager::GetInstance()->RegisterWindow(InWindowType,Window);
 }
 
 void UBaseWindow::NativeConstruct()
@@ -41,8 +41,8 @@ FReply UBaseWindow::NativeOnMouseButtonDown(const FGeometry& InGeometry, const F
 {
 	Super::NativeOnMouseButtonDown(InGeometry, InMouseEvent);
 
-	const UFloatingMainWindow* FloatingMainWindow = UWindowManager::Instance->GetWindow<UFloatingMainWindow>(EWindowTypes::Floating_MainWindow);
-	const UMainWindow* MainWindow = UWindowManager::Instance->GetWindow<UMainWindow>(EWindowTypes::Fixed_MainWindow);
+	const UFloatingMainWindow* FloatingMainWindow = UWindowManager::GetInstance()->GetWindow<UFloatingMainWindow>(EWindowTypes::Floating_MainWindow);
+	const UMainWindow* MainWindow = UWindowManager::GetInstance()->GetWindow<UMainWindow>(EWindowTypes::Fixed_MainWindow);
 	
 	if(!UFunctionLibraryWidget::GetMouseHoveredWidget(FloatingMainWindow->Canvas) && !UFunctionLibraryWidget::GetMouseHoveredWidget(MainWindow->MainPanel))
 	{

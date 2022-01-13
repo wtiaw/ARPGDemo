@@ -4,6 +4,7 @@
 #include "FunctionLibraryInput.h"
 
 #include "ARPGDemo/GameMode/PlayerController/ControllerRegistrar.h"
+#include "ARPGDemo/UMG/Windows/WindowManager.h"
 #include "GameFramework/InputSettings.h"
 
 TArray<FKey> UFunctionLibraryInput::GetActionKey(FName InActionName)
@@ -45,12 +46,22 @@ FName UFunctionLibraryInput::GetActionName(FKey InActionKey)
 void UFunctionLibraryInput::ExecuteActionByActionName(FName InActionName)
 {
 	const auto Register = UControllerRegistrar::GetInstance();
-
+	
 	const FString ActionName = InActionName.ToString();
 	if (ActionName == TEXT("OpenSkillWindow"))
 	{
 		if (Register->OpenSkillWindowDelegate.IsBound())
 			Register->OpenSkillWindowDelegate.Broadcast();
+	}
+	else if (ActionName == TEXT("OpenBackpackWindow"))
+	{
+		if (Register->OpenBackpackWindowDelegate.IsBound())
+			Register->OpenBackpackWindowDelegate.Broadcast();
+	}
+	else if (ActionName == TEXT("OpenPropertyWindow"))
+	{
+		if (Register->OpenPropertyWindowDelegate.IsBound())
+			Register->OpenPropertyWindowDelegate.Broadcast();
 	}
 	else if (ActionName == TEXT("OpenMainMenu"))
 	{

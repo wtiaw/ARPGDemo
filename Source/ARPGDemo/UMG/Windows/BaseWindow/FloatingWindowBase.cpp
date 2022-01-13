@@ -20,7 +20,7 @@ FVector2D UFloatingWindowBase::GetWindowSize() const
 
 void UFloatingWindowBase::OnOpen()
 {
-	if (WindowOpen.IsBound())
+	if (WindowOpen.IsBound() && UWindowManager::GetInstance()->ShouldShowMouseCursor())
 		WindowOpen.Broadcast();
 
 	OnOpenOverride();
@@ -28,7 +28,7 @@ void UFloatingWindowBase::OnOpen()
 
 void UFloatingWindowBase::OnClose()
 {
-	if (WindowClosed.IsBound())
+	if (WindowClosed.IsBound() && UWindowManager::GetInstance()->ShouldHideMouseCursor())
 		WindowClosed.Broadcast();
 
 	OnCloseOverride();
@@ -66,14 +66,15 @@ void UFloatingWindowBase::NativeDestruct()
 
 FReply UFloatingWindowBase::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 {
-	if(InKeyEvent.GetKey() == EKeys::Escape)
+	if (InKeyEvent.GetKey() == EKeys::Escape)
 	{
 		Close();
-	}else
+	}
+	else
 	{
 		UFunctionLibraryInput::ExecuteActionByKey(InKeyEvent.GetKey());
 	}
-        
+
 	return FReply::Handled();
 }
 

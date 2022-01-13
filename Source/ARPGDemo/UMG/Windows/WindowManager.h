@@ -21,11 +21,6 @@ public:
 	UWindowManager();
 
 	/**
-	 * @brief 单例
-	 */
-	static UWindowManager* Instance;
-
-	/**
 	 * @brief 主窗口类
 	 */
 	UPROPERTY()
@@ -44,6 +39,11 @@ public:
 	TSubclassOf<UBaseWindow> HUDMainWindowClass;
 
 private:
+	/**
+	 * @brief 单例
+	 */
+	static UWindowManager* Instance;
+	
 	/**
 	 * @brief 窗口字典
 	 */
@@ -120,6 +120,10 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable)
 	void CloseFloatingWindow(const EWindowTypes WindowType);
+
+	bool ShouldHideMouseCursor();
+
+	bool ShouldShowMouseCursor();
 };
 
 inline UWindowManager* UWindowManager::GetInstance()

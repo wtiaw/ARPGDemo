@@ -41,6 +41,28 @@ public:
 	FOpenSkillWindowDelegate OpenSkillWindowDelegate;
 
 	/**
+	* @brief 打开背包的委托
+	*/
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOpenBackpackWindowDelegate);
+
+	/**
+	* @brief 打开背包的事件
+	*/
+	UPROPERTY(BlueprintAssignable)
+	FOpenBackpackWindowDelegate OpenBackpackWindowDelegate;
+
+	/**
+	* @brief 打开属性的委托
+	*/
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOpenPropertyWindowDelegate);
+
+	/**
+	* @brief 打开属性的事件
+	*/
+	UPROPERTY(BlueprintAssignable)
+	FOpenPropertyWindowDelegate OpenPropertyWindowDelegate;
+
+	/**
 	* @brief 显示光标的委托
 	*/
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FShowMouseCursorDelegate);
@@ -84,6 +106,18 @@ public:
 	UFUNCTION()
 	void OnOpenSkillWindow();
 
+	/**
+	 * @brief 打开背包面板
+	 */
+	UFUNCTION()
+	void OnOpenBackpackWindow();
+
+	/**
+	 * @brief 打开属性面板
+	 */
+	UFUNCTION()
+	void OnOpenPropertyWindow();
+	
 	/**
 	 * @brief 显示光标
 	 */

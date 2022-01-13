@@ -53,6 +53,16 @@ enum class EWindowTypes : uint8
 	Floating_SkillWindow,
 
 	/**
+	* @brief 背包窗口
+	*/
+	Floating_BackpackWindow,
+
+	/**
+	* @brief 属性窗口
+	*/
+	Floating_PropertyWindow,
+
+	/**
 	* @brief 主菜单窗口
 	*/
 	Menu_MainWindow,

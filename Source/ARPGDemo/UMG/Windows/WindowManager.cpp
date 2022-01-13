@@ -81,7 +81,7 @@ void UWindowManager::UnregisterWindow(UBaseWindow* Window)
 		WindowMap.Remove(*WindowType);
 }
 
-void UWindowManager::OpenFloatingWindow(const EWindowTypes WindowType,const FVector2D WindowPosition)
+void UWindowManager::OpenFloatingWindow(const EWindowTypes WindowType, const FVector2D WindowPosition)
 {
 	UFloatingWindowBase* ExistingWindow = GetWindow<UFloatingWindowBase>(WindowType);
 	if (ExistingWindow)
@@ -134,4 +134,14 @@ void UWindowManager::CloseFloatingWindow(const EWindowTypes WindowType)
 	FloatingWindow->RemoveFromParent();
 
 	FloatingWindow = nullptr;
+}
+
+bool UWindowManager::ShouldHideMouseCursor()
+{
+	return FloatingWindowList.Num() == 0 ? true :false; 	
+}
+
+bool UWindowManager::ShouldShowMouseCursor()
+{
+	return FloatingWindowList.Num() == 1 ? true :false; 
 }
