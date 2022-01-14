@@ -31,6 +31,11 @@ enum class EWindowTypes : uint8
 	 * @brief 显示鼠标光标
 	 */
 	HUD_MouseCursor,
+
+	/**
+	 * @brief 头像框以及生命值BUFF栏
+	 */
+	HUD_AvatarFrame,
 	
 	/**
 	 * @brief 固定主窗口

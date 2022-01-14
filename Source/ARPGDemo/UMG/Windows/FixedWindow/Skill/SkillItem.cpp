@@ -3,6 +3,8 @@
 
 #include "SkillItem.h"
 
+#include "QuickReleaseContainer.h"
+#include "ARPGDemo/GamePlayAbilitySystem/AbilityManager.h"
 #include "ARPGDemo/UMG/Widgets/Drag/DragOperation.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 
@@ -18,25 +20,74 @@ void USkillItem::NativePreConstruct()
 	SetIcon();
 }
 
+void USkillItem::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
+
+	SetHighLight();
+}
+
+void USkillItem::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseLeave(InMouseEvent);
+
+	HideHighLight();
+}
+
 FReply USkillItem::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
-	// this->DragOffset = InGeometry.AbsoluteToLocal(InMouseEvent.GetScreenSpacePosition());
+	if(AbilityData.AbilityIcon == nullptr)
+	{
+		return FReply::Handled();
+	}
 	return UWidgetBlueprintLibrary::DetectDragIfPressed(InMouseEvent, this, EKeys::LeftMouseButton).NativeReply;
 }
 
 void USkillItem::NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent,
 	UDragDropOperation*& OutOperation)
 {
-	Super::NativeOnDragDetected(InGeometry, InMouseEvent, OutOperation);
-
+	bDragging = true;
+	bIsDragSucceed = false;
 	const auto DragOperation = Cast<UDragOperation>(UWidgetBlueprintLibrary::CreateDragDropOperation(UDragOperation::StaticClass()));
 	
 	DragOperation->DraggedWidget = this;
-	DragOperation->Pivot = EDragPivot::MouseDown;
+	DragOperation->Pivot = EDragPivot::CenterCenter;
 	DragOperation->DefaultDragVisual = this;
 
+	this->SetVisibility(ESlateVisibility::HitTestInvisible);
+	
 	OutOperation = DragOperation;
-	UE_LOG(LogTemp,Warning,TEXT("1"));
+}
+
+void USkillItem::NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
+{
+	Super::NativeOnDragCancelled(InDragDropEvent, InOperation);
+
+	this->SetVisibility(ESlateVisibility::Visible);
+
+	if(Parent && !bIsDragSucceed)
+	{
+		UAbilityManager::GetInstance()->ClearAbility(Parent->GASAbilityInputID);
+		SetAbilityData(FAbilityData());
+	}
+}
+
+void USkillItem::NativeOnDragEnter(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
+                                   UDragDropOperation* InOperation)
+{
+	Super::NativeOnDragEnter(InGeometry, InDragDropEvent, InOperation);
+
+	if(!bDragging)
+	{
+		SetHighLight();
+	}
+}
+
+void USkillItem::NativeOnDragLeave(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
+{
+	Super::NativeOnDragLeave(InDragDropEvent, InOperation);
+
+	HideHighLight();
 }
 
 FAbilityData USkillItem::GetAbilityData()
@@ -47,11 +98,13 @@ FAbilityData USkillItem::GetAbilityData()
 void USkillItem::SetAbilityData(USkillItem* SkillItem)
 {
 	AbilityData = SkillItem->GetAbilityData();
+	SetIcon();
 }
 
 void USkillItem::SetAbilityData(FAbilityData InAbilityData)
 {
 	AbilityData = InAbilityData;
+	SetIcon();
 }
 
 USkillItem* USkillItem::GetDraggedSkillItem(UDragDropOperation* DragDropOperation)
@@ -70,4 +123,14 @@ USkillItem* USkillItem::GetDraggedSkillItem(UDragDropOperation* DragDropOperatio
 void USkillItem::SetIcon()
 {
 	AbilityIcon->SetBrushFromTexture(AbilityData.AbilityIcon);
+}
+
+void USkillItem::SetHighLight() const
+{
+	AbilityIcon->SetBrushTintColor(FLinearColor(1,1,1,1));
+}
+
+void USkillItem::HideHighLight() const
+{
+	AbilityIcon->SetBrushTintColor(FLinearColor(0.8,0.8,0.8,1));
 }

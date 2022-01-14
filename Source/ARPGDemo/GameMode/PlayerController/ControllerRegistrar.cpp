@@ -100,3 +100,19 @@ void UControllerRegistrar::OnHideMouseCursor()
 		PlayerController->bShowMouseCursor = false;
 	}
 }
+
+void UControllerRegistrar::OnGiveAbility()
+{
+}
+
+void UControllerRegistrar::OnClearAbility()
+{
+}
+
+void UControllerRegistrar::OnSkill1Pressed()
+{
+}
+
+void UControllerRegistrar::OnSkill1Released()
+{
+}

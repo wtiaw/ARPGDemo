@@ -17,7 +17,8 @@ class ARPGDEMO_API UControllerRegistrar : public UObject
 public:
 	UFUNCTION(BlueprintCallable)
 	static UControllerRegistrar* GetInstance();
-	
+
+//-------------------------------------打开面板-------------------------------------------------//
 	/**
 	* @brief 打开主菜单的委托
 	*/
@@ -84,6 +85,51 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FHideMouseCursorDelegate HideMouseCursor;
 
+//-------------------------------------技能快捷键-------------------------------------------------//
+	/**
+	* @brief 赋予能力的委托
+	*/
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGiveAbilityDelegate);
+
+	/**
+	* @brief 赋予能力的事件
+	*/
+	UPROPERTY(BlueprintAssignable)
+	FGiveAbilityDelegate GiveAbility;
+
+	/**
+	* @brief 赋予能力的委托
+	*/
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FClearAbilityDelegate);
+
+	/**
+	* @brief 赋予能力的事件
+	*/
+	UPROPERTY(BlueprintAssignable)
+	FClearAbilityDelegate ClearAbility;
+
+	/**
+	* @brief 技能1的委托
+	*/
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FSkill1PressedDelegate);
+
+	/**
+	* @brief 技能1的事件
+	*/
+	UPROPERTY(BlueprintAssignable)
+	FSkill1PressedDelegate Skill1Pressed;
+
+	/**
+	* @brief 技能1的委托
+	*/
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FSkill1ReleasedDelegate);
+
+	/**
+	* @brief 技能1的事件
+	*/
+	UPROPERTY(BlueprintAssignable)
+	FSkill1ReleasedDelegate Skill1Released;
+
 private:
 	static UControllerRegistrar* Instance;
 
@@ -94,6 +140,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Register();
 
+//-------------------------------------打开面板-------------------------------------------------//
 	/**
 	 * @brief 打开主菜单
 	 */
@@ -129,4 +176,29 @@ public:
 	 */
 	UFUNCTION()
 	void OnHideMouseCursor();
+
+//-------------------------------------技能快捷键-------------------------------------------------//
+	/**
+	 * @brief 赋予能力
+	 */
+	UFUNCTION()
+	void OnGiveAbility();
+
+	/**
+	 * @brief 收回能力
+	 */
+	UFUNCTION()
+	void OnClearAbility();
+
+	/**
+	 * @brief 按下技能1
+	 */
+	UFUNCTION()
+	void OnSkill1Pressed();
+
+	/**
+	 * @brief 松开技能1
+	 */
+	UFUNCTION()
+	void OnSkill1Released();
 };

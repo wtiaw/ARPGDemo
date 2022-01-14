@@ -23,6 +23,5 @@ protected:
 public:
 	ACharacterBase();
 	
-protected:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 };

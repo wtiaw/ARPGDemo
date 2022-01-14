@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
-#include "ARPGDemo/Data/AbilityData.h"
 #include "GameplayAbility_Base.generated.h"
 
 /**

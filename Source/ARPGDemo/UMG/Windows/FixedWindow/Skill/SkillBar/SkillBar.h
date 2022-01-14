@@ -22,6 +22,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
 	UHorizontalBox* CoolDownAbilityBar;
 
+	
 public:
 	UFUNCTION(BlueprintCallable)
 	void AbilityCoolDown();

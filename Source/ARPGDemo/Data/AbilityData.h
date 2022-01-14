@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ARPGDemo/GamePlayAbilitySystem/GameplayAbility/GA/GameplayAbility_Base.h"
 #include "AbilityData.generated.h"
 
 /**
@@ -50,7 +51,21 @@ struct FAbilityData
 	UPROPERTY(BlueprintReadOnly,EditAnywhere)
 	UTexture2D* AbilityIcon;
 
+	/**
+	 * @brief 技能等级
+	 */
+	UPROPERTY(BlueprintReadOnly,EditAnywhere)
+	int Level;
+
+	/**
+	 * @brief GA类
+	 */
+	UPROPERTY(BlueprintReadOnly,EditAnywhere)
+	TSubclassOf<UGameplayAbility_Base> Ability;
+
 	FAbilityData();
 
-	FAbilityData(FString AbilityName, FString AbilityDescription, UTexture2D* AbilityIcon);
+	FAbilityData(FString AbilityName, FString AbilityDescription, UTexture2D* AbilityIcon, int Level, TSubclassOf<UGameplayAbility_Base> Ability);
+
+	bool bIsValid();
 };

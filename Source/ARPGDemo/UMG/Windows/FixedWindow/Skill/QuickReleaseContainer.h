@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "SkillItem.h"
+#include "ARPGDemo/Data/Enum/EGASAbilityInputID.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/TextBlock.h"
 #include "QuickReleaseContainer.generated.h"
@@ -24,19 +25,47 @@ public:
 	FString QuickKeyName;
 
 	/**
+	 * @brief 动作名称
+	 */
+	UPROPERTY(EditAnywhere)
+	EGASAbilityInputID GASAbilityInputID;
+
+	/**
 	 * @brief 快捷键文本显示
 	 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
 	UTextBlock* QuickKey;
 
+	/**
+	 * @brief 技能Item
+	 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
 	USkillItem* SkillItem;
+
+	/**
+	 * @brief 技能框
+	 */
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
+	UImage* Background;
+
+	/**
+	 * @brief 快捷键框
+	 */
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
+	UImage* QuickKeyBackground;
 	
 public:
+	virtual void NativeConstruct() override;
+	
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
+	
 	/**
 	 * @brief 设置快捷键文本
 	 */
 	UFUNCTION(BlueprintCallable)
 	void SetQuickName();
+
+	void SetHighLight();
+
+	void HideHighLight();
 };
