@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ARPGDemo/UMG/Windows/BaseWindow/BaseWindow.h"
+#include "ARPGDemo/UMG/Windows/FixedWindow/Skill/QuickReleaseContainer.h"
 #include "Components/HorizontalBox.h"
 #include "SkillBar.generated.h"
 
@@ -22,8 +23,16 @@ public:
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
 	UHorizontalBox* CoolDownAbilityBar;
 
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
+	UHorizontalBox* QuickReleaseBar;
 	
 public:
 	UFUNCTION(BlueprintCallable)
-	void AbilityCoolDown();
+	UQuickReleaseContainer* GetQuickReleaseContainerByIndex(int Index);
+
+	UFUNCTION(BlueprintCallable)
+	UQuickReleaseContainer* GetQuickReleaseContainerByGASAbilityInputID(EGASAbilityInputID GASAbilityInputID);
+
+	UFUNCTION(BlueprintCallable)
+	TArray<UQuickReleaseContainer*> GetQuickReleaseContainersByTag(FGameplayTag Tag);
 };

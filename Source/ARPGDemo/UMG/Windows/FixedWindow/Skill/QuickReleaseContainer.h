@@ -19,6 +19,18 @@ class ARPGDEMO_API UQuickReleaseContainer : public UUserWidget
 
 public:
 	/**
+	* @brief 技能改变的委托
+	*/
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FAbilityChangedDelegate);
+
+	/**
+	* @brief 技能改变的事件
+	*/
+	UPROPERTY(BlueprintAssignable)
+	FAbilityChangedDelegate AbilityChanged;
+	
+public:
+	/**
 	 * @brief 快捷键名称
 	 */
 	UPROPERTY(BlueprintReadOnly,EditAnywhere)

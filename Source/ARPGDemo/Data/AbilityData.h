@@ -58,6 +58,12 @@ struct FAbilityData
 	int Level;
 
 	/**
+	 * @brief GAS标签
+	 */
+	UPROPERTY(BlueprintReadOnly,EditAnywhere)
+	FGameplayTagContainer Tags;
+	
+	/**
 	 * @brief GA类
 	 */
 	UPROPERTY(BlueprintReadOnly,EditAnywhere)
@@ -65,7 +71,7 @@ struct FAbilityData
 
 	FAbilityData();
 
-	FAbilityData(FString AbilityName, FString AbilityDescription, UTexture2D* AbilityIcon, int Level, TSubclassOf<UGameplayAbility_Base> Ability);
+	FAbilityData(FString AbilityName, FString AbilityDescription, UTexture2D* AbilityIcon, int Level, FGameplayTagContainer Tags, TSubclassOf<UGameplayAbility_Base> Ability);
 
 	bool bIsValid();
 };

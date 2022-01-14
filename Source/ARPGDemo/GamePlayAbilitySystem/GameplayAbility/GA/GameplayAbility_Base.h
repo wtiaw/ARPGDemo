@@ -13,16 +13,5 @@ UCLASS()
 class ARPGDEMO_API UGameplayAbility_Base : public UGameplayAbility
 {
 	GENERATED_BODY()
-
-protected:
 	
-
-private:
-	FTimerHandle CoolDownTimerHandle;
-	
-public:
-	
-	
-	UFUNCTION(BlueprintCallable)
-	virtual void CoolDown();
 };

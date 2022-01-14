@@ -16,7 +16,7 @@ void USkillItem::NativeConstruct()
 void USkillItem::NativePreConstruct()
 {
 	Super::NativePreConstruct();
-
+	
 	SetIcon();
 }
 
@@ -122,7 +122,11 @@ USkillItem* USkillItem::GetDraggedSkillItem(UDragDropOperation* DragDropOperatio
 
 void USkillItem::SetIcon()
 {
-	AbilityIcon->SetBrushFromTexture(AbilityData.AbilityIcon);
+	AbilityIcon->SetBrushFromMaterial(Material);
+	auto DynamicMaterial = AbilityIcon->GetDynamicMaterial();
+
+	DynamicMaterial->SetTextureParameterValue(FName(TEXT("AbilityIcon")),AbilityData.AbilityIcon);
+	DynamicMaterial->SetScalarParameterValue(FName(TEXT("PersentAge")),1);
 }
 
 void USkillItem::SetHighLight() const

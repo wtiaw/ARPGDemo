@@ -189,16 +189,4 @@ public:
 	 */
 	UFUNCTION()
 	void OnClearAbility();
-
-	/**
-	 * @brief 按下技能1
-	 */
-	UFUNCTION()
-	void OnSkill1Pressed();
-
-	/**
-	 * @brief 松开技能1
-	 */
-	UFUNCTION()
-	void OnSkill1Released();
 };

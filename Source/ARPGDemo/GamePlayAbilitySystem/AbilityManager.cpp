@@ -36,7 +36,7 @@ void UAbilityManager::SwapAbility(EGASAbilityInputID Source, EGASAbilityInputID 
 	
 	auto SourceHandle = ActiveAbility.Find(Source);
 	auto TargetHandle = ActiveAbility.Find(Target);
-
+	
 	if(SourceHandle && AbilitySystemComponent)
 	{
 		FGameplayAbilitySpec* SourceFoundSpec = AbilitySystemComponent->FindAbilitySpecFromHandle(*SourceHandle);

@@ -14,7 +14,7 @@ class ARPGDEMO_API ACharacterBase : public ACharacter, public IAbilitySystemInte
 	GENERATED_BODY()
 
 protected:
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	UAbilitySystemComponent* AbilitySystemComponent;
 
 	UPROPERTY()

@@ -16,7 +16,7 @@ class ARPGDEMO_API AARPGDemoPlayerController : public APlayerController
 
 public:
 	AARPGDemoPlayerController();
-	
+
 public:
 	virtual void BeginPlay() override;
 	

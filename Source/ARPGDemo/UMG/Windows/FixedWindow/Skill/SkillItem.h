@@ -19,7 +19,7 @@ class ARPGDEMO_API USkillItem : public UDraggableWidget
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(Meta = (BindWidget))
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
 	UImage* AbilityIcon;
 
 	UPROPERTY()
@@ -32,6 +32,12 @@ protected:
 	 */
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	FAbilityData AbilityData;
+
+	/**
+	 * @brief 材质实例
+	 */
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	UMaterialInstance* Material;
 	
 public:
 	virtual void NativeConstruct() override;

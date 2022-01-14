@@ -2,7 +2,3 @@
 
 
 #include "GameplayAbility_Base.h"
-
-void UGameplayAbility_Base::CoolDown()
-{
-}
