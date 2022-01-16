@@ -34,5 +34,8 @@ void UGameplayAbility_Avoid::EndAbility(const FGameplayAbilitySpecHandle Handle,
 {
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 
-	Cast<APlayerCharacter>(ActorInfo->OwnerActor)->bIsAvoid = false;
+	if(Cast<APlayerCharacter>(ActorInfo->AvatarActor))
+	{
+		Cast<APlayerCharacter>(ActorInfo->AvatarActor)->bIsAvoid = false;
+	}
 }

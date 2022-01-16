@@ -36,20 +36,29 @@ void USkillItem::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 
 FReply USkillItem::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
+	FReply Reply = FReply::Handled();
+	
 	if(AbilityData.AbilityIcon == nullptr)
 	{
-		return FReply::Handled();
+		Reply = FReply::Handled();
 	}
-	return UWidgetBlueprintLibrary::DetectDragIfPressed(InMouseEvent, this, EKeys::LeftMouseButton).NativeReply;
+	else
+	{
+		if(InMouseEvent.GetEffectingButton() == EKeys::LeftMouseButton)
+		{
+			GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Red,TEXT("1"));
+			Reply =	Super::NativeOnMouseButtonDown(InGeometry, InMouseEvent);
+		}
+	}
+	
+	return Reply;
 }
 
 void USkillItem::NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent,
 	UDragDropOperation*& OutOperation)
 {
-	bDragging = true;
-	bIsDragSucceed = false;
 	const auto DragOperation = Cast<UDragOperation>(UWidgetBlueprintLibrary::CreateDragDropOperation(UDragOperation::StaticClass()));
-	
+	GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Red,TEXT("DragDetected"));
 	DragOperation->DraggedWidget = this;
 	DragOperation->Pivot = EDragPivot::CenterCenter;
 	DragOperation->DefaultDragVisual = this;
@@ -61,15 +70,15 @@ void USkillItem::NativeOnDragDetected(const FGeometry& InGeometry, const FPointe
 
 void USkillItem::NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
 {
-	Super::NativeOnDragCancelled(InDragDropEvent, InOperation);
-
-	this->SetVisibility(ESlateVisibility::Visible);
-
 	if(Parent && !bIsDragSucceed)
 	{
 		UAbilityManager::GetInstance()->ClearAbility(Parent->GASAbilityInputID);
 		SetAbilityData(FAbilityData());
+
+		bIsDragSucceed = false;
 	}
+	this->SetVisibility(ESlateVisibility::Visible);
+	GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Red,TEXT("DragCancelled"));
 }
 
 void USkillItem::NativeOnDragEnter(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
@@ -132,9 +141,11 @@ void USkillItem::SetIcon()
 void USkillItem::SetHighLight() const
 {
 	AbilityIcon->SetBrushTintColor(FLinearColor(1,1,1,1));
+	HighLight->SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
 void USkillItem::HideHighLight() const
 {
 	AbilityIcon->SetBrushTintColor(FLinearColor(0.8,0.8,0.8,1));
+	HighLight->SetVisibility(ESlateVisibility::Collapsed);
 }

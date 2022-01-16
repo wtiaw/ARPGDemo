@@ -140,6 +140,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Register();
 
+	/**
+	 * @brief 绑定委托
+	 */
+	UFUNCTION(BlueprintCallable)
+	void UnRegister();
+
 //-------------------------------------打开面板-------------------------------------------------//
 	/**
 	 * @brief 打开主菜单

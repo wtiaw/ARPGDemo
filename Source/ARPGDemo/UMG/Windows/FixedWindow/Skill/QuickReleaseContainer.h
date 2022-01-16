@@ -39,7 +39,7 @@ public:
 	/**
 	 * @brief 动作名称
 	 */
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	EGASAbilityInputID GASAbilityInputID;
 
 	/**
@@ -77,7 +77,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetQuickName();
 
+	UFUNCTION(BlueprintCallable)
 	void SetHighLight();
 
+	UFUNCTION(BlueprintCallable)
 	void HideHighLight();
 };

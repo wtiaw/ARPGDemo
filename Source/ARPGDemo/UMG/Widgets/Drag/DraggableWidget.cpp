@@ -27,6 +27,7 @@ void UDraggableWidget::NativeOnDragDetected(const FGeometry& InGeometry, const F
 		DragOperation->DraggedWidget = this;
 		DragOperation->DragOffset = this->DragOffset;
 		DragOperation->Pivot = EDragPivot::MouseDown;
+		DragOperation->DefaultDragVisual = this;
 
 		OutOperation = DragOperation;
 	}

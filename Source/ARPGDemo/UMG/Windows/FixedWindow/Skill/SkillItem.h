@@ -22,6 +22,9 @@ public:
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
 	UImage* AbilityIcon;
 
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
+	UImage* HighLight;
+	
 	UPROPERTY()
 	UQuickReleaseContainer* Parent = nullptr;
 

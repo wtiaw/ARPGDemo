@@ -14,14 +14,27 @@ class ARPGDEMO_API ACharacterBase : public ACharacter, public IAbilitySystemInte
 	GENERATED_BODY()
 
 protected:
-	UPROPERTY(BlueprintReadOnly)
-	UAbilitySystemComponent* AbilitySystemComponent;
+	TWeakObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	TWeakObjectPtr<UAbilitySetBase> AbilitySetBase;
 
-	UPROPERTY()
-	UAbilitySetBase* AbilitySetBase;
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "GAS|Abilities")
+	TSubclassOf<UGameplayEffect> DefaultAttributes;
+	
+	UPROPERTY(EditAnywhere, Category = Abilities)
+	int32 CharacterLevel;
+
+protected:
+	void AdjustAttributeForMaxChange(FGameplayAttributeData& AffectedAttribute, const FGameplayAttributeData& MaxAttribute, float NewMaxValue, const FGameplayAttribute& AffectedAttributeProperty);
 	
 public:
 	ACharacterBase();
+
+	virtual void BeginPlay() override;
 	
+	UFUNCTION(BlueprintCallable)
+	virtual int32 GetCharacterLevel() const;
+
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	
+	void AddStartupGameplayAbilities();
 };

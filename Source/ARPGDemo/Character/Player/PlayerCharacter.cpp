@@ -5,6 +5,8 @@
 
 #include "AbilitySystemComponent.h"
 #include "ARPGDemo/Data/Enum/EGASAbilityInputID.h"
+#include "ARPGDemo/GameMode/ARPGDemoGameMode.h"
+#include "ARPGDemo/GameMode/PlayerState/ARPGDemoPlayerState.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
@@ -18,6 +20,11 @@ APlayerCharacter::APlayerCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+}
+
+void APlayerCharacter::BeginPlay()
+{
+	Super::BeginPlay();
 }
 
 void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -50,13 +57,21 @@ void APlayerCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	if (!GetAbilitySystemComponent())
+	const auto PS = GetPlayerState<AARPGDemoPlayerState>();
+
+	if(PS)
 	{
-		return;
+		AbilitySystemComponent = PS->AbilitySystemComponent;
+		
+		PS->GetAbilitySystemComponent()->InitAbilityActorInfo(PS, this);
+
+		AbilitySetBase = PS->GetAttributeSetBase();
+
+		AddStartupGameplayAbilities();
+		
+		GetAbilitySystemComponent()->GiveAbility(
+			FGameplayAbilitySpec(GameplayAbility_Avoid, 1, static_cast<int32>(EGASAbilityInputID::Avoid),this));
 	}
-	
-	GetAbilitySystemComponent()->GiveAbility(
-		FGameplayAbilitySpec(GameplayAbility_Avoid, 1, static_cast<int32>(EGASAbilityInputID::Avoid),this));
 }
 
 void APlayerCharacter::Zoom(float Value)

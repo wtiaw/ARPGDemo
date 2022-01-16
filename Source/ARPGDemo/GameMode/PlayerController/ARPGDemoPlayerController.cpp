@@ -3,8 +3,6 @@
 
 #include "ARPGDemoPlayerController.h"
 #include "ControllerRegistrar.h"
-#include "ARPGDemo/UMG/Windows/WindowManager.h"
-#include "ARPGDemo/UMG/Windows/FixedWindow/Skill/SkillBar/SkillBar.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Kismet/GameplayStatics.h"
 

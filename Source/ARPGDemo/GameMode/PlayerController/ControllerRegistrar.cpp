@@ -34,6 +34,18 @@ void UControllerRegistrar::Register()
     HideMouseCursor.AddDynamic(this,&UControllerRegistrar::OnHideMouseCursor);
 }
 
+void UControllerRegistrar::UnRegister()
+{
+	OpenSkillWindowDelegate.RemoveDynamic(this,&UControllerRegistrar::OnOpenSkillWindow);
+	OpenBackpackWindowDelegate.RemoveDynamic(this,&UControllerRegistrar::OnOpenBackpackWindow);
+	OpenPropertyWindowDelegate.RemoveDynamic(this,&UControllerRegistrar::OnOpenPropertyWindow);
+	
+	OpenMenuDelegate.RemoveDynamic(this,&UControllerRegistrar::OnOpenMenu);
+	
+	ShowMouseCursor.RemoveDynamic(this,&UControllerRegistrar::OnShowMouseCursor);
+	HideMouseCursor.RemoveDynamic(this,&UControllerRegistrar::OnHideMouseCursor);
+}
+
 void UControllerRegistrar::OnOpenMenu()
 {
 	TSubclassOf<UBaseWindow> MainMenuClass = LoadClass<UUserWidget>(
