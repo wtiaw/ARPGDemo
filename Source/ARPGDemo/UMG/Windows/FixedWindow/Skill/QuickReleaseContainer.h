@@ -3,12 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "SkillItem.h"
 #include "ARPGDemo/Data/Enum/EGASAbilityInputID.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/TextBlock.h"
 #include "QuickReleaseContainer.generated.h"
 
+class UImage;
+class USkillItem;
 /**
  * @brief 技能快捷释放容器
  */

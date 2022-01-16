@@ -2,9 +2,8 @@
 
 
 #include "QuickReleaseContainer.h"
-
-#include "ARPGDemo/GameMode/ARPGDemoGameMode.h"
 #include "ARPGDemo/GamePlayAbilitySystem/AbilityManager.h"
+#include "ARPGDemo/UMG/Widgets/Drag/Skill/SkillItem.h"
 
 void UQuickReleaseContainer::NativeConstruct()
 {

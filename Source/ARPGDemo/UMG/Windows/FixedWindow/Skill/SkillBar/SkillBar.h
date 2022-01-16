@@ -8,6 +8,7 @@
 #include "Components/HorizontalBox.h"
 #include "SkillBar.generated.h"
 
+struct FGameplayTag;
 /**
  * @brief 快捷技能栏
  */

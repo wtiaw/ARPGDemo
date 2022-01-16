@@ -11,7 +11,9 @@ FReply UDraggableWidget::NativeOnMouseButtonDown(const FGeometry& InGeometry, co
 	Super::NativeOnMouseButtonDown(InGeometry, InMouseEvent);
 
 	this->DragOffset = InGeometry.AbsoluteToLocal(InMouseEvent.GetScreenSpacePosition());
-	return UWidgetBlueprintLibrary::DetectDragIfPressed(InMouseEvent, this, EKeys::LeftMouseButton).NativeReply;
+	FReply Reply = UWidgetBlueprintLibrary::DetectDragIfPressed(InMouseEvent, this, EKeys::LeftMouseButton).NativeReply;
+	// GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Red,FString::Printf(TEXT("%s"),*Reply.ToString()));
+	return Reply;
 }
 
 void UDraggableWidget::NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent,

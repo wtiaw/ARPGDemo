@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SkillItem_Visual.h"
 #include "ARPGDemo/Data/AbilityData.h"
 #include "ARPGDemo/UMG/Widgets/Drag/DraggableWidget.h"
 #include "Blueprint/UserWidget.h"
@@ -19,6 +20,8 @@ class ARPGDEMO_API USkillItem : public UDraggableWidget
 	GENERATED_BODY()
 
 public:
+	// USkillItem(const FObjectInitializer& ObjectInitializer);
+	
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
 	UImage* AbilityIcon;
 
@@ -29,6 +32,10 @@ public:
 	UQuickReleaseContainer* Parent = nullptr;
 
 	bool bIsDragSucceed = false;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<USkillItem_Visual> VisualClass;
+
 protected:
 	/**
 	 * @brief 技能数据
@@ -69,6 +76,8 @@ public:
 	void SetAbilityData(FAbilityData InAbilityData);
 
 	static USkillItem* GetDraggedSkillItem(UDragDropOperation* DragDropOperation);
+
+	void SetMaterial(UMaterialInstance* InMaterial);
 
 	void SetIcon();
 

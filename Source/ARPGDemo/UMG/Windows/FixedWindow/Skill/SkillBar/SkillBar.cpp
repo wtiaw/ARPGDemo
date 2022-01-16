@@ -2,6 +2,8 @@
 
 
 #include "SkillBar.h"
+#include "GameplayTagContainer.h"
+#include "ARPGDemo/UMG/Widgets/Drag/Skill/SkillItem.h"
 
 UQuickReleaseContainer* USkillBar::GetQuickReleaseContainerByIndex(int Index)
 {

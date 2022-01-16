@@ -3,10 +3,16 @@
 
 #include "SkillItem.h"
 
-#include "QuickReleaseContainer.h"
+#include "SkillItem_Visual.h"
 #include "ARPGDemo/GamePlayAbilitySystem/AbilityManager.h"
 #include "ARPGDemo/UMG/Widgets/Drag/DragOperation.h"
+#include "ARPGDemo/UMG/Windows/FixedWindow/Skill/QuickReleaseContainer.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
+
+// USkillItem::USkillItem(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+// {
+// 	Material = LoadObject<UMaterialInstance>(nullptr,TEXT("MaterialInstanceConstant'/Game/ARPGDemo/Assets/Material/Ability/M_Ability_Inst.M_Ability_Inst'"));
+// }
 
 void USkillItem::NativeConstruct()
 {
@@ -46,7 +52,6 @@ FReply USkillItem::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FP
 	{
 		if(InMouseEvent.GetEffectingButton() == EKeys::LeftMouseButton)
 		{
-			GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Red,TEXT("1"));
 			Reply =	Super::NativeOnMouseButtonDown(InGeometry, InMouseEvent);
 		}
 	}
@@ -58,12 +63,14 @@ void USkillItem::NativeOnDragDetected(const FGeometry& InGeometry, const FPointe
 	UDragDropOperation*& OutOperation)
 {
 	const auto DragOperation = Cast<UDragOperation>(UWidgetBlueprintLibrary::CreateDragDropOperation(UDragOperation::StaticClass()));
-	GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Red,TEXT("DragDetected"));
+
+	auto Visual = CreateWidget<USkillItem_Visual>(this,VisualClass);
+	
 	DragOperation->DraggedWidget = this;
 	DragOperation->Pivot = EDragPivot::CenterCenter;
-	DragOperation->DefaultDragVisual = this;
-
-	this->SetVisibility(ESlateVisibility::HitTestInvisible);
+	DragOperation->DefaultDragVisual = Visual;
+	
+	Visual->AbilityIcon->SetBrushFromTexture(AbilityData.AbilityIcon);
 	
 	OutOperation = DragOperation;
 }
@@ -77,8 +84,6 @@ void USkillItem::NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent, UD
 
 		bIsDragSucceed = false;
 	}
-	this->SetVisibility(ESlateVisibility::Visible);
-	GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Red,TEXT("DragCancelled"));
 }
 
 void USkillItem::NativeOnDragEnter(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
@@ -129,13 +134,18 @@ USkillItem* USkillItem::GetDraggedSkillItem(UDragDropOperation* DragDropOperatio
 	return MovedItem;
 }
 
+void USkillItem::SetMaterial(UMaterialInstance* InMaterial)
+{
+	Material = InMaterial;
+}
+
 void USkillItem::SetIcon()
 {
 	AbilityIcon->SetBrushFromMaterial(Material);
 	auto DynamicMaterial = AbilityIcon->GetDynamicMaterial();
 
-	DynamicMaterial->SetTextureParameterValue(FName(TEXT("AbilityIcon")),AbilityData.AbilityIcon);
-	DynamicMaterial->SetScalarParameterValue(FName(TEXT("PersentAge")),1);
+	DynamicMaterial->SetTextureParameterValue(FName(TEXT("AbilityIcon")), AbilityData.AbilityIcon);
+	DynamicMaterial->SetScalarParameterValue(FName(TEXT("PersentAge")), 1);
 }
 
 void USkillItem::SetHighLight() const
