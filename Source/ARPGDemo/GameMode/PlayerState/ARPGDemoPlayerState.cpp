@@ -11,8 +11,7 @@ AARPGDemoPlayerState::AARPGDemoPlayerState()
 {
 	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
 	AbilitySetBase = CreateDefaultSubobject<UAbilitySetBase>(TEXT("AbilitySetBase"));
-
-	AbilityHandles.SetNum(10);
+	SkillBarAbilityDatas.SetNum(10);
 }
 
 void AARPGDemoPlayerState::HealthChanged(const FOnAttributeChangeData& Data)

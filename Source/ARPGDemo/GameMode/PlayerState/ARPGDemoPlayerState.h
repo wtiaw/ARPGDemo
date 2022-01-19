@@ -19,18 +19,28 @@ class ARPGDEMO_API AARPGDemoPlayerState : public APlayerState, public IAbilitySy
 
 public:
 	AARPGDemoPlayerState();
-	
+
+	/**
+	 * @brief GAS组件
+	 */
 	UPROPERTY(BlueprintReadOnly)
 	UAbilitySystemComponent* AbilitySystemComponent;
 
+	/**
+	 * @brief GAS 属性集
+	 */
 	UPROPERTY(BlueprintReadOnly)
 	UAbilitySetBase* AbilitySetBase;
 
-	UPROPERTY(BlueprintReadOnly)
-	TArray<FGameplayAbilitySpecHandle> AbilityHandles;
+	/**
+	 * @brief 玩家初始化技能
+	 */
+	TArray<TSubclassOf<UGameplayAbility_Base>> StartUpAbility;
 
-	UPROPERTY(BlueprintReadOnly)
-	FGameplayTagContainer AbilityTags;
+	/**
+	 * @brief 技能栏中技能
+	 */
+	TArray<FAbilityData> SkillBarAbilityDatas;
 	
 protected:
 	FDelegateHandle HealthChangedDelegateHandle;

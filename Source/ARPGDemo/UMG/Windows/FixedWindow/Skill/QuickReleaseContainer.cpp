@@ -56,11 +56,10 @@ bool UQuickReleaseContainer::NativeOnDrop(const FGeometry& InGeometry, const FDr
 			DraggedSkillItem->SetAbilityData(TempData);
 			DraggedSkillItem->SetHandle(TempHandle);
 			
-			PlayerState->AbilityHandles[DraggedSkillItem->Parent->Index] = DraggedSkillItem->GetHandle();
+			PlayerState->SkillBarAbilityDatas[DraggedSkillItem->Parent->Index] = DraggedSkillItem->GetAbilityData();
 		}
 		
-		PlayerState->AbilityHandles[Index] = SkillItem->GetHandle();
-		PlayerState->AbilityTags.AppendTags(SkillItem->GetAbilityData().Tags);
+		PlayerState->SkillBarAbilityDatas[Index] = SkillItem->GetAbilityData();
 		
 		DraggedSkillItem->bIsDragSucceed = true;
 	}

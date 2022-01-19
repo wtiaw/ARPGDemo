@@ -84,7 +84,7 @@ void USkillItem::NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent, UD
 		SetAbilityData(FAbilityData());
 
 		auto PlayerState = UGameplayStatics::GetPlayerController(this,0)->GetPlayerState<AARPGDemoPlayerState>();
-		PlayerState->AbilityHandles[Parent->Index] = FGameplayAbilitySpecHandle();
+		PlayerState->SkillBarAbilityDatas[Parent->Index] = FAbilityData();
 		
 		bIsDragSucceed = false;
 	}
@@ -206,7 +206,6 @@ void USkillItem::GiveAbility()
 		{
 			PS->GetAbilitySystemComponent()->ClearAbility(GameplayAbilitySpecHandle);
 		}
-		
 		GameplayAbilitySpecHandle = PS->GetAbilitySystemComponent()->GiveAbility(FGameplayAbilitySpec(Ability,Level));
 	}
 }

@@ -39,11 +39,11 @@ void AARPGDemoPlayerController::OnButtonPressed(int Index)
 	QuickReleaseContainer->SetHighLight();
 
 	const auto PS = GetPlayerState<AARPGDemoPlayerState>();
-	const auto Handle = PS->AbilityHandles[Index];
+	const auto AbilityData = PS->SkillBarAbilityDatas[Index];
 	
-	if (Handle.IsValid())
+	if (AbilityData.Ability)
 	{
-		PS->GetAbilitySystemComponent()->TryActivateAbility(Handle);
+		PS->GetAbilitySystemComponent()->TryActivateAbilityByClass(AbilityData.Ability);
 	}
 }
 
