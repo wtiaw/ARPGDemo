@@ -9,7 +9,7 @@ FAbilityData::FAbilityData(): ActivatedIcon(nullptr), InactivatedAbilityIcon(nul
 {
 }
 
-FAbilityData::FAbilityData(FString AbilityName, FString AbilityDescription, UTexture2D* ActivatedAbilityIcon, UTexture2D* InactivatedAbilityIcon, EAbilityType AbilityType, int Level, int MaxLevel, TSubclassOf<UGameplayAbility_Base> Ability, FGameplayTagContainer Tags):
+FAbilityData::FAbilityData(FString AbilityName, FString AbilityDescription, UTexture2D* ActivatedAbilityIcon, UTexture2D* InactivatedAbilityIcon, EAbilityType AbilityType, int Level, int MaxLevel, TSubclassOf<UGameplayAbility_Base> Ability, FGameplayTagContainer Tag):
 	ActivatedIcon(nullptr), InactivatedAbilityIcon(nullptr)
 {
 	this->AbilityName = AbilityName;
@@ -20,7 +20,7 @@ FAbilityData::FAbilityData(FString AbilityName, FString AbilityDescription, UTex
 	this->Level = Level;
 	this->MaxLevel = MaxLevel;
 	this->Ability = Ability;
-	this->Tags = Tags;
+	this->Tag = Tag;
 }
 
 bool FAbilityData::IsValid()

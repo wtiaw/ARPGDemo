@@ -84,6 +84,7 @@ void USkillItem::NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent, UD
 		SetAbilityData(FAbilityData());
 
 		auto PlayerState = UGameplayStatics::GetPlayerController(this,0)->GetPlayerState<AARPGDemoPlayerState>();
+		
 		PlayerState->SkillBarAbilityDatas[Parent->Index] = FAbilityData();
 		
 		bIsDragSucceed = false;
@@ -117,22 +118,13 @@ void USkillItem::SetAbilityData(USkillItem* SkillItem)
 {
 	AbilityData = SkillItem->GetAbilityData();
 	SetIcon();
-
-	if(Parent && Parent->AbilityChanged.IsBound())
-	{
-		Parent->AbilityChanged.Broadcast();
-	}
+	
 }
 
 void USkillItem::SetAbilityData(FAbilityData InAbilityData)
 {
 	AbilityData = InAbilityData;
 	SetIcon();
-
-	if(Parent && Parent->AbilityChanged.IsBound())
-	{
-		Parent->AbilityChanged.Broadcast();
-	}
 }
 
 USkillItem* USkillItem::GetDraggedSkillItem(UDragDropOperation* DragDropOperation)

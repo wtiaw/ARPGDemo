@@ -33,7 +33,6 @@ public:
 
 	UPROPERTY(BlueprintReadOnly)
 	FGameplayTagContainer CoolDownTags;
-	
 public:
 	virtual void NativeConstruct() override;
 	

@@ -9,6 +9,15 @@
 #include "GameFramework/PlayerState.h"
 #include "ARPGDemoPlayerState.generated.h"
 
+USTRUCT(BlueprintType)
+struct FIntArray
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadOnly)
+	TArray<int> Indexs;
+};
+
 /**
  * 
  */

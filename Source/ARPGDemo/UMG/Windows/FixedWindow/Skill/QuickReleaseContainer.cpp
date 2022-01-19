@@ -5,9 +5,7 @@
 
 #include "ARPGDemo/GameMode/PlayerState/ARPGDemoPlayerState.h"
 #include "ARPGDemo/UMG/Widgets/Drag/Skill/SkillItem.h"
-#include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
-#include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/KismetTextLibrary.h"
 
 void UQuickReleaseContainer::NativePreConstruct()
@@ -22,19 +20,47 @@ void UQuickReleaseContainer::NativeConstruct()
 	Super::NativeConstruct();
 
 	SkillItem->Parent = this;
-
-	// CoolDownDelegate.BindDynamic(this, &UQuickReleaseContainer::OnCoolDown);
-	// AbilityChanged.AddDynamic(this, &UQuickReleaseContainer::OnAbilityCoolDownChanged);
 }
 
-void UQuickReleaseContainer::NativeDestruct()
+void UQuickReleaseContainer::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
-	Super::NativeDestruct();
+	Super::NativeTick(MyGeometry, InDeltaTime);
 
-	Init();
+	if (SkillItem->GetAbilityData().Ability)
+	{
+		auto PlayerState = UGameplayStatics::GetPlayerController(this, 0)->GetPlayerState<AARPGDemoPlayerState>();
+		auto ASC = PlayerState->GetAbilitySystemComponent();
 
-	CoolDownDelegate.Unbind();
-	AbilityChanged.RemoveDynamic(this, &UQuickReleaseContainer::OnAbilityCoolDownChanged);
+		FGameplayEffectQuery const Query = FGameplayEffectQuery::MakeQuery_MatchAnyOwningTags(SkillItem->GetAbilityData().Tag);
+		TArray<TPair<float, float>> DurationAndTimeRemaining = ASC->GetActiveEffectsTimeRemainingAndDuration(Query);
+
+		if (DurationAndTimeRemaining.Num() > 0)
+		{
+			int32 BestIdx = 0;
+			float LongestTime = DurationAndTimeRemaining[0].Key;
+			for (int32 Idx = 1; Idx < DurationAndTimeRemaining.Num(); ++Idx)
+			{
+				if (DurationAndTimeRemaining[Idx].Key > LongestTime)
+				{
+					LongestTime = DurationAndTimeRemaining[Idx].Key;
+					BestIdx = Idx;
+				}
+			}
+
+			TimeRemaining = DurationAndTimeRemaining[BestIdx].Key;
+			CooldownDuration = DurationAndTimeRemaining[BestIdx].Value;
+
+			OnCoolDown();
+		}
+		else
+		{
+			Init();
+		}
+	}
+	else
+	{
+		Init();
+	}
 }
 
 bool UQuickReleaseContainer::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
@@ -58,7 +84,6 @@ bool UQuickReleaseContainer::NativeOnDrop(const FGeometry& InGeometry, const FDr
 			
 			PlayerState->SkillBarAbilityDatas[DraggedSkillItem->Parent->Index] = DraggedSkillItem->GetAbilityData();
 		}
-		
 		PlayerState->SkillBarAbilityDatas[Index] = SkillItem->GetAbilityData();
 		
 		DraggedSkillItem->bIsDragSucceed = true;
@@ -89,54 +114,21 @@ void UQuickReleaseContainer::HideHighLight()
 	SkillItem->HideHighLight();
 }
 
-void UQuickReleaseContainer::OnAbilityCoolDownChanged()
-{
-	Init();
-
-	auto PlayerState = Cast<AARPGDemoPlayerState>(UGameplayStatics::GetPlayerCharacter(this, 0)->GetPlayerState());
-
-	// AsyncTask = UAsyncTaskCooldownChanged::ListenForCooldownChange(PlayerState->GetAbilitySystemComponent(),
-	//                                                                SkillItem->GetAbilityData().Tags, false);
-	
-	AsyncTask->OnCooldownEnd.AddDynamic(this, &UQuickReleaseContainer::OnCoolDownBegin);
-	AsyncTask->OnCooldownEnd.AddDynamic(this, &UQuickReleaseContainer::OnCoolDownEnd);
-}
-
-void UQuickReleaseContainer::OnCoolDownBegin(FGameplayTag CooldownTag, float TimeRemaining, float Duration)
-{
-	this->SkillTimeRemaining = Duration;
-	this->SkillDuration = Duration;
-	
-	TimerHandle = UKismetSystemLibrary::K2_SetTimerDelegate(CoolDownDelegate,0.1,true);
-	UE_LOG(LogTemp,Warning,TEXT("OnCoolDownBegin"));
-	CoolDown->SetVisibility(ESlateVisibility::HitTestInvisible);
-}
-
-void UQuickReleaseContainer::OnCoolDownEnd(FGameplayTag CooldownTag, float TimeRemaining, float Duration)
-{
-	Init();
-}
-
 void UQuickReleaseContainer::Init()
 {
- 	if(TimerHandle.IsValid())
- 	{
- 		UKismetSystemLibrary::K2_ClearTimerHandle(this,TimerHandle);
- 		CoolDown->SetVisibility(ESlateVisibility::Collapsed);
+	CoolDown->SetVisibility(ESlateVisibility::Collapsed);
 
- 		auto Material = SkillItem->AbilityIcon->GetDynamicMaterial();
- 		Material->SetScalarParameterValue(FName(TEXT("PersentAge")),1);
- 	}
+	auto Material = SkillItem->AbilityIcon->GetDynamicMaterial();
+	Material->SetScalarParameterValue(FName(TEXT("PersentAge")), 1);
 }
 
 void UQuickReleaseContainer::OnCoolDown()
 {
-	UE_LOG(LogTemp,Warning,TEXT("OnCoolDown"));
-	SkillTimeRemaining -= 0.1;
+	CoolDown->SetVisibility(ESlateVisibility::HitTestInvisible);
 
-	const FText CoolDownText = UKismetTextLibrary::Conv_FloatToText(SkillTimeRemaining, HalfToEven, 1, true, 324, 1, 1);
-	CoolDown->SetText(CoolDownText);
+	FString CD = FString::Printf(TEXT("%.1f"), TimeRemaining);
+	CoolDown->SetText(FText::FromString(CD));
 
 	auto Material = SkillItem->AbilityIcon->GetDynamicMaterial();
-	Material->SetScalarParameterValue(FName(TEXT("PersentAge")), SkillTimeRemaining / SkillDuration);
+	Material->SetScalarParameterValue(FName(TEXT("PersentAge")), 1 - TimeRemaining / CooldownDuration);
 }

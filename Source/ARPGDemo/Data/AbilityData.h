@@ -82,15 +82,15 @@ struct FAbilityData
 	TSubclassOf<UGameplayAbility_Base> Ability;
 
 	/**
-	 * @brief GAS标签
+	 * @brief GAS CoolDown标签
 	 */
 	UPROPERTY(BlueprintReadOnly,EditAnywhere)
-	FGameplayTagContainer Tags;
+	FGameplayTagContainer Tag;
 
 	FAbilityData();
 
 	FAbilityData(FString AbilityName, FString AbilityDescription, UTexture2D* ActivatedAbilityIcon, UTexture2D* InactivatedAbilityIcon,
-					EAbilityType AbilityType, int Level, int MaxLevel, TSubclassOf<UGameplayAbility_Base> Ability, FGameplayTagContainer Tags);
+					EAbilityType AbilityType, int Level, int MaxLevel, TSubclassOf<UGameplayAbility_Base> Ability, FGameplayTagContainer Tag);
 
 	bool IsValid();
 };

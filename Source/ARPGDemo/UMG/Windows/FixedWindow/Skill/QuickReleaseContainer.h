@@ -21,31 +21,9 @@ class ARPGDEMO_API UQuickReleaseContainer : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	/**
-	* @brief 技能改变的委托
-	*/
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FAbilityChangedDelegate);
-	
-	/**
-	* @brief 技能改变的事件
-	*/
-	UPROPERTY(BlueprintAssignable)
-	FAbilityChangedDelegate AbilityChanged;
-
-	FTimerDynamicDelegate CoolDownDelegate;
-	
-
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
 	UTextBlock* CoolDown;
-
-protected:
-	UPROPERTY(BlueprintReadWrite)
-	UAsyncTaskCooldownChanged* AsyncTask;
 	
-	UPROPERTY(BlueprintReadWrite)
-	FTimerHandle TimerHandle;
-	
-public:
 	/**
 	 * @brief 快捷键名称
 	 */
@@ -86,14 +64,14 @@ public:
 	USkillBar* Parent;
 	
 private:
-	float SkillTimeRemaining;
+	float TimeRemaining;
 
-	float SkillDuration;
+	float CooldownDuration;
 	
 public:
 	virtual void NativePreConstruct() override;
 	virtual void NativeConstruct() override;
-	virtual void NativeDestruct() override;
+	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	
 	/**
@@ -109,15 +87,6 @@ public:
 	void HideHighLight();
 
 protected:
-	UFUNCTION()
-	void OnAbilityCoolDownChanged();
-
-	UFUNCTION()
-	void OnCoolDownBegin(FGameplayTag CooldownTag, float TimeRemaining, float Duration);
-
-	UFUNCTION()
-	void OnCoolDownEnd(FGameplayTag CooldownTag, float TimeRemaining, float Duration);
-
 	UFUNCTION(BlueprintCallable)
 	void Init();
 

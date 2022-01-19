@@ -130,7 +130,7 @@ bool UWindowManager::ShouldHideMouseCursor()
 {
 	for(auto i : FloatingWindowList)
 	{
-		if(i->Visibility == ESlateVisibility::Visible)
+		if(i && i->Visibility == ESlateVisibility::Visible)
 		{
 			return false;
 		}
