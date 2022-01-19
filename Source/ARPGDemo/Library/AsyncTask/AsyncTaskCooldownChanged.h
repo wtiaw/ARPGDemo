@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
 #include "GameplayTagContainer.h"
+#include "ARPGDemo/Data/Enum/EGASAbilityInputID.h"
 #include "Kismet/BlueprintAsyncActionBase.h"
 #include "AsyncTaskCooldownChanged.generated.h"
 

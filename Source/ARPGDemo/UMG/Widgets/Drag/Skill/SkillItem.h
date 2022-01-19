@@ -12,7 +12,7 @@
 
 class UQuickReleaseContainer;
 /**
- * 
+ * 技能
  */
 UCLASS()
 class ARPGDEMO_API USkillItem : public UDraggableWidget
@@ -20,52 +20,66 @@ class ARPGDEMO_API USkillItem : public UDraggableWidget
 	GENERATED_BODY()
 
 public:
-	// USkillItem(const FObjectInitializer& ObjectInitializer);
-	
-	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
+	/**
+	 * @brief 技能图标
+	 */
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Skill Item|Visual")
 	UImage* AbilityIcon;
 
-	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
+	/**
+	 * @brief 选中时的高光
+	 */
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Skill Item|Visual")
 	UImage* HighLight;
-	
+
+	/**
+	 * @brief 高光纹理
+	 */
+	UPROPERTY(EditAnywhere, Category = "Skill Item|Visual")
+	UMaterialInstance* HighLightTexture;
+
+	/**
+	 * @brief 快捷栏
+	 */
 	UPROPERTY()
 	UQuickReleaseContainer* Parent = nullptr;
 
+	/**
+	 * @brief 是否拖拽成功
+	 */
 	bool bIsDragSucceed = false;
 
-	UPROPERTY(EditAnywhere)
+	/**
+	 * @brief 拖拽视觉组件
+	 */
+	UPROPERTY(EditAnywhere, Category = "Skill Item|Visual")
 	TSubclassOf<USkillItem_Visual> VisualClass;
 
 protected:
 	/**
 	 * @brief 技能数据
 	 */
-	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Skill Item|Data")
 	FAbilityData AbilityData;
 
 	/**
 	 * @brief 材质实例
 	 */
-	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Skill Item|Visual")
 	UMaterialInstance* Material;
+	
+private:
+	FGameplayAbilitySpecHandle GameplayAbilitySpecHandle;
 	
 public:
 	virtual void NativeConstruct() override;
-
 	virtual void NativePreConstruct() override;
-
 	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
-
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
-
 	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
-
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
-
 	virtual void NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
-
 	virtual void NativeOnDragEnter(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
-
 	virtual void NativeOnDragLeave(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 
 	UFUNCTION(BlueprintCallable)
@@ -77,6 +91,10 @@ public:
 
 	static USkillItem* GetDraggedSkillItem(UDragDropOperation* DragDropOperation);
 
+	void SetHandle(FGameplayAbilitySpecHandle Handle);
+	
+	FGameplayAbilitySpecHandle GetHandle();
+
 	void SetMaterial(UMaterialInstance* InMaterial);
 
 	void SetIcon();
@@ -84,4 +102,11 @@ public:
 	void SetHighLight() const;
 
 	void HideHighLight() const;
+
+private:
+	void GiveAbility();
+	
+	void LevelUp();
+    
+	bool CheckLevelUp();
 };

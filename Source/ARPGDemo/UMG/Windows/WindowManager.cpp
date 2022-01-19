@@ -22,10 +22,6 @@ UWindowManager::UWindowManager()
 	static ConstructorHelpers::FClassFinder<UUserWidget> FloatingMainWindowClassFinder(TEXT("/Game/ARPGDemo/Blueprints/UMG/Windows/MainWindow/WBP_FloatingMainWindow"));
 	if (FloatingMainWindowClassFinder.Succeeded())
 		FloatingMainWindowClass = FloatingMainWindowClassFinder.Class;
-
-	static ConstructorHelpers::FClassFinder<UUserWidget> HUDMainWindowClassFinder(TEXT("/Game/ARPGDemo/Blueprints/UMG/Windows/MainWindow/WBP_HUDMainWindow"));
-	if (HUDMainWindowClassFinder.Succeeded())
-		HUDMainWindowClass = HUDMainWindowClassFinder.Class;
 }
 
 void UWindowManager::BeginPlay()
@@ -35,9 +31,6 @@ void UWindowManager::BeginPlay()
 
 	UFloatingMainWindow* FloatingMainWindow = CreateWidget<UFloatingMainWindow>(AARPGDemoGameMode::Instance->GetPlayerController(), FloatingMainWindowClass);
 	FloatingMainWindow->AddToViewport();
-
-	UHUDMainWindow* HUDMainWindow = CreateWidget<UHUDMainWindow>(AARPGDemoGameMode::Instance->GetPlayerController(), HUDMainWindowClass);
-	HUDMainWindow->AddToViewport();
 }
 
 void UWindowManager::RegisterWindow(const EWindowTypes WindowType, UBaseWindow* Window)
@@ -86,6 +79,8 @@ void UWindowManager::OpenFloatingWindow(const EWindowTypes WindowType, const FVe
 	UFloatingWindowBase* ExistingWindow = GetWindow<UFloatingWindowBase>(WindowType);
 	if (ExistingWindow)
 	{
+		ExistingWindow->SetVisibility(ESlateVisibility::Visible);
+		ExistingWindow->OnOpen();
 		return;
 	}
 
@@ -125,20 +120,22 @@ void UWindowManager::CloseFloatingWindow(const EWindowTypes WindowType)
 
 	if (FloatingWindowList.Contains(FloatingWindow))
 	{
-		FloatingWindowList.Remove(FloatingWindow);
-		UnregisterWindow(FloatingWindow);
+		FloatingWindow->SetVisibility(ESlateVisibility::Collapsed);
 	}
 
 	FloatingWindow->OnClose();
-
-	FloatingWindow->RemoveFromParent();
-
-	FloatingWindow = nullptr;
 }
 
 bool UWindowManager::ShouldHideMouseCursor()
 {
-	return FloatingWindowList.Num() == 0 ? true :false; 	
+	for(auto i : FloatingWindowList)
+	{
+		if(i->Visibility == ESlateVisibility::Visible)
+		{
+			return false;
+		}
+	}
+	return true; 	
 }
 
 bool UWindowManager::ShouldShowMouseCursor()

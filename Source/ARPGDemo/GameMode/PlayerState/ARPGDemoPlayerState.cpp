@@ -4,12 +4,15 @@
 #include "ARPGDemoPlayerState.h"
 
 #include "AbilitySystemComponent.h"
+#include "GameplayTagsManager.h"
 #include "ARPGDemo/Character/Player/PlayerCharacter.h"
 
 AARPGDemoPlayerState::AARPGDemoPlayerState()
 {
 	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
 	AbilitySetBase = CreateDefaultSubobject<UAbilitySetBase>(TEXT("AbilitySetBase"));
+
+	AbilityHandles.SetNum(10);
 }
 
 void AARPGDemoPlayerState::HealthChanged(const FOnAttributeChangeData& Data)
@@ -53,7 +56,6 @@ void AARPGDemoPlayerState::MaxHealthChanged(const FOnAttributeChangeData& Data)
 void AARPGDemoPlayerState::BeginPlay()
 {
 	Super::BeginPlay();
-
 	if (AbilitySystemComponent)
 	{
 		HealthChangedDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AbilitySetBase->GetHealthAttribute()).AddUObject(this, &AARPGDemoPlayerState::HealthChanged);

@@ -32,12 +32,6 @@ public:
 	UPROPERTY()
 	TSubclassOf<UBaseWindow> FloatingMainWindowClass;
 
-	/**
-	 * @brief HUD主窗口类
-	 */
-	UPROPERTY()
-	TSubclassOf<UBaseWindow> HUDMainWindowClass;
-
 private:
 	/**
 	 * @brief 单例

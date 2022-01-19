@@ -20,7 +20,7 @@ enum class EAbilityType : uint8
 	/**
 	 * @brief 主动技能
 	 */
-	ActiveSkill,
+	Positive,
 
 	/**
 	 * @brief 被动技能
@@ -46,11 +46,23 @@ struct FAbilityData
 	FString AbilityDescription;
 
 	/**
-	 * @brief 技能图标
+	 * @brief 激活时的技能图标
 	 */
 	UPROPERTY(BlueprintReadOnly,EditAnywhere)
-	UTexture2D* AbilityIcon;
+	UTexture2D* ActivatedIcon;
 
+	/**
+	 * @brief 未激活时的技能图标
+	 */
+	UPROPERTY(BlueprintReadOnly,EditAnywhere)
+	UTexture2D* InactivatedAbilityIcon;
+	
+	/**
+	 * @brief 技能种类
+	 */
+	UPROPERTY(BlueprintReadOnly,EditAnywhere)
+	EAbilityType AbilityType;
+	
 	/**
 	 * @brief 技能等级
 	 */
@@ -58,10 +70,10 @@ struct FAbilityData
 	int Level;
 
 	/**
-	 * @brief GAS标签
+	 * @brief 最大技能等级
 	 */
 	UPROPERTY(BlueprintReadOnly,EditAnywhere)
-	FGameplayTagContainer Tags;
+	int MaxLevel;
 	
 	/**
 	 * @brief GA类
@@ -69,9 +81,16 @@ struct FAbilityData
 	UPROPERTY(BlueprintReadOnly,EditAnywhere)
 	TSubclassOf<UGameplayAbility_Base> Ability;
 
+	/**
+	 * @brief GAS标签
+	 */
+	UPROPERTY(BlueprintReadOnly,EditAnywhere)
+	FGameplayTagContainer Tags;
+
 	FAbilityData();
 
-	FAbilityData(FString AbilityName, FString AbilityDescription, UTexture2D* AbilityIcon, int Level, FGameplayTagContainer Tags, TSubclassOf<UGameplayAbility_Base> Ability);
+	FAbilityData(FString AbilityName, FString AbilityDescription, UTexture2D* ActivatedAbilityIcon, UTexture2D* InactivatedAbilityIcon,
+					EAbilityType AbilityType, int Level, int MaxLevel, TSubclassOf<UGameplayAbility_Base> Ability, FGameplayTagContainer Tags);
 
-	bool bIsValid();
+	bool IsValid();
 };

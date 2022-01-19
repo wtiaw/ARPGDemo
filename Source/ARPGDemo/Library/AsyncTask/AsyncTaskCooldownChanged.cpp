@@ -20,7 +20,7 @@ UAsyncTaskCooldownChanged * UAsyncTaskCooldownChanged::ListenForCooldownChange(U
 
 	TArray<FGameplayTag> CooldownTagArray;
 	InCooldownTags.GetGameplayTagArray(CooldownTagArray);
-	
+
 	for (FGameplayTag CooldownTag : CooldownTagArray)
 	{
 		AbilitySystemComponent->RegisterGameplayTagEvent(CooldownTag, EGameplayTagEventType::NewOrRemoved).AddUObject(ListenForCooldownChange, &UAsyncTaskCooldownChanged::CooldownTagChanged);

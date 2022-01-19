@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
+#include "ARPGDemo/Data/AbilityData.h"
 #include "ARPGDemo/Data/AbilitySetBase.h"
 #include "GameFramework/PlayerState.h"
 #include "ARPGDemoPlayerState.generated.h"
@@ -25,6 +26,12 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	UAbilitySetBase* AbilitySetBase;
 
+	UPROPERTY(BlueprintReadOnly)
+	TArray<FGameplayAbilitySpecHandle> AbilityHandles;
+
+	UPROPERTY(BlueprintReadOnly)
+	FGameplayTagContainer AbilityTags;
+	
 protected:
 	FDelegateHandle HealthChangedDelegateHandle;
 	FDelegateHandle MaxHealthChangedDelegateHandle;

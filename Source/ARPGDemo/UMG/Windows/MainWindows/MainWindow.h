@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "HUDMainWindow.h"
 #include "ARPGDemo/UMG/Windows/BaseWindow/BaseWindow.h"
 #include "MainWindow.generated.h"
 
@@ -29,4 +30,10 @@ public:
 	 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
 	USkillBar* SkillBar;
+
+	/**
+	 * @brief HUD
+	 */
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
+	UHUDMainWindow* HUDMainWindow;
 };

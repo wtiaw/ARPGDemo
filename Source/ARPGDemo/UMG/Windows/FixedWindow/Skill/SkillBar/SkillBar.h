@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "ARPGDemo/UMG/Windows/BaseWindow/BaseWindow.h"
-#include "ARPGDemo/UMG/Windows/FixedWindow/Skill/QuickReleaseContainer.h"
 #include "Components/HorizontalBox.h"
 #include "SkillBar.generated.h"
 
+class UQuickReleaseContainer;
 struct FGameplayTag;
 /**
  * @brief 快捷技能栏
@@ -26,14 +27,16 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
 	UHorizontalBox* QuickReleaseBar;
+
+	UPROPERTY(EditAnywhere)
+	FGameplayTag CoolDownTag;
+
+	UPROPERTY(BlueprintReadOnly)
+	FGameplayTagContainer CoolDownTags;
 	
 public:
+	virtual void NativeConstruct() override;
+	
 	UFUNCTION(BlueprintCallable)
 	UQuickReleaseContainer* GetQuickReleaseContainerByIndex(int Index);
-
-	UFUNCTION(BlueprintCallable)
-	UQuickReleaseContainer* GetQuickReleaseContainerByGASAbilityInputID(EGASAbilityInputID GASAbilityInputID);
-
-	UFUNCTION(BlueprintCallable)
-	TArray<UQuickReleaseContainer*> GetQuickReleaseContainersByTag(FGameplayTag Tag);
 };

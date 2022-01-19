@@ -4,25 +4,25 @@
 #include "SkillItem.h"
 
 #include "SkillItem_Visual.h"
-#include "ARPGDemo/GamePlayAbilitySystem/AbilityManager.h"
+#include "ARPGDemo/GameMode/PlayerState/ARPGDemoPlayerState.h"
 #include "ARPGDemo/UMG/Widgets/Drag/DragOperation.h"
 #include "ARPGDemo/UMG/Windows/FixedWindow/Skill/QuickReleaseContainer.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
-
-// USkillItem::USkillItem(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
-// {
-// 	Material = LoadObject<UMaterialInstance>(nullptr,TEXT("MaterialInstanceConstant'/Game/ARPGDemo/Assets/Material/Ability/M_Ability_Inst.M_Ability_Inst'"));
-// }
+#include "Kismet/GameplayStatics.h"
 
 void USkillItem::NativeConstruct()
 {
 	Super::NativeConstruct();
+
+	
 }
 
 void USkillItem::NativePreConstruct()
 {
 	Super::NativePreConstruct();
-	
+
+	HighLight->SetBrushFromMaterial(HighLightTexture);
+                                 	
 	SetIcon();
 }
 
@@ -43,34 +43,36 @@ void USkillItem::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 FReply USkillItem::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
 	FReply Reply = FReply::Handled();
-	
-	if(AbilityData.AbilityIcon == nullptr)
+
+
+	if (InMouseEvent.GetEffectingButton() == EKeys::LeftMouseButton)
 	{
-		Reply = FReply::Handled();
-	}
-	else
-	{
-		if(InMouseEvent.GetEffectingButton() == EKeys::LeftMouseButton)
+		if (AbilityData.Level > 0)
 		{
-			Reply =	Super::NativeOnMouseButtonDown(InGeometry, InMouseEvent);
+			Reply = Super::NativeOnMouseButtonDown(InGeometry, InMouseEvent);
 		}
+		else
+		{
+			Reply = FReply::Handled();
+		}
+		if(!Parent)
+			LevelUp();
 	}
-	
+
 	return Reply;
 }
 
 void USkillItem::NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent,
-	UDragDropOperation*& OutOperation)
+                                      UDragDropOperation*& OutOperation)
 {
 	const auto DragOperation = Cast<UDragOperation>(UWidgetBlueprintLibrary::CreateDragDropOperation(UDragOperation::StaticClass()));
-
 	auto Visual = CreateWidget<USkillItem_Visual>(this,VisualClass);
 	
 	DragOperation->DraggedWidget = this;
 	DragOperation->Pivot = EDragPivot::CenterCenter;
 	DragOperation->DefaultDragVisual = Visual;
 	
-	Visual->AbilityIcon->SetBrushFromTexture(AbilityData.AbilityIcon);
+	Visual->AbilityIcon->SetBrushFromTexture(AbilityData.ActivatedIcon);
 	
 	OutOperation = DragOperation;
 }
@@ -79,9 +81,11 @@ void USkillItem::NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent, UD
 {
 	if(Parent && !bIsDragSucceed)
 	{
-		UAbilityManager::GetInstance()->ClearAbility(Parent->GASAbilityInputID);
 		SetAbilityData(FAbilityData());
 
+		auto PlayerState = UGameplayStatics::GetPlayerController(this,0)->GetPlayerState<AARPGDemoPlayerState>();
+		PlayerState->AbilityHandles[Parent->Index] = FGameplayAbilitySpecHandle();
+		
 		bIsDragSucceed = false;
 	}
 }
@@ -113,12 +117,22 @@ void USkillItem::SetAbilityData(USkillItem* SkillItem)
 {
 	AbilityData = SkillItem->GetAbilityData();
 	SetIcon();
+
+	if(Parent && Parent->AbilityChanged.IsBound())
+	{
+		Parent->AbilityChanged.Broadcast();
+	}
 }
 
 void USkillItem::SetAbilityData(FAbilityData InAbilityData)
 {
 	AbilityData = InAbilityData;
 	SetIcon();
+
+	if(Parent && Parent->AbilityChanged.IsBound())
+	{
+		Parent->AbilityChanged.Broadcast();
+	}
 }
 
 USkillItem* USkillItem::GetDraggedSkillItem(UDragDropOperation* DragDropOperation)
@@ -134,6 +148,16 @@ USkillItem* USkillItem::GetDraggedSkillItem(UDragDropOperation* DragDropOperatio
 	return MovedItem;
 }
 
+void USkillItem::SetHandle(FGameplayAbilitySpecHandle Handle)
+{
+	this->GameplayAbilitySpecHandle = Handle;
+}
+
+FGameplayAbilitySpecHandle USkillItem::GetHandle()
+{
+	return GameplayAbilitySpecHandle;
+}
+
 void USkillItem::SetMaterial(UMaterialInstance* InMaterial)
 {
 	Material = InMaterial;
@@ -144,7 +168,15 @@ void USkillItem::SetIcon()
 	AbilityIcon->SetBrushFromMaterial(Material);
 	auto DynamicMaterial = AbilityIcon->GetDynamicMaterial();
 
-	DynamicMaterial->SetTextureParameterValue(FName(TEXT("AbilityIcon")), AbilityData.AbilityIcon);
+	if(AbilityData.Level > 0)
+	{
+		DynamicMaterial->SetTextureParameterValue(FName(TEXT("AbilityIcon")), AbilityData.ActivatedIcon);
+	}
+	else
+	{
+		DynamicMaterial->SetTextureParameterValue(FName(TEXT("AbilityIcon")), AbilityData.InactivatedAbilityIcon);
+	}
+	
 	DynamicMaterial->SetScalarParameterValue(FName(TEXT("PersentAge")), 1);
 }
 
@@ -158,4 +190,40 @@ void USkillItem::HideHighLight() const
 {
 	AbilityIcon->SetBrushTintColor(FLinearColor(0.8,0.8,0.8,1));
 	HighLight->SetVisibility(ESlateVisibility::Collapsed);
+}
+
+void USkillItem::GiveAbility()
+{
+	if(AbilityData.Level > 0)
+	{
+		const auto PlayerController = UGameplayStatics::GetPlayerController(this,0);
+		const auto PS = PlayerController->GetPlayerState<AARPGDemoPlayerState>();
+
+		const auto Ability = AbilityData.Ability;
+		const auto Level = AbilityData.Level;
+
+		if(GameplayAbilitySpecHandle.IsValid())
+		{
+			PS->GetAbilitySystemComponent()->ClearAbility(GameplayAbilitySpecHandle);
+		}
+		
+		GameplayAbilitySpecHandle = PS->GetAbilitySystemComponent()->GiveAbility(FGameplayAbilitySpec(Ability,Level));
+	}
+}
+
+void USkillItem::LevelUp()
+{
+	if(CheckLevelUp())
+	{
+		AbilityData.Level++;
+		
+		if(AbilityData.Level == 1)
+			SetIcon();
+	}
+	GiveAbility();
+}
+
+bool USkillItem::CheckLevelUp()
+{
+	return AbilityData.Level < AbilityData.MaxLevel ? true : false;
 }

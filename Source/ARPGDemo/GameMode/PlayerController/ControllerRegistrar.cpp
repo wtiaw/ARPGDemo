@@ -5,6 +5,7 @@
 #include "ARPGDemo/GameMode/ARPGDemoGameMode.h"
 #include "ARPGDemo/UMG/Windows/WindowManager.h"
 #include "ARPGDemo/UMG/Windows/BaseWindow/BaseWindow.h"
+#include "ARPGDemo/UMG/Windows/FixedWindow/Skill/SkillBar/SkillBar.h"
 #include "ARPGDemo/UMG/Windows/HUD/HUDMouseCursor.h"
 #include "ARPGDemo/UMG/Windows/MenuWindow/MainMenu.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
@@ -111,12 +112,4 @@ void UControllerRegistrar::OnHideMouseCursor()
 		PlayerController->SetInputMode(FInputModeGameOnly());
 		PlayerController->bShowMouseCursor = false;
 	}
-}
-
-void UControllerRegistrar::OnGiveAbility()
-{
-}
-
-void UControllerRegistrar::OnClearAbility()
-{
 }

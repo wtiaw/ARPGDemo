@@ -2,39 +2,25 @@
 
 
 #include "SkillBar.h"
-#include "GameplayTagContainer.h"
+#include "GameplayTagsManager.h"
 #include "ARPGDemo/UMG/Widgets/Drag/Skill/SkillItem.h"
+#include "ARPGDemo/UMG/Windows/FixedWindow/Skill/QuickReleaseContainer.h"
+
+void USkillBar::NativeConstruct()
+{
+	Super::NativeConstruct();
+	
+	CoolDownTags = UGameplayTagsManager::Get().RequestGameplayTagChildren(CoolDownTag);
+	
+	for(auto i : QuickReleaseBar->GetAllChildren())
+	{
+		Cast<UQuickReleaseContainer>(i)->Parent = this;
+	}
+}
 
 UQuickReleaseContainer* USkillBar::GetQuickReleaseContainerByIndex(int Index)
 {
 	return  Cast<UQuickReleaseContainer>(QuickReleaseBar->GetChildAt(Index));
 }
 
-UQuickReleaseContainer* USkillBar::GetQuickReleaseContainerByGASAbilityInputID(EGASAbilityInputID GASAbilityInputID)
-{
-	for(auto i : QuickReleaseBar->GetAllChildren())
-	{
-		const auto QuickReleaseContainer = Cast<UQuickReleaseContainer>(i);
-		if(QuickReleaseContainer->GASAbilityInputID == GASAbilityInputID)
-		{
-			return QuickReleaseContainer;
-		}
-	}
-	return  nullptr;
-}
-
-TArray<UQuickReleaseContainer*> USkillBar::GetQuickReleaseContainersByTag(FGameplayTag Tag)
-{
-	TArray<UQuickReleaseContainer*> QuickReleaseContainers;
-	
-	for(auto i : QuickReleaseBar->GetAllChildren())
-	{
-		const auto QuickReleaseContainer = Cast<UQuickReleaseContainer>(i);
-		if(QuickReleaseContainer->SkillItem->GetAbilityData().Tags.HasTag(Tag))
-		{
-			QuickReleaseContainers.Emplace(QuickReleaseContainer);
-		}
-	}
-	return  QuickReleaseContainers;
-}
 

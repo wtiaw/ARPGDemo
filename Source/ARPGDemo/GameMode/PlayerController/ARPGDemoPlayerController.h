@@ -21,4 +21,10 @@ public:
 	virtual void BeginPlay() override;
 	
 	virtual void SetupInputComponent() override;
+
+	UFUNCTION(BlueprintCallable)
+	void OnButtonPressed(int Index);
+
+	UFUNCTION(BlueprintCallable)
+	void OnButtonReleased(int Index);
 };

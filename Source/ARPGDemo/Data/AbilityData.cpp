@@ -4,21 +4,26 @@
 #include "AbilityData.h"
 
 
-FAbilityData::FAbilityData(): AbilityIcon(nullptr), Level(0)
+FAbilityData::FAbilityData(): ActivatedIcon(nullptr), InactivatedAbilityIcon(nullptr), AbilityType(), Level(0),
+                              MaxLevel(0)
 {
 }
 
-FAbilityData::FAbilityData(FString AbilityName, FString AbilityDescription, UTexture2D* AbilityIcon, int Level, FGameplayTagContainer Tags, TSubclassOf<UGameplayAbility_Base> Ability): AbilityIcon(nullptr)
+FAbilityData::FAbilityData(FString AbilityName, FString AbilityDescription, UTexture2D* ActivatedAbilityIcon, UTexture2D* InactivatedAbilityIcon, EAbilityType AbilityType, int Level, int MaxLevel, TSubclassOf<UGameplayAbility_Base> Ability, FGameplayTagContainer Tags):
+	ActivatedIcon(nullptr), InactivatedAbilityIcon(nullptr)
 {
 	this->AbilityName = AbilityName;
 	this->AbilityDescription = AbilityDescription;
-	this->AbilityIcon = AbilityIcon;
+	this->ActivatedIcon = ActivatedAbilityIcon;
+	this->InactivatedAbilityIcon = InactivatedAbilityIcon;
+	this->AbilityType = AbilityType;
 	this->Level = Level;
-	this->Tags= Tags;
+	this->MaxLevel = MaxLevel;
 	this->Ability = Ability;
+	this->Tags = Tags;
 }
 
-bool FAbilityData::bIsValid()
+bool FAbilityData::IsValid()
 {
 	return Ability ? true : false;
 }
