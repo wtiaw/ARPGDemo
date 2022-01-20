@@ -28,6 +28,75 @@ enum class EAbilityType : uint8
 	Passive,
 };
 
+/**
+ * @brief 技能伤害类型
+ */
+UENUM(BluePrintType)
+enum class EDamageType : uint8
+{
+	/**
+	* @brief 无
+	*/
+	None,
+
+	/**
+	* @brief 物理伤害
+	*/
+	Physical,
+
+	/**
+	* @brief 魔法伤害
+	*/
+	Magic,
+};
+
+/**
+* @brief 技能属性类型
+*/
+UENUM(BluePrintType)
+enum class EElementalDamageType : uint8
+{
+	/**
+	* @brief 无属性
+	*/
+	None,
+
+	/**
+	* @brief 火属性
+	*/
+	Fire,
+
+	/**
+	* @brief 冰属性
+	*/
+	Ice,
+
+	/**
+	* @brief 水属性
+	*/
+	Water,
+
+	/**
+	* @brief 毒属性
+	*/
+	Toxic,
+
+	/**
+	* @brief 电属性
+	*/
+	Electrical,
+
+	/**
+	* @brief 光属性
+	*/
+	Light,
+	
+	/**
+	* @brief 暗属性
+	*/
+	Dark,
+};
+
 USTRUCT(BlueprintType)
 struct FAbilityData
 {
@@ -38,6 +107,24 @@ struct FAbilityData
 	 */
 	UPROPERTY(BlueprintReadOnly,EditAnywhere)
 	FString AbilityName;
+
+	/**
+	 * @brief 技能等级
+	 */
+	UPROPERTY(BlueprintReadOnly,EditAnywhere)
+	int Level;
+	
+	/**
+	 * @brief 伤害类型（物理/魔法）
+	 */
+	UPROPERTY(BlueprintReadOnly,EditAnywhere)
+	EDamageType DamageType;
+	
+	/**
+	 * @brief 元素类型
+	 */
+	UPROPERTY(BlueprintReadOnly,EditAnywhere)
+	EElementalDamageType ElementalDamage;
 
 	/**
 	 * @brief 技能描述
@@ -62,12 +149,6 @@ struct FAbilityData
 	 */
 	UPROPERTY(BlueprintReadOnly,EditAnywhere)
 	EAbilityType AbilityType;
-	
-	/**
-	 * @brief 技能等级
-	 */
-	UPROPERTY(BlueprintReadOnly,EditAnywhere)
-	int Level;
 
 	/**
 	 * @brief 最大技能等级
@@ -90,7 +171,7 @@ struct FAbilityData
 	FAbilityData();
 
 	FAbilityData(FString AbilityName, FString AbilityDescription, UTexture2D* ActivatedAbilityIcon, UTexture2D* InactivatedAbilityIcon,
-					EAbilityType AbilityType, int Level, int MaxLevel, TSubclassOf<UGameplayAbility_Base> Ability, FGameplayTagContainer Tag);
+					EAbilityType AbilityType, int Level, int MaxLevel, EDamageType DamageType, EElementalDamageType ElementalDamage ,TSubclassOf<UGameplayAbility_Base> Ability, FGameplayTagContainer Tag);
 
 	bool IsValid();
 };

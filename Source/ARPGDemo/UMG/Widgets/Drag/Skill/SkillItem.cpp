@@ -6,6 +6,7 @@
 #include "SkillItem_Visual.h"
 #include "ARPGDemo/GameMode/PlayerState/ARPGDemoPlayerState.h"
 #include "ARPGDemo/UMG/Widgets/Drag/DragOperation.h"
+#include "ARPGDemo/UMG/Widgets/ToolTip/AbilityToolTip.h"
 #include "ARPGDemo/UMG/Windows/FixedWindow/Skill/QuickReleaseContainer.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Kismet/GameplayStatics.h"
@@ -212,6 +213,11 @@ void USkillItem::LevelUp()
 			SetIcon();
 	}
 	GiveAbility();
+
+	if(AbilityToolTip)
+	{
+		AbilityToolTip->LevelChange.ExecuteIfBound(AbilityData.Level);
+	}
 }
 
 bool USkillItem::CheckLevelUp()

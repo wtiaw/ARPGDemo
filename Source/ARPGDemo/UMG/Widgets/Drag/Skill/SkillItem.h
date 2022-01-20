@@ -10,6 +10,7 @@
 #include "Components/Image.h"
 #include "SkillItem.generated.h"
 
+class UAbilityToolTip;
 class UQuickReleaseContainer;
 /**
  * 技能
@@ -54,6 +55,9 @@ public:
 	 */
 	UPROPERTY(EditAnywhere, Category = "Skill Item|Visual")
 	TSubclassOf<USkillItem_Visual> VisualClass;
+
+	UPROPERTY(BlueprintReadWrite)
+	UAbilityToolTip* AbilityToolTip;
 
 protected:
 	/**

@@ -23,9 +23,6 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	bool bIsAvoid = false;
 
-	UPROPERTY(BlueprintReadWrite)
-	UHUDHealthBar* HUDHealthBar;
-
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;

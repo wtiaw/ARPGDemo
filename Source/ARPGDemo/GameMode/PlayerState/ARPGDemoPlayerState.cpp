@@ -6,22 +6,29 @@
 #include "AbilitySystemComponent.h"
 #include "GameplayTagsManager.h"
 #include "ARPGDemo/Character/Player/PlayerCharacter.h"
+#include "ARPGDemo/UMG/Windows/WindowManager.h"
+#include "ARPGDemo/UMG/Windows/HUD/HUDAvatarFrame.h"
 
 AARPGDemoPlayerState::AARPGDemoPlayerState()
 {
 	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
+	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
+
+	NetUpdateFrequency = 100.0f;
+	
 	AbilitySetBase = CreateDefaultSubobject<UAbilitySetBase>(TEXT("AbilitySetBase"));
 	SkillBarAbilityDatas.SetNum(10);
 }
 
 void AARPGDemoPlayerState::HealthChanged(const FOnAttributeChangeData& Data)
 {
-	float Health = Data.NewValue;
-	
 	APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(GetPawn());
 	if (PlayerCharacter)
 	{
-		UHUDHealthBar* HUDHealthBar = PlayerCharacter->HUDHealthBar;
+		auto AvatarFrame = UWindowManager::GetInstance()->GetWindow<UHUDAvatarFrame>(EWindowTypes::HUD_AvatarFrame);
+		UHUDHealthBar* HUDHealthBar = AvatarFrame->HealthBar;
+		
 		if (HUDHealthBar)
 		{
 			HUDHealthBar->HealthChanged();
@@ -39,12 +46,13 @@ void AARPGDemoPlayerState::HealthChanged(const FOnAttributeChangeData& Data)
 
 void AARPGDemoPlayerState::MaxHealthChanged(const FOnAttributeChangeData& Data)
 {
-	float MaxHealth = Data.NewValue;
-	
+	float Health = Data.NewValue;
 	APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(GetPawn());
 	if (PlayerCharacter)
 	{
-		UHUDHealthBar* HUDHealthBar = PlayerCharacter->HUDHealthBar;
+		auto AvatarFrame = UWindowManager::GetInstance()->GetWindow<UHUDAvatarFrame>(EWindowTypes::HUD_AvatarFrame);
+		UHUDHealthBar* HUDHealthBar = AvatarFrame->HealthBar;
+		
 		if (HUDHealthBar)
 		{
 			HUDHealthBar->HealthChanged();

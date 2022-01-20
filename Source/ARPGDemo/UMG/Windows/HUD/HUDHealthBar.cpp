@@ -28,10 +28,10 @@ void UHUDHealthBar::HealthChanged()
 
 void UHUDHealthBar::GetHealthText(FText& OutText,float& OutPercent)
 {
-	const auto Character = AARPGDemoGameMode::Instance->GetPlayerController()->GetPlayerState<AARPGDemoPlayerState>();
+	const auto PS = AARPGDemoGameMode::Instance->GetPlayerController()->GetPlayerState<AARPGDemoPlayerState>();
 
-	const float CurrentHealth = Character->GetHealth();
-	const float MaxHealth = Character->GetMaxHealth();
+	const float CurrentHealth = PS->GetHealth();
+	const float MaxHealth = PS->GetMaxHealth();
 
 	const FString Text = FString::Printf(TEXT("%.0f/%.0f"), CurrentHealth, MaxHealth);
 

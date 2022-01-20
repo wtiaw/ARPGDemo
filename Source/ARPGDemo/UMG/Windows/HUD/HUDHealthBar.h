@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ARPGDemo/UMG/Windows/BaseWindow/BaseWindow.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
@@ -12,7 +13,7 @@
  * 
  */
 UCLASS()
-class ARPGDEMO_API UHUDHealthBar : public UUserWidget
+class ARPGDEMO_API UHUDHealthBar : public UBaseWindow
 {
 	GENERATED_BODY()
 
