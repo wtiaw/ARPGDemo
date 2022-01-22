@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ARPGDemo/Library/AsyncTask/AsyncTaskCooldownChanged.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/TextBlock.h"
 #include "SkillBar/SkillBar.h"
@@ -73,12 +72,6 @@ public:
 	virtual void NativeConstruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
-	
-	/**
-	 * @brief 设置快捷键文本
-	 */
-	UFUNCTION(BlueprintCallable)
-	void SetQuickName();
 
 	UFUNCTION(BlueprintCallable)
 	void SetHighLight();

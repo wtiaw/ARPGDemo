@@ -11,8 +11,6 @@
 void UQuickReleaseContainer::NativePreConstruct()
 {
 	Super::NativePreConstruct();
-
-	SetQuickName();
 }
 
 void UQuickReleaseContainer::NativeConstruct()
@@ -89,11 +87,6 @@ bool UQuickReleaseContainer::NativeOnDrop(const FGeometry& InGeometry, const FDr
 		DraggedSkillItem->bIsDragSucceed = true;
 	}
 	return false;
-}
-
-void UQuickReleaseContainer::SetQuickName()
-{
-	QuickKey->SetText(FText::FromString(QuickKeyName));
 }
 
 void UQuickReleaseContainer::SetHighLight()
