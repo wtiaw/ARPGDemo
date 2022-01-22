@@ -6,6 +6,7 @@
 #include "UObject/NoExportTypes.h"
 #include "ControllerRegistrar.generated.h"
 
+class UBaseWindow;
 /**
  * 控制注册器，用来管理输入操作
  */
@@ -15,6 +16,14 @@ class ARPGDEMO_API UControllerRegistrar : public UObject
 	GENERATED_BODY()
 
 public:
+	UControllerRegistrar();
+
+	/**
+	 * @brief 菜单主窗口类
+	 */
+	UPROPERTY()
+	TSubclassOf<UBaseWindow> MenuMainWindowClass;
+	
 	/**
 	 * @brief 获得控制注册器实例
 	 */

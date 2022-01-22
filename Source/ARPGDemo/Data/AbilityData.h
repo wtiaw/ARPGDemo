@@ -97,6 +97,9 @@ enum class EElementalDamageType : uint8
 	Dark,
 };
 
+/**
+* @brief 技能数据
+*/
 USTRUCT(BlueprintType)
 struct FAbilityData
 {

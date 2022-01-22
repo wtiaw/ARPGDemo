@@ -215,7 +215,6 @@ void USkillItem::LevelUp()
 	
 	if(AbilityToolTip)
 	{
-		// ReSharper disable once CppExpressionWithoutSideEffects
 		AbilityToolTip->LevelChange.ExecuteIfBound(AbilityData.Level);
 	}
 }

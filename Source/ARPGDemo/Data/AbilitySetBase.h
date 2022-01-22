@@ -14,7 +14,7 @@ GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
 /**
- * 
+ * 基础属性集
  */
 UCLASS()
 class ARPGDEMO_API UAbilitySetBase : public UAttributeSet

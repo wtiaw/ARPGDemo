@@ -7,7 +7,7 @@
 #include "DraggableWidget.generated.h"
 
 /**
- * 
+ * 可拖拽组件
  */
 UCLASS()
 class ARPGDEMO_API UDraggableWidget : public UUserWidget

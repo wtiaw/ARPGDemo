@@ -11,7 +11,7 @@
 #include "InputSetting.generated.h"
 
 /**
- * 
+ * 输入设置组件
  */
 UCLASS()
 class ARPGDEMO_API UInputSetting : public UUserWidget
@@ -19,6 +19,9 @@ class ARPGDEMO_API UInputSetting : public UUserWidget
 	GENERATED_BODY()
 
 public:
+	/**
+	* @brief 切换Key和加载
+	*/
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
 	UWidgetSwitcher* SkillSwitch;
 	/**
@@ -33,18 +36,30 @@ public:
 	UPROPERTY(BlueprintReadOnly,EditAnywhere)
 	FString KeyName;
 
+	/**
+	* @brief 当前的按键
+	*/
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
 	UTextBlock* Key;
 	
 	UPROPERTY(BlueprintReadOnly)
 	USettingWindow* Parent;
 
+	/**
+	* @brief 在设置栏的下标
+	*/
 	int Index;
 	
 public:
+	/**
+	* @brief 显示当前的按键
+	*/
 	UFUNCTION(BlueprintCallable)
 	void ShowKey();
 
+	/**
+	* @brief 显示加载图标
+	*/
 	UFUNCTION(BlueprintCallable)
 	void ShowCircular();
 

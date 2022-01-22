@@ -22,9 +22,17 @@ public:
 	
 	virtual void SetupInputComponent() override;
 
+	/**
+	* @brief 当按键按下时的函数调用
+	* @param Index 第几个快捷栏
+	*/
 	UFUNCTION(BlueprintCallable)
 	void OnButtonPressed(int Index);
 
+	/**
+	* @brief 当按键松开时的函数调用
+	* @param Index 第几个快捷栏
+	*/
 	UFUNCTION(BlueprintCallable)
 	void OnButtonReleased(int Index);
 };

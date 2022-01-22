@@ -8,7 +8,7 @@
 #include "SkillItem_Visual.generated.h"
 
 /**
- * 
+ * 技能拖拽的视觉组件
  */
 UCLASS()
 class ARPGDEMO_API USkillItem_Visual : public UUserWidget

@@ -7,7 +7,6 @@
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Components/CanvasPanelSlot.h"
 #include "MainWindows/FloatingMainWindow.h"
-#include "MainWindows/HUDMainWindow.h"
 #include "MainWindows/MainWindow.h"
 
 

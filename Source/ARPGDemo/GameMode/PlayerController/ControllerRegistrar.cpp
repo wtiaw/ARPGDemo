@@ -13,6 +13,13 @@
 
 UControllerRegistrar* UControllerRegistrar::Instance = nullptr;
 
+UControllerRegistrar::UControllerRegistrar()
+{
+	static ConstructorHelpers::FClassFinder<UUserWidget> MenuMainWindowClassFinder(TEXT("/Game/ARPGDemo/Blueprints/UMG/Windows/Menu/WBP_MainMenu"));
+	if (MenuMainWindowClassFinder.Succeeded())
+		MenuMainWindowClass = MenuMainWindowClassFinder.Class;
+}
+
 UControllerRegistrar* UControllerRegistrar::GetInstance()
 {
 	if (!Instance)
@@ -49,10 +56,7 @@ void UControllerRegistrar::UnRegister()
 
 void UControllerRegistrar::OnOpenMenu()
 {
-	TSubclassOf<UBaseWindow> MainMenuClass = LoadClass<UUserWidget>(
-		NULL, TEXT("WidgetBlueprint'/Game/ARPGDemo/Blueprints/UMG/Windows/Menu/WBP_MainMenu.WBP_MainMenu_C'"));
-
-	UMainMenu* MainMenu = Cast<UMainMenu>(CreateWidget(AARPGDemoGameMode::Instance->GetPlayerController(), MainMenuClass));
+	UMainMenu* MainMenu = Cast<UMainMenu>(CreateWidget(AARPGDemoGameMode::Instance->GetPlayerController(),MenuMainWindowClass));
 	MainMenu->AddToViewport();
 }
 

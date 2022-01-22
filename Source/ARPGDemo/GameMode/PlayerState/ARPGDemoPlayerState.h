@@ -9,17 +9,9 @@
 #include "GameFramework/PlayerState.h"
 #include "ARPGDemoPlayerState.generated.h"
 
-USTRUCT(BlueprintType)
-struct FIntArray
-{
-	GENERATED_BODY()
-
-	UPROPERTY(BlueprintReadOnly)
-	TArray<int> Indexs;
-};
 
 /**
- * 
+ * 玩家状态
  */
 UCLASS()
 class ARPGDEMO_API AARPGDemoPlayerState : public APlayerState, public IAbilitySystemInterface
@@ -55,12 +47,22 @@ protected:
 	FDelegateHandle HealthChangedDelegateHandle;
 	FDelegateHandle MaxHealthChangedDelegateHandle;
 
+	/**
+	* @brief 生命值改变调用
+	*/
 	virtual void HealthChanged(const FOnAttributeChangeData& Data);
+
+	/**
+	* @brief 最大生命值改变调用
+	*/
 	virtual void MaxHealthChanged(const FOnAttributeChangeData& Data);
 
 public:
 	virtual void BeginPlay() override;
-	
+
+	/**
+	* @brief 拿到GASC组件
+	*/
 	UFUNCTION(BlueprintCallable)
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
