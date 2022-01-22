@@ -23,4 +23,6 @@ void UAbilityToolTip::NativeDestruct()
 void UAbilityToolTip::OnLevelChanged(int NewLevel)
 {
 	Level->SetText(FText::FromString(FString::FromInt(NewLevel)));
+
+	OnChangeCoolDown(NewLevel);
 }

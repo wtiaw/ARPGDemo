@@ -7,12 +7,11 @@
 FAbilityData::FAbilityData(): Level(0), DamageType(), ElementalDamage(), ActivatedIcon(nullptr),
                               InactivatedAbilityIcon(nullptr),
                               AbilityType(),
-                              MaxLevel(0)
+                              MaxLevel(0), CoolDown(nullptr)
 {
 }
 
-FAbilityData::FAbilityData(FString AbilityName, FString AbilityDescription, UTexture2D* ActivatedAbilityIcon, UTexture2D* InactivatedAbilityIcon, EAbilityType AbilityType, int Level, int MaxLevel, EDamageType DamageType, EElementalDamageType ElementalDamage, TSubclassOf<UGameplayAbility_Base> Ability, FGameplayTagContainer Tag):
-	ActivatedIcon(nullptr), InactivatedAbilityIcon(nullptr)
+FAbilityData::FAbilityData(FString AbilityName, FString AbilityDescription, UTexture2D* ActivatedAbilityIcon, UTexture2D* InactivatedAbilityIcon, EAbilityType AbilityType, int Level, int MaxLevel, EDamageType DamageType, EElementalDamageType ElementalDamage, TSubclassOf<UGameplayAbility_Base> Ability, FGameplayTagContainer Tag, UCurveTable* CoolDown)
 {
 	this->AbilityName = AbilityName;
 	this->AbilityDescription = AbilityDescription;
@@ -25,6 +24,7 @@ FAbilityData::FAbilityData(FString AbilityName, FString AbilityDescription, UTex
 	this->Tag = Tag;
 	this->DamageType = DamageType;
 	this->ElementalDamage = ElementalDamage;
+	this->CoolDown = CoolDown;
 }
 
 bool FAbilityData::IsValid()

@@ -119,7 +119,6 @@ void USkillItem::SetAbilityData(USkillItem* SkillItem)
 {
 	AbilityData = SkillItem->GetAbilityData();
 	SetIcon();
-	
 }
 
 void USkillItem::SetAbilityData(FAbilityData InAbilityData)
@@ -213,9 +212,10 @@ void USkillItem::LevelUp()
 			SetIcon();
 	}
 	GiveAbility();
-
+	
 	if(AbilityToolTip)
 	{
+		// ReSharper disable once CppExpressionWithoutSideEffects
 		AbilityToolTip->LevelChange.ExecuteIfBound(AbilityData.Level);
 	}
 }

@@ -88,7 +88,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	FAbilityData GetAbilityData();
-
+	
 	void SetAbilityData(USkillItem* SkillItem);
 
 	void SetAbilityData(FAbilityData InAbilityData);

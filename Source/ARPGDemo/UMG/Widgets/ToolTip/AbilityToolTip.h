@@ -29,4 +29,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void OnLevelChanged(int NewLevel);
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnChangeCoolDown(int NewLevel);
 };

@@ -168,10 +168,16 @@ struct FAbilityData
 	UPROPERTY(BlueprintReadOnly,EditAnywhere)
 	FGameplayTagContainer Tag;
 
+	/**
+	 * @brief 冷却时间
+	 */
+	UPROPERTY(BlueprintReadOnly,EditAnywhere)
+	UCurveTable* CoolDown;
+
 	FAbilityData();
 
 	FAbilityData(FString AbilityName, FString AbilityDescription, UTexture2D* ActivatedAbilityIcon, UTexture2D* InactivatedAbilityIcon,
-					EAbilityType AbilityType, int Level, int MaxLevel, EDamageType DamageType, EElementalDamageType ElementalDamage ,TSubclassOf<UGameplayAbility_Base> Ability, FGameplayTagContainer Tag);
+					EAbilityType AbilityType, int Level, int MaxLevel, EDamageType DamageType, EElementalDamageType ElementalDamage ,TSubclassOf<UGameplayAbility_Base> Ability, FGameplayTagContainer Tag, UCurveTable* CoolDown);
 
 	bool IsValid();
 };
