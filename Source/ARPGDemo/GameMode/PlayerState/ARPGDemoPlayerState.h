@@ -36,7 +36,7 @@ public:
 	/**
 	 * @brief 玩家初始化技能
 	 */
-	TArray<TSubclassOf<UGameplayAbility_Base>> StartUpAbility;
+	TArray<FAbilityData> StartUpAbility;
 
 	/**
 	 * @brief 技能栏中技能

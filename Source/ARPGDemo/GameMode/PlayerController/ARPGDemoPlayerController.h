@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ARPGDemo/SaveGame/CustomSaveGame.h"
 #include "GameFramework/PlayerController.h"
 #include "ARPGDemoPlayerController.generated.h"
 
@@ -16,6 +17,9 @@ class ARPGDEMO_API AARPGDemoPlayerController : public APlayerController
 
 public:
 	AARPGDemoPlayerController();
+
+	UPROPERTY(BlueprintReadOnly)
+	UCustomSaveGame* SaveGameInstance;
 
 public:
 	virtual void BeginPlay() override;

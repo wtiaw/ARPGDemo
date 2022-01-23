@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ARPGDemo/GamePlayAbilitySystem/GameplayAbility/GA/GameplayAbility_Base.h"
+#include "Engine/Datatable.h"
 #include "AbilityData.generated.h"
 
 /**
@@ -101,10 +102,16 @@ enum class EElementalDamageType : uint8
 * @brief 技能数据
 */
 USTRUCT(BlueprintType)
-struct FAbilityData
+struct FAbilityData : public FTableRowBase
 {
 	GENERATED_BODY()
 
+	/**
+	 * @brief 技能ID
+	 */
+	UPROPERTY(BlueprintReadOnly,EditAnywhere)
+	int AbilityId;
+	
 	/**
 	 * @brief 技能名称
 	 */
@@ -116,6 +123,12 @@ struct FAbilityData
 	 */
 	UPROPERTY(BlueprintReadOnly,EditAnywhere)
 	int Level;
+
+	/**
+	 * @brief 最大技能等级
+	 */
+	UPROPERTY(BlueprintReadOnly,EditAnywhere)
+	int MaxLevel;
 	
 	/**
 	 * @brief 伤害类型（物理/魔法）
@@ -152,12 +165,6 @@ struct FAbilityData
 	 */
 	UPROPERTY(BlueprintReadOnly,EditAnywhere)
 	EAbilityType AbilityType;
-
-	/**
-	 * @brief 最大技能等级
-	 */
-	UPROPERTY(BlueprintReadOnly,EditAnywhere)
-	int MaxLevel;
 	
 	/**
 	 * @brief GA类

@@ -4,10 +4,11 @@
 #include "AbilityData.h"
 
 
-FAbilityData::FAbilityData(): Level(0), DamageType(), ElementalDamage(), ActivatedIcon(nullptr),
+FAbilityData::FAbilityData(): AbilityId(0), Level(0), MaxLevel(0), DamageType(), ElementalDamage(),
+                              ActivatedIcon(nullptr),
                               InactivatedAbilityIcon(nullptr),
                               AbilityType(),
-                              MaxLevel(0), CoolDown(nullptr)
+                              CoolDown(nullptr)
 {
 }
 

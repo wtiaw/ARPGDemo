@@ -16,7 +16,9 @@ void UAbilitySetBase::PreAttributeChange(const FGameplayAttribute& Attribute, fl
 
 	if (Attribute == GetMaxHealthAttribute())
 	{
+		AdjustAttributeForMaxChange(Level, MaxLevel, NewValue, GetLevelAttribute());
 		AdjustAttributeForMaxChange(Health, MaxHealth, NewValue, GetHealthAttribute());
+		AdjustAttributeForMaxChange(XP, MaxXP, NewValue, GetXPAttribute());
 	}
 }
 
@@ -24,9 +26,17 @@ void UAbilitySetBase::PostGameplayEffectExecute(const FGameplayEffectModCallback
 {
 	Super::PostGameplayEffectExecute(Data);
 
+	if(Data.EvaluatedData.Attribute == GetLevelAttribute())
+	{
+		SetLevel(FMath::Clamp(GetLevel(),1.f,GetMaxLevel()));
+	}
 	if(Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
 		SetHealth(FMath::Clamp(GetHealth(),0.f,GetMaxHealth()));
+	}
+	if(Data.EvaluatedData.Attribute == GetXPAttribute())
+	{
+		SetXP(FMath::Clamp(GetXP(),0.f,GetMaxXP()));
 	}
 }
 

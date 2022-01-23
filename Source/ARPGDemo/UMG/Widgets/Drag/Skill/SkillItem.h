@@ -66,9 +66,21 @@ protected:
 	/**
 	 * @brief 技能数据
 	 */
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Skill Item|Data")
+	UPROPERTY(BlueprintReadWrite, Category = "Skill Item|Data")
 	FAbilityData AbilityData;
 
+	/**
+	 * @brief 技能数据表
+	 */
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Skill Item|Data")
+	UDataTable* AbilityDataTable;
+
+	/**
+	 * @brief 技能数据表的行数
+	 */
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Skill Item|Data")
+	int AbilityDataTableIndex;
+	
 	/**
 	 * @brief 材质实例
 	 */

@@ -4,6 +4,7 @@
 #include "ARPGDemoPlayerController.h"
 #include "ControllerRegistrar.h"
 #include "ARPGDemo/GameMode/PlayerState/ARPGDemoPlayerState.h"
+#include "ARPGDemo/SaveGame/CustomSaveGame.h"
 #include "ARPGDemo/UMG/Windows/WindowManager.h"
 #include "ARPGDemo/UMG/Windows/FixedWindow/Skill/QuickReleaseContainer.h"
 #include "ARPGDemo/UMG/Windows/FixedWindow/Skill/SkillBar/SkillBar.h"
@@ -18,6 +19,17 @@ AARPGDemoPlayerController::AARPGDemoPlayerController()
 void AARPGDemoPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if(auto SaveGame = Cast<UCustomSaveGame>(UGameplayStatics::LoadGameFromSlot(TEXT("Player"),0)))
+	{
+		SaveGameInstance = SaveGame;
+
+		UE_LOG(LogTemp,Warning,TEXT("%f"),SaveGameInstance->Health);
+	}
+	else
+	{
+		SaveGameInstance = Cast<UCustomSaveGame>(UGameplayStatics::CreateSaveGameObject(UCustomSaveGame::StaticClass()));
+	}
 }
 
 void AARPGDemoPlayerController::SetupInputComponent()

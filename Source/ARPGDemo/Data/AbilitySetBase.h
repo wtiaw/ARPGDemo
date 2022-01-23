@@ -23,6 +23,21 @@ class ARPGDEMO_API UAbilitySetBase : public UAttributeSet
 
 public:
 	UAbilitySetBase();
+	
+	/**
+	 * @brief 当前等级
+	 */
+	UPROPERTY(BlueprintReadOnly, Category = "Level")
+	FGameplayAttributeData Level;
+	ATTRIBUTE_ACCESSORS(UAbilitySetBase, Level);
+
+	/**
+	 * @brief 最大等级
+	 */
+	UPROPERTY(BlueprintReadOnly, Category = "MaxLevel")
+	FGameplayAttributeData MaxLevel;
+	ATTRIBUTE_ACCESSORS(UAbilitySetBase, MaxLevel);
+	
 	/**
 	 * @brief 最大生命值
 	 */
@@ -36,6 +51,20 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Health")
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UAbilitySetBase, Health);
+
+	/**
+	 * @brief 当前经验值
+	 */
+	UPROPERTY(BlueprintReadOnly, Category = "XP")
+	FGameplayAttributeData XP;
+	ATTRIBUTE_ACCESSORS(UAbilitySetBase, XP);
+
+	/**
+	 * @brief 最大经验值
+	 */
+	UPROPERTY(BlueprintReadOnly, Category = "MaxXP")
+	FGameplayAttributeData MaxXP;
+	ATTRIBUTE_ACCESSORS(UAbilitySetBase, MaxXP);
 
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
