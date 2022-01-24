@@ -61,8 +61,7 @@ public:
 	 */
 	UPROPERTY(BlueprintReadWrite)
 	UAbilityToolTip* AbilityToolTip;
-
-protected:
+	
 	/**
 	 * @brief 技能数据
 	 */
@@ -79,7 +78,7 @@ protected:
 	 * @brief 技能数据表的行数
 	 */
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Skill Item|Data")
-	int AbilityDataTableIndex;
+	FName AbilityName;
 	
 	/**
 	 * @brief 材质实例
@@ -145,15 +144,4 @@ private:
 	 * @brief 授予玩家能力
 	 */
 	void GiveAbility();
-
-	/**
-	 * @brief 提升技能等级
-	 */
-	void LevelUp();
-
-	/**
-	 * @brief 检查是否可以提升技能等级
-	 * @return 是否可以升级
-	 */
-	bool CheckLevelUp();
 };

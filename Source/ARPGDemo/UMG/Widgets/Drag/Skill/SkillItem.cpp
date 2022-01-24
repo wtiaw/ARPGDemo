@@ -6,7 +6,6 @@
 #include "SkillItem_Visual.h"
 #include "ARPGDemo/GameMode/PlayerState/ARPGDemoPlayerState.h"
 #include "ARPGDemo/UMG/Widgets/Drag/DragOperation.h"
-#include "ARPGDemo/UMG/Widgets/ToolTip/AbilityToolTip.h"
 #include "ARPGDemo/UMG/Windows/FixedWindow/Skill/QuickReleaseContainer.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Kismet/GameplayStatics.h"
@@ -14,17 +13,15 @@
 void USkillItem::NativeConstruct()
 {
 	Super::NativeConstruct();
-
-	
 }
 
 void USkillItem::NativePreConstruct()
 {
 	Super::NativePreConstruct();
-
-	HighLight->SetBrushFromMaterial(HighLightTexture);
                                  	
-	SetIcon();
+    HighLight->SetBrushFromMaterial(HighLightTexture);
+                                    
+    SetIcon();
 }
 
 void USkillItem::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
@@ -56,8 +53,6 @@ FReply USkillItem::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FP
 		{
 			Reply = FReply::Handled();
 		}
-		if(!Parent)
-			LevelUp();
 	}
 
 	return Reply;
@@ -200,26 +195,4 @@ void USkillItem::GiveAbility()
 		}
 		GameplayAbilitySpecHandle = PS->GetAbilitySystemComponent()->GiveAbility(FGameplayAbilitySpec(Ability,Level));
 	}
-}
-
-void USkillItem::LevelUp()
-{
-	if(CheckLevelUp())
-	{
-		AbilityData.Level++;
-		
-		if(AbilityData.Level == 1)
-			SetIcon();
-	}
-	GiveAbility();
-	
-	if(AbilityToolTip)
-	{
-		AbilityToolTip->LevelChange.ExecuteIfBound(AbilityData.Level);
-	}
-}
-
-bool USkillItem::CheckLevelUp()
-{
-	return AbilityData.Level < AbilityData.MaxLevel ? true : false;
 }
