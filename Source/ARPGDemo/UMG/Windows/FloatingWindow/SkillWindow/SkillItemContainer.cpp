@@ -20,6 +20,8 @@ void USkillItemContainer::NativeConstruct()
 	Super::NativeConstruct();
 
 	SkillItem->GiveAbility();
+
+	CheckButton();
 }
 
 void USkillItemContainer::SetAbilityData()
@@ -35,12 +37,15 @@ void USkillItemContainer::SetAbilityData()
 
 void USkillItemContainer::SetLevelText()
 {
-	const int InLevel = AbilityData->Level;
-	const int MaxLevel = AbilityData->MaxLevel;
+	if (AbilityData)
+	{
+		const int InLevel = AbilityData->Level;
+		const int MaxLevel = AbilityData->MaxLevel;
 
-	const FString LevelText = FString::Printf(TEXT("%d/%d"),InLevel,MaxLevel);
+		const FString LevelText = FString::Printf(TEXT("%d/%d"), InLevel, MaxLevel);
 
-	Level->SetText(FText::FromString(LevelText));
+		Level->SetText(FText::FromString(LevelText));
+	}
 }
 
 void USkillItemContainer::LevelUp()
@@ -50,6 +55,8 @@ void USkillItemContainer::LevelUp()
 		AbilityData->Level++;
 		SetLevelText();
 		SkillItem->GiveAbility();
+
+		CheckButton();
 	}
 }
 
@@ -60,6 +67,8 @@ void USkillItemContainer::LevelDown()
 		AbilityData->Level--;
 		SetLevelText();
 		SkillItem->GiveAbility();
+		
+		CheckButton();
 	}
 }
 
@@ -71,6 +80,23 @@ bool USkillItemContainer::CheckLevelUp()
 bool USkillItemContainer::CheckLevelDown()
 {
 	return true;
+}
+
+void USkillItemContainer::CheckButton()
+{
+	if (AbilityData->Level == AbilityData->MaxLevel)
+	{
+		Btn_LevelUp->SetVisibility(ESlateVisibility::Hidden);
+	}
+	else if(AbilityData->Level == AbilityData->MinLevel)
+	{
+		Btn_LevelDown->SetVisibility(ESlateVisibility::Hidden);
+	}
+	else
+	{
+		Btn_LevelUp->SetVisibility(ESlateVisibility::Visible);
+		Btn_LevelDown->SetVisibility(ESlateVisibility::Visible);
+	}
 }
 
 

@@ -140,11 +140,17 @@ struct FAbilityData : public FTableRowBase
 	FString AbilityName;
 
 	/**
-	 * @brief 技能等级
+	 * @brief 当前技能等级
 	 */
 	UPROPERTY(BlueprintReadOnly,EditAnywhere)
 	int Level;
-
+	
+	/**
+	 * @brief 最小技能等级
+	 */
+	UPROPERTY(BlueprintReadOnly,EditAnywhere)
+	int MinLevel;
+	
 	/**
 	 * @brief 最大技能等级
 	 */
@@ -214,7 +220,7 @@ struct FAbilityData : public FTableRowBase
 	FAbilityData();
 
 	FAbilityData(FString AbilityName, FString AbilityDescription, UTexture2D* ActivatedAbilityIcon, UTexture2D* InactivatedAbilityIcon,
-					EAbilityType AbilityType, int Level, int MaxLevel, EDamageType DamageType, EElementalDamageType ElementalDamage ,
+					EAbilityType AbilityType, int Level, int MaxLevel, int MinLevel, EDamageType DamageType, EElementalDamageType ElementalDamage ,
 					TSubclassOf<UGameplayAbility_Base> Ability, FGameplayTagContainer Tag, UCurveTable* CoolDown, UDataTable* Precondition);
 
 	bool IsValid();

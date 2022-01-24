@@ -158,16 +158,17 @@ void USkillItem::SetIcon()
 	AbilityIcon->SetBrushFromMaterial(Material);
 	auto DynamicMaterial = AbilityIcon->GetDynamicMaterial();
 
-	if(AbilityData->Level > 0)
+	if (AbilityData)
 	{
-		DynamicMaterial->SetTextureParameterValue(FName(TEXT("AbilityIcon")), AbilityData->ActivatedIcon);
+		if (AbilityData->Level > 0)
+		{
+			DynamicMaterial->SetTextureParameterValue(FName(TEXT("AbilityIcon")), AbilityData->ActivatedIcon);
+		}
+		else
+		{
+			DynamicMaterial->SetTextureParameterValue(FName(TEXT("AbilityIcon")), AbilityData->InactivatedAbilityIcon);
+		}
 	}
-	else
-	{
-		DynamicMaterial->SetTextureParameterValue(FName(TEXT("AbilityIcon")), AbilityData->InactivatedAbilityIcon);
-	}
-	
-	DynamicMaterial->SetScalarParameterValue(FName(TEXT("PersentAge")), 1);
 }
 
 void USkillItem::SetHighLight() const
@@ -211,6 +212,5 @@ void USkillItem::GiveAbility(bool bTerminate)
 		{
 			PS->GetAbilitySystemComponent()->GiveAbility(FGameplayAbilitySpec(Ability, Level));
 		}
-		UE_LOG(LogTemp,Warning,TEXT("1"));
-	}UE_LOG(LogTemp,Warning,TEXT("2"));
+	}
 }

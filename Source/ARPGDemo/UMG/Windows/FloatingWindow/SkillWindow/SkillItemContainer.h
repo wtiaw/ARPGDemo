@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "ARPGDemo/UMG/Widgets/Drag/Skill/SkillItem.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/Button.h"
 #include "Components/TextBlock.h"
 #include "SkillItemContainer.generated.h"
 
@@ -36,9 +37,15 @@ public:
 	UPROPERTY(Meta = (BindWidget))
 	UTextBlock* Level;
 
+	UPROPERTY(Meta = (BindWidget))
+	UButton* Btn_LevelUp;
+
+	UPROPERTY(Meta = (BindWidget))
+	UButton* Btn_LevelDown;
+
 private:
 	FAbilityData* AbilityData;
-	
+
 public:
 	virtual void NativePreConstruct() override;
 	virtual void NativeConstruct() override;
@@ -70,4 +77,6 @@ public:
 	 * @return 是否可以升级
 	 */
 	bool CheckLevelDown();
+
+	void CheckButton();
 };
