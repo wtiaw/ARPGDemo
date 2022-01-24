@@ -35,3 +35,13 @@ bool FAbilityData::IsValid()
 {
 	return Ability ? true : false;
 }
+
+FAbilityKeyData::FAbilityKeyData(): AbilityId(0), Level(0)
+{
+}
+
+FAbilityKeyData::FAbilityKeyData(int AbilityId, int Level)
+{
+	this->AbilityId = AbilityId;
+	this->Level = Level;
+}

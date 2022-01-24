@@ -16,8 +16,6 @@ class ARPGDEMO_API UControllerRegistrar : public UObject
 	GENERATED_BODY()
 
 public:
-	UControllerRegistrar();
-
 	/**
 	 * @brief 菜单主窗口类
 	 */

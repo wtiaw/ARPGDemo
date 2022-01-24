@@ -32,6 +32,9 @@ public:
 	UPROPERTY()
 	TSubclassOf<UBaseWindow> FloatingMainWindowClass;
 
+	UPROPERTY()
+	TSubclassOf<UBaseWindow> MenuMainWindowClass;
+
 private:
 	/**
 	 * @brief 单例

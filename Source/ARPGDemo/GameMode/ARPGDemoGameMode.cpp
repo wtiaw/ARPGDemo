@@ -25,10 +25,11 @@ void AARPGDemoGameMode::BeginPlay()
 	{
 		SaveGameInstance = SaveGame;
 
-		UE_LOG(LogTemp,Warning,TEXT("%f"),SaveGameInstance->Level);
+		GEngine->AddOnScreenDebugMessage(-1,10.f,FColor::Red,TEXT("Load Success"));
 	}
 	else
 	{
 		SaveGameInstance = Cast<UCustomSaveGame>(UGameplayStatics::CreateSaveGameObject(UCustomSaveGame::StaticClass()));
+		GEngine->AddOnScreenDebugMessage(-1,10.f,FColor::Red,TEXT("Create Success"));
 	}
 }

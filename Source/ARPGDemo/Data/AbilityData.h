@@ -222,6 +222,35 @@ struct FAbilityData : public FTableRowBase
 	FAbilityData(FString AbilityName, FString AbilityDescription, UTexture2D* ActivatedAbilityIcon, UTexture2D* InactivatedAbilityIcon,
 					EAbilityType AbilityType, int Level, int MaxLevel, int MinLevel, EDamageType DamageType, EElementalDamageType ElementalDamage ,
 					TSubclassOf<UGameplayAbility_Base> Ability, FGameplayTagContainer Tag, UCurveTable* CoolDown, UDataTable* Precondition);
-
+	
 	bool IsValid();
+};
+
+USTRUCT(BlueprintType)
+struct FAbilityKeyData
+{
+	GENERATED_BODY()
+
+	FAbilityKeyData();
+	FAbilityKeyData(int AbilityId,int Level);
+	
+	/**
+	 * @brief 技能ID
+	 */
+	UPROPERTY(BlueprintReadOnly,EditAnywhere)
+	int AbilityId;
+
+	/**
+	 * @brief 当前技能等级
+	 */
+	UPROPERTY(BlueprintReadOnly,EditAnywhere)
+	int Level;
+
+	friend FArchive& operator<<(FArchive& Ar, FAbilityKeyData& AbilityKeyData)
+	{
+		Ar << AbilityKeyData.AbilityId;
+		Ar << AbilityKeyData.Level;
+
+		return Ar;
+	}
 };

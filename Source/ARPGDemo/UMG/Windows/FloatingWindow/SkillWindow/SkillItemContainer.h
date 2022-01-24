@@ -9,6 +9,7 @@
 #include "Components/TextBlock.h"
 #include "SkillItemContainer.generated.h"
 
+class UCustomSaveGame;
 class UDataTable;
 /**
  * 
@@ -46,6 +47,8 @@ public:
 private:
 	FAbilityData* AbilityData;
 
+	UCustomSaveGame* Save;
+	
 public:
 	virtual void NativePreConstruct() override;
 	virtual void NativeConstruct() override;

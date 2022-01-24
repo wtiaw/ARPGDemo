@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ARPGDemo/Data/AbilityData.h"
 #include "GameFramework/SaveGame.h"
 #include "CustomSaveGame.generated.h"
 
@@ -16,15 +17,18 @@ class ARPGDEMO_API UCustomSaveGame : public USaveGame
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	UPROPERTY(BlueprintReadWrite)
 	TMap<int,int> LevelMaps;
 
-	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	UPROPERTY(BlueprintReadWrite)
 	float MaxHealth;
 
-	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	UPROPERTY(BlueprintReadWrite)
 	float Health;
 
-	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	UPROPERTY(BlueprintReadWrite)
 	float Level;
+
+	UPROPERTY(BlueprintReadWrite)
+	TMap<int, int> SkillDatas;
 };

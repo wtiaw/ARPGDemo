@@ -3,6 +3,8 @@
 
 #include "SkillItemContainer.h"
 
+#include "ARPGDemo/GameMode/ARPGDemoGameMode.h"
+
 void USkillItemContainer::NativePreConstruct()
 {
 	Super::NativePreConstruct();
@@ -19,8 +21,24 @@ void USkillItemContainer::NativeConstruct()
 {
 	Super::NativeConstruct();
 
+	Save = AARPGDemoGameMode::Instance->SaveGameInstance;
+	
+	if(Save)
+	{
+		if(!Save->SkillDatas.Contains(AbilityData->AbilityId))
+		{
+			Save->SkillDatas.Emplace(AbilityData->AbilityId,AbilityData->Level);
+		}
+		else
+		{
+			AbilityData->Level = Save->SkillDatas[AbilityData->AbilityId];
+		}
+	}
+	
+	SetLevelText();
 	SkillItem->GiveAbility();
-
+	SkillItem->NativePreConstruct();
+	
 	CheckButton();
 }
 
@@ -53,8 +71,11 @@ void USkillItemContainer::LevelUp()
 	if(CheckLevelUp())
 	{
 		AbilityData->Level++;
+		Save->SkillDatas[AbilityData->AbilityId] = AbilityData->Level;
+		
 		SetLevelText();
 		SkillItem->GiveAbility();
+		SkillItem->SetIcon();
 
 		CheckButton();
 	}
@@ -65,8 +86,11 @@ void USkillItemContainer::LevelDown()
 	if(CheckLevelDown())
 	{
 		AbilityData->Level--;
+		Save->SkillDatas[AbilityData->AbilityId] = AbilityData->Level;
+		
 		SetLevelText();
 		SkillItem->GiveAbility();
+		SkillItem->SetIcon();
 		
 		CheckButton();
 	}

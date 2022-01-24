@@ -21,6 +21,10 @@ UWindowManager::UWindowManager()
 	static ConstructorHelpers::FClassFinder<UUserWidget> FloatingMainWindowClassFinder(TEXT("/Game/ARPGDemo/Blueprints/UMG/Windows/MainWindow/WBP_FloatingMainWindow"));
 	if (FloatingMainWindowClassFinder.Succeeded())
 		FloatingMainWindowClass = FloatingMainWindowClassFinder.Class;
+
+	static ConstructorHelpers::FClassFinder<UBaseWindow> MenuMainWindowClassFinder(TEXT("/Game/ARPGDemo/Blueprints/UMG/Windows/Menu/WBP_MainMenu"));
+	if (MenuMainWindowClassFinder.Succeeded())
+		MenuMainWindowClass = MenuMainWindowClassFinder.Class;
 }
 
 void UWindowManager::BeginPlay()
