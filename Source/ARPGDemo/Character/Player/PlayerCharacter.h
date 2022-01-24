@@ -20,9 +20,12 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UGameplayAbility> GameplayAbility_Avoid;
 
-	UPROPERTY(BlueprintReadWrite)
-	bool bIsAvoid = false;
-
+	/**
+	 * @brief 技能数据表
+	 */
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Skill Item|Data")
+	UDataTable* AbilityDataTable;
+	
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
@@ -53,4 +56,6 @@ public:
 	void MoveRight(float Value);
 
 	virtual void AddStartupGameplayAbilities(int Level) override;
+
+	void InitAbility();
 };

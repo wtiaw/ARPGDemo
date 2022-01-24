@@ -33,6 +33,8 @@ void APlayerCharacter::BeginPlay()
 		CharacterLevel = AARPGDemoGameMode::Instance->SaveGameInstance->Level;
 		
 		AddStartupGameplayAbilities(CharacterLevel);
+
+		InitAbility();
 	}
 }
 
@@ -136,5 +138,40 @@ void APlayerCharacter::AddStartupGameplayAbilities(int Level)
 	{
 		FGameplayEffectSpecHandle NewHandle = AbilitySystemComponent->MakeOutgoingSpec(i, Level, EffectContext);
 		AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*NewHandle.Data.Get());
+	}
+}
+
+void APlayerCharacter::InitAbility()
+{
+	const auto PS = GetPlayerState<AARPGDemoPlayerState>();
+	auto SkillDatas = AARPGDemoGameMode::Instance->SaveGameInstance->SkillDatas;
+
+	//判断是否有存档
+	if (SkillDatas.Num() != 0)
+	{
+		//获得所有的行名
+		TArray<FName> AbilityNames = AbilityDataTable->GetRowNames();
+
+		for (auto Name : AbilityNames)
+		{
+			//获得AbilityData
+			auto Data = AbilityDataTable->FindRow<FAbilityData>(Name, "");
+
+			//如果技能等级大于0，就更新技能等级或者赋予技能
+			if (SkillDatas[Data->AbilityId] > 0)
+			{
+				const auto Spec = PS->GetAbilitySystemComponent()->FindAbilitySpecFromClass(Data->Ability);
+
+				if (Spec)
+				{
+					Spec->Level = SkillDatas[Data->AbilityId];
+				}
+				else
+				{
+					PS->GetAbilitySystemComponent()->GiveAbility(
+						FGameplayAbilitySpec(Data->Ability, SkillDatas[Data->AbilityId]));
+				}
+			}
+		}
 	}
 }

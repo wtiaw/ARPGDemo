@@ -36,7 +36,7 @@ void USkillItemContainer::NativeConstruct()
 	}
 	
 	SetLevelText();
-	SkillItem->GiveAbility();
+
 	SkillItem->NativePreConstruct();
 	
 	CheckButton();
