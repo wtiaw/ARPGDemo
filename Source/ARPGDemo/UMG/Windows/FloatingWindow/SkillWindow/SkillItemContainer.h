@@ -37,10 +37,11 @@ public:
 	UTextBlock* Level;
 
 private:
-	FAbilityData AbilityData;
+	FAbilityData* AbilityData;
 	
 public:
 	virtual void NativePreConstruct() override;
+	virtual void NativeConstruct() override;
 	
 	void SetAbilityData();
 

@@ -45,7 +45,7 @@ FReply USkillItem::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FP
 
 	if (InMouseEvent.GetEffectingButton() == EKeys::LeftMouseButton)
 	{
-		if (AbilityData.Level > 0)
+		if (AbilityData->Level > 0)
 		{
 			Reply = Super::NativeOnMouseButtonDown(InGeometry, InMouseEvent);
 		}
@@ -68,7 +68,7 @@ void USkillItem::NativeOnDragDetected(const FGeometry& InGeometry, const FPointe
 	DragOperation->Pivot = EDragPivot::CenterCenter;
 	DragOperation->DefaultDragVisual = Visual;
 	
-	Visual->AbilityIcon->SetBrushFromTexture(AbilityData.ActivatedIcon);
+	Visual->AbilityIcon->SetBrushFromTexture(AbilityData->ActivatedIcon);
 	
 	OutOperation = DragOperation;
 }
@@ -77,11 +77,11 @@ void USkillItem::NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent, UD
 {
 	if(Parent && !bIsDragSucceed)
 	{
-		SetAbilityData(FAbilityData());
+		SetAbilityData(&DefaultData);
 
 		auto PlayerState = UGameplayStatics::GetPlayerController(this,0)->GetPlayerState<AARPGDemoPlayerState>();
 		
-		PlayerState->SkillBarAbilityDatas[Parent->Index] = FAbilityData();
+		PlayerState->SkillBarAbilityDatas[Parent->Index] = nullptr;
 		
 		bIsDragSucceed = false;
 	}
@@ -105,9 +105,14 @@ void USkillItem::NativeOnDragLeave(const FDragDropEvent& InDragDropEvent, UDragD
 	HideHighLight();
 }
 
-FAbilityData USkillItem::GetAbilityData()
+FAbilityData* USkillItem::GetAbilityData()
 {
 	return AbilityData;
+}
+
+void USkillItem::GetAbilityData(FAbilityData& Out)
+{
+	Out = *AbilityData;
 }
 
 void USkillItem::SetAbilityData(USkillItem* SkillItem)
@@ -116,7 +121,7 @@ void USkillItem::SetAbilityData(USkillItem* SkillItem)
 	SetIcon();
 }
 
-void USkillItem::SetAbilityData(FAbilityData InAbilityData)
+void USkillItem::SetAbilityData(FAbilityData* InAbilityData)
 {
 	AbilityData = InAbilityData;
 	SetIcon();
@@ -135,14 +140,12 @@ USkillItem* USkillItem::GetDraggedSkillItem(UDragDropOperation* DragDropOperatio
 	return MovedItem;
 }
 
-void USkillItem::SetHandle(FGameplayAbilitySpecHandle Handle)
+FGameplayAbilitySpec* USkillItem::GetGameplayAbilitySpec()
 {
-	this->GameplayAbilitySpecHandle = Handle;
-}
+	const auto PlayerController = UGameplayStatics::GetPlayerController(this,0);
+	const auto PS = PlayerController->GetPlayerState<AARPGDemoPlayerState>();
 
-FGameplayAbilitySpecHandle USkillItem::GetHandle()
-{
-	return GameplayAbilitySpecHandle;
+	return PS->GetAbilitySystemComponent()->FindAbilitySpecFromClass(AbilityData->Ability);
 }
 
 void USkillItem::SetMaterial(UMaterialInstance* InMaterial)
@@ -155,13 +158,13 @@ void USkillItem::SetIcon()
 	AbilityIcon->SetBrushFromMaterial(Material);
 	auto DynamicMaterial = AbilityIcon->GetDynamicMaterial();
 
-	if(AbilityData.Level > 0)
+	if(AbilityData->Level > 0)
 	{
-		DynamicMaterial->SetTextureParameterValue(FName(TEXT("AbilityIcon")), AbilityData.ActivatedIcon);
+		DynamicMaterial->SetTextureParameterValue(FName(TEXT("AbilityIcon")), AbilityData->ActivatedIcon);
 	}
 	else
 	{
-		DynamicMaterial->SetTextureParameterValue(FName(TEXT("AbilityIcon")), AbilityData.InactivatedAbilityIcon);
+		DynamicMaterial->SetTextureParameterValue(FName(TEXT("AbilityIcon")), AbilityData->InactivatedAbilityIcon);
 	}
 	
 	DynamicMaterial->SetScalarParameterValue(FName(TEXT("PersentAge")), 1);
@@ -179,20 +182,35 @@ void USkillItem::HideHighLight() const
 	HighLight->SetVisibility(ESlateVisibility::Collapsed);
 }
 
-void USkillItem::GiveAbility()
+void USkillItem::GiveAbility(bool bTerminate)
 {
-	if(AbilityData.Level > 0)
+	if (AbilityData->Ability && AbilityData->Level > 0)
 	{
-		const auto PlayerController = UGameplayStatics::GetPlayerController(this,0);
+		const auto PlayerController = UGameplayStatics::GetPlayerController(this, 0);
 		const auto PS = PlayerController->GetPlayerState<AARPGDemoPlayerState>();
 
-		const auto Ability = AbilityData.Ability;
-		const auto Level = AbilityData.Level;
+		const auto Ability = AbilityData->Ability;
+		const auto Level = AbilityData->Level;
 
-		if(GameplayAbilitySpecHandle.IsValid())
+		const auto Spec = GetGameplayAbilitySpec();
+		if (Spec)
 		{
-			PS->GetAbilitySystemComponent()->ClearAbility(GameplayAbilitySpecHandle);
+			if (bTerminate)
+			{
+				auto Handle = Spec->Handle;
+
+				PS->GetAbilitySystemComponent()->ClearAbility(Handle);
+				PS->GetAbilitySystemComponent()->GiveAbility(FGameplayAbilitySpec(Ability, Level));
+			}
+			else
+			{
+				Spec->Level = AbilityData->Level;
+			}
 		}
-		GameplayAbilitySpecHandle = PS->GetAbilitySystemComponent()->GiveAbility(FGameplayAbilitySpec(Ability,Level));
-	}
+		else
+		{
+			PS->GetAbilitySystemComponent()->GiveAbility(FGameplayAbilitySpec(Ability, Level));
+		}
+		UE_LOG(LogTemp,Warning,TEXT("1"));
+	}UE_LOG(LogTemp,Warning,TEXT("2"));
 }

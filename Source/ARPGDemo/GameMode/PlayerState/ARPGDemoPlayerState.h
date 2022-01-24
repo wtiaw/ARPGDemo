@@ -41,7 +41,7 @@ public:
 	/**
 	 * @brief 技能栏中技能
 	 */
-	TArray<FAbilityData> SkillBarAbilityDatas;
+	TArray<TSubclassOf<UGameplayAbility_Base>> SkillBarAbilityDatas;
 	
 protected:
 	FDelegateHandle HealthChangedDelegateHandle;

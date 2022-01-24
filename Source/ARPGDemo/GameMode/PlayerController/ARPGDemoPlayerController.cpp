@@ -39,9 +39,9 @@ void AARPGDemoPlayerController::OnButtonPressed(int Index)
 	const auto PS = GetPlayerState<AARPGDemoPlayerState>();
 	const auto AbilityData = PS->SkillBarAbilityDatas[Index];
 
-	if (AbilityData.Ability)
+	if (AbilityData)
 	{
-		if (PS->GetAbilitySystemComponent()->TryActivateAbilityByClass(AbilityData.Ability))
+		if (PS->GetAbilitySystemComponent()->TryActivateAbilityByClass(AbilityData))
 		{
 			const auto QuickReleaseContainer = UWindowManager::GetInstance()->GetWindow<
 				USkillBar>(EWindowTypes::Fixed_SkillBarWindow)->GetQuickReleaseContainerByIndex(Index);

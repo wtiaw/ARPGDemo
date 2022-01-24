@@ -65,8 +65,9 @@ public:
 	/**
 	 * @brief 技能数据
 	 */
-	UPROPERTY(BlueprintReadWrite, Category = "Skill Item|Data")
-	FAbilityData AbilityData;
+	FAbilityData* AbilityData = &DefaultData;
+
+	FAbilityData DefaultData = FAbilityData();
 
 	/**
 	 * @brief 技能数据表
@@ -86,12 +87,6 @@ public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Skill Item|Visual")
 	UMaterialInstance* Material;
 	
-private:
-	/**
-	 * @brief 显示GAS句柄，用于移除技能
-	 */
-	FGameplayAbilitySpecHandle GameplayAbilitySpecHandle;
-	
 public:
 	virtual void NativeConstruct() override;
 	virtual void NativePreConstruct() override;
@@ -102,22 +97,22 @@ public:
 	virtual void NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	virtual void NativeOnDragEnter(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	virtual void NativeOnDragLeave(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
+	
+	FAbilityData* GetAbilityData();
 
 	UFUNCTION(BlueprintCallable)
-	FAbilityData GetAbilityData();
+	void GetAbilityData(FAbilityData& Out);
 	
 	void SetAbilityData(USkillItem* SkillItem);
 
-	void SetAbilityData(FAbilityData InAbilityData);
+	void SetAbilityData(FAbilityData* InAbilityData);
 
 	static USkillItem* GetDraggedSkillItem(UDragDropOperation* DragDropOperation);
-
-	void SetHandle(FGameplayAbilitySpecHandle Handle);
 
 	/**
 	 * @brief 获得GAS能力句柄
 	 */
-	FGameplayAbilitySpecHandle GetHandle();
+	FGameplayAbilitySpec* GetGameplayAbilitySpec();
 
 	/**
 	 * @brief 设置图标材质
@@ -138,10 +133,9 @@ public:
 	 * @brief 隐藏选中时的高亮
 	 */
 	void HideHighLight() const;
-
-private:
+	
 	/**
 	 * @brief 授予玩家能力
 	 */
-	void GiveAbility();
+	void GiveAbility(bool bTerminate = false);
 };

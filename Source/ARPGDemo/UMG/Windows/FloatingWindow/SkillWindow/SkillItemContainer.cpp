@@ -15,21 +15,28 @@ void USkillItemContainer::NativePreConstruct()
 	SkillItem->NativePreConstruct();
 }
 
+void USkillItemContainer::NativeConstruct()
+{
+	Super::NativeConstruct();
+
+	SkillItem->GiveAbility();
+}
+
 void USkillItemContainer::SetAbilityData()
 {
 	if(AbilityDataTable)
 	{
 		if(auto Data = AbilityDataTable->FindRow<FAbilityData>(AbilityName,""))
 		{
-			AbilityData = *Data;
+			AbilityData = Data;
 		}
 	}
 }
 
 void USkillItemContainer::SetLevelText()
 {
-	const int InLevel = AbilityData.Level;
-	const int MaxLevel = AbilityData.MaxLevel;
+	const int InLevel = AbilityData->Level;
+	const int MaxLevel = AbilityData->MaxLevel;
 
 	const FString LevelText = FString::Printf(TEXT("%d/%d"),InLevel,MaxLevel);
 
@@ -40,8 +47,9 @@ void USkillItemContainer::LevelUp()
 {
 	if(CheckLevelUp())
 	{
-		AbilityData.Level++;
-		
+		AbilityData->Level++;
+		SetLevelText();
+		SkillItem->GiveAbility();
 	}
 }
 
@@ -49,7 +57,9 @@ void USkillItemContainer::LevelDown()
 {
 	if(CheckLevelDown())
 	{
-		UE_LOG(LogTemp,Warning,TEXT("LevelDown"));
+		AbilityData->Level--;
+		SetLevelText();
+		SkillItem->GiveAbility();
 	}
 }
 

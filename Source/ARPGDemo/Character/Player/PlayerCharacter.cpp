@@ -30,18 +30,9 @@ void APlayerCharacter::BeginPlay()
 
 	if(PS)
 	{
-		AbilitySystemComponent = PS->AbilitySystemComponent;
-		
-		PS->GetAbilitySystemComponent()->InitAbilityActorInfo(PS, this);
-
-		AbilitySetBase = PS->GetAttributeSetBase();
-
 		CharacterLevel = AARPGDemoGameMode::Instance->SaveGameInstance->Level;
 		
 		AddStartupGameplayAbilities(CharacterLevel);
-		
-		GetAbilitySystemComponent()->GiveAbility(
-			FGameplayAbilitySpec(GameplayAbility_Avoid, 1, static_cast<int32>(EGASAbilityInputID::Avoid),this));
 	}
 }
 
@@ -75,7 +66,21 @@ void APlayerCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	
+	const auto PS = GetPlayerState<AARPGDemoPlayerState>();
+
+	if(PS)
+	{
+		AbilitySystemComponent = PS->AbilitySystemComponent;
+		
+		PS->GetAbilitySystemComponent()->InitAbilityActorInfo(PS, this);
+
+		AbilitySetBase = PS->GetAttributeSetBase();
+
+		AddStartupGameplayAbilities(CharacterLevel);
+		
+		GetAbilitySystemComponent()->GiveAbility(
+				FGameplayAbilitySpec(GameplayAbility_Avoid, 1, static_cast<int32>(EGASAbilityInputID::Avoid),this));
+	}
 }
 
 void APlayerCharacter::Zoom(float Value)

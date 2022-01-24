@@ -24,12 +24,12 @@ void UQuickReleaseContainer::NativeTick(const FGeometry& MyGeometry, float InDel
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
 
-	if (SkillItem->GetAbilityData().Ability)
+	if (SkillItem->GetAbilityData()->Ability)
 	{
 		auto PlayerState = UGameplayStatics::GetPlayerController(this, 0)->GetPlayerState<AARPGDemoPlayerState>();
 		auto ASC = PlayerState->GetAbilitySystemComponent();
 
-		FGameplayEffectQuery const Query = FGameplayEffectQuery::MakeQuery_MatchAnyOwningTags(SkillItem->GetAbilityData().Tag);
+		FGameplayEffectQuery const Query = FGameplayEffectQuery::MakeQuery_MatchAnyOwningTags(SkillItem->GetAbilityData()->Tag);
 		TArray<TPair<float, float>> DurationAndTimeRemaining = ASC->GetActiveEffectsTimeRemainingAndDuration(Query);
 
 		if (DurationAndTimeRemaining.Num() > 0)
@@ -70,19 +70,16 @@ bool UQuickReleaseContainer::NativeOnDrop(const FGeometry& InGeometry, const FDr
 	{
 		auto PlayerState = UGameplayStatics::GetPlayerController(this,0)->GetPlayerState<AARPGDemoPlayerState>();
 		const auto TempData = SkillItem->GetAbilityData();
-		const auto TempHandle = SkillItem->GetHandle();
 
 		SkillItem->SetAbilityData(DraggedSkillItem);
-		SkillItem->SetHandle(DraggedSkillItem->GetHandle());
 
 		if (DraggedSkillItem->Parent)
 		{
 			DraggedSkillItem->SetAbilityData(TempData);
-			DraggedSkillItem->SetHandle(TempHandle);
 			
-			PlayerState->SkillBarAbilityDatas[DraggedSkillItem->Parent->Index] = DraggedSkillItem->GetAbilityData();
+			PlayerState->SkillBarAbilityDatas[DraggedSkillItem->Parent->Index] = *DraggedSkillItem->GetAbilityData()->Ability;
 		}
-		PlayerState->SkillBarAbilityDatas[Index] = SkillItem->GetAbilityData();
+		PlayerState->SkillBarAbilityDatas[Index] = SkillItem->GetAbilityData()->Ability;
 		
 		DraggedSkillItem->bIsDragSucceed = true;
 	}
