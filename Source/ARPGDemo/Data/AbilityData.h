@@ -102,6 +102,27 @@ enum class EElementalDamageType : uint8
 * @brief 技能数据
 */
 USTRUCT(BlueprintType)
+struct FPreconditionData : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	/**
+	 * @brief 角色等级
+	 */
+	UPROPERTY(BlueprintReadOnly,EditAnywhere)
+	int Level;
+
+	/**
+	 * @brief 技能ID和等级映射表
+	 */
+	UPROPERTY(BlueprintReadOnly,EditAnywhere)
+	TMap<int,int> Ability;
+};
+
+/**
+* @brief 技能数据
+*/
+USTRUCT(BlueprintType)
 struct FAbilityData : public FTableRowBase
 {
 	GENERATED_BODY()
@@ -184,10 +205,17 @@ struct FAbilityData : public FTableRowBase
 	UPROPERTY(BlueprintReadOnly,EditAnywhere)
 	UCurveTable* CoolDown;
 
+	/**
+	 * @brief 前置条件
+	 */
+	UPROPERTY(BlueprintReadOnly,EditAnywhere)
+	UDataTable* Precondition;
+
 	FAbilityData();
 
 	FAbilityData(FString AbilityName, FString AbilityDescription, UTexture2D* ActivatedAbilityIcon, UTexture2D* InactivatedAbilityIcon,
-					EAbilityType AbilityType, int Level, int MaxLevel, EDamageType DamageType, EElementalDamageType ElementalDamage ,TSubclassOf<UGameplayAbility_Base> Ability, FGameplayTagContainer Tag, UCurveTable* CoolDown);
+					EAbilityType AbilityType, int Level, int MaxLevel, EDamageType DamageType, EElementalDamageType ElementalDamage ,
+					TSubclassOf<UGameplayAbility_Base> Ability, FGameplayTagContainer Tag, UCurveTable* CoolDown, UDataTable* Precondition);
 
 	bool IsValid();
 };

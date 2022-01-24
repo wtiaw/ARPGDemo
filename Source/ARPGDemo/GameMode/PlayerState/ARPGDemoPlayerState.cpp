@@ -60,6 +60,27 @@ void AARPGDemoPlayerState::MaxHealthChanged(const FOnAttributeChangeData& Data)
 	}
 }
 
+void AARPGDemoPlayerState::LevelChanged(const FOnAttributeChangeData& Data)
+{
+	int Level = Data.NewValue;
+	FString SLevel = FString::FromInt(Level);
+	
+	APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(GetPawn());
+	if (PlayerCharacter)
+	{
+		auto AvatarFrame = UWindowManager::GetInstance()->GetWindow<UHUDAvatarFrame>(EWindowTypes::HUD_AvatarFrame);
+		
+		if (AvatarFrame)
+		{
+			AvatarFrame->Level->SetText(FText::FromString(SLevel));
+		}
+	}
+}
+
+void AARPGDemoPlayerState::XPChanged(const FOnAttributeChangeData& Data)
+{
+}
+
 void AARPGDemoPlayerState::BeginPlay()
 {
 	Super::BeginPlay();
@@ -67,6 +88,7 @@ void AARPGDemoPlayerState::BeginPlay()
 	{
 		HealthChangedDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AbilitySetBase->GetHealthAttribute()).AddUObject(this, &AARPGDemoPlayerState::HealthChanged);
 		MaxHealthChangedDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AbilitySetBase->GetMaxHealthAttribute()).AddUObject(this, &AARPGDemoPlayerState::MaxHealthChanged);
+		LevelChangedDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AbilitySetBase->GetLevelAttribute()).AddUObject(this, &AARPGDemoPlayerState::LevelChanged);
 	}
 }
 
@@ -88,6 +110,26 @@ float AARPGDemoPlayerState::GetHealth() const
 float AARPGDemoPlayerState::GetMaxHealth() const
 {
 	return AbilitySetBase->GetMaxHealth();
+}
+
+float AARPGDemoPlayerState::GetLevel() const
+{
+	return AbilitySetBase->GetLevel();
+}
+
+float AARPGDemoPlayerState::GetMaxLevel() const
+{
+	return AbilitySetBase->GetMaxLevel();
+}
+
+float AARPGDemoPlayerState::GetXP() const
+{
+	return AbilitySetBase->GetXP();
+}
+
+float AARPGDemoPlayerState::GetMaxXP() const
+{
+	return AbilitySetBase->GetMaxXP();
 }
 
 bool AARPGDemoPlayerState::IsAlive() const

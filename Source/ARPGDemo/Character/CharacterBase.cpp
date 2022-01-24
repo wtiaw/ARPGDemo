@@ -40,14 +40,14 @@ UAbilitySystemComponent* ACharacterBase::GetAbilitySystemComponent() const
 	return AbilitySystemComponent.Get();
 }
 
-void ACharacterBase::AddStartupGameplayAbilities()
+void ACharacterBase::AddStartupGameplayAbilities(int Level)
 {
 	if(!AbilitySystemComponent.IsValid())
 	{
 		return;
 	}
 
-	if (!DefaultAttributes)
+	if (DefaultAttributes.Num() == 0)
 	{
 		UE_LOG(LogTemp, Error, TEXT("%s() Missing DefaultAttributes for %s. Please fill in the character's Blueprint."), *FString(__FUNCTION__), *GetName());
 		return;
@@ -56,9 +56,9 @@ void ACharacterBase::AddStartupGameplayAbilities()
 	FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
 	EffectContext.AddSourceObject(this);
 
-	FGameplayEffectSpecHandle NewHandle = AbilitySystemComponent->MakeOutgoingSpec(DefaultAttributes, GetCharacterLevel(), EffectContext);
-	if (NewHandle.IsValid())
+	for(auto i :DefaultAttributes)
 	{
-		FActiveGameplayEffectHandle ActiveGEHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToTarget(*NewHandle.Data.Get(), AbilitySystemComponent.Get());
+		FGameplayEffectSpecHandle NewHandle = AbilitySystemComponent->MakeOutgoingSpec(i, Level, EffectContext);
+		AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*NewHandle.Data.Get());
 	}
 }

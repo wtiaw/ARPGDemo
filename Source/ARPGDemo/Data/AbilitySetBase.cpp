@@ -5,7 +5,9 @@
 #include "GameplayEffectExtension.h"
 
 UAbilitySetBase::UAbilitySetBase()
-	: MaxHealth(1)
+	: Level(1)
+	, MaxLevel(1)
+	, MaxHealth(1)
 	, Health(1)
 {
 }
@@ -16,9 +18,7 @@ void UAbilitySetBase::PreAttributeChange(const FGameplayAttribute& Attribute, fl
 
 	if (Attribute == GetMaxHealthAttribute())
 	{
-		AdjustAttributeForMaxChange(Level, MaxLevel, NewValue, GetLevelAttribute());
 		AdjustAttributeForMaxChange(Health, MaxHealth, NewValue, GetHealthAttribute());
-		AdjustAttributeForMaxChange(XP, MaxXP, NewValue, GetXPAttribute());
 	}
 }
 

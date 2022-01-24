@@ -96,6 +96,8 @@ void UQuickReleaseContainer::SetHighLight()
 	QuickKey->SetColorAndOpacity(FLinearColor(1,1,1,1));
 
 	SkillItem->SetHighLight();
+
+	PlayAnimation(Active);
 }
 
 void UQuickReleaseContainer::HideHighLight()

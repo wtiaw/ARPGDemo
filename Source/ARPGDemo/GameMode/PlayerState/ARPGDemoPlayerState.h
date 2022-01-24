@@ -46,6 +46,7 @@ public:
 protected:
 	FDelegateHandle HealthChangedDelegateHandle;
 	FDelegateHandle MaxHealthChangedDelegateHandle;
+	FDelegateHandle LevelChangedDelegateHandle;
 
 	/**
 	* @brief 生命值改变调用
@@ -56,6 +57,16 @@ protected:
 	* @brief 最大生命值改变调用
 	*/
 	virtual void MaxHealthChanged(const FOnAttributeChangeData& Data);
+
+	/**
+	* @brief 等级改变调用
+	*/
+	virtual void LevelChanged(const FOnAttributeChangeData& Data);
+
+	/**
+	* @brief 经验改变调用
+	*/
+	virtual void XPChanged(const FOnAttributeChangeData& Data);
 
 public:
 	virtual void BeginPlay() override;
@@ -73,6 +84,18 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "GAS|GDPlayerState|Attributes")
 	float GetMaxHealth() const;
+
+	UFUNCTION(BlueprintCallable, Category = "GAS|GDPlayerState|Attributes")
+	float GetLevel() const;
+
+	UFUNCTION(BlueprintCallable, Category = "GAS|GDPlayerState|Attributes")
+	float GetMaxLevel() const;
+
+	UFUNCTION(BlueprintCallable, Category = "GAS|GDPlayerState|Attributes")
+	float GetXP() const;
+
+	UFUNCTION(BlueprintCallable, Category = "GAS|GDPlayerState|Attributes")
+	float GetMaxXP() const;
 
 	UFUNCTION(BlueprintCallable, Category = "GAS|GDPlayerState")
 	bool IsAlive() const;

@@ -20,6 +20,9 @@ public:
 	
 	static AARPGDemoGameMode* Instance;
 
+	UPROPERTY(BlueprintReadOnly)
+	UCustomSaveGame* SaveGameInstance;
+
 public:
 	/**
 	 * @brief 获得玩家控制器

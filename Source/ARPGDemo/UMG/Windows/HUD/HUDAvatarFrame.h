@@ -18,4 +18,7 @@ class ARPGDEMO_API UHUDAvatarFrame : public UBaseWindow
 public:
 	UPROPERTY(Meta = (BindWidget))
 	UHUDHealthBar* HealthBar;
+
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
+	UTextBlock* Level;
 };

@@ -51,4 +51,6 @@ public:
 	void MoveForward(float Value);
 	
 	void MoveRight(float Value);
+
+	virtual void AddStartupGameplayAbilities(int Level) override;
 };

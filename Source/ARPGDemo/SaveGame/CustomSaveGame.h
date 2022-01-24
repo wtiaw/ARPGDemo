@@ -24,4 +24,7 @@ public:
 
 	UPROPERTY(BlueprintReadWrite,EditAnywhere)
 	float Health;
+
+	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	float Level;
 };

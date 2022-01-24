@@ -18,8 +18,7 @@ class ARPGDEMO_API AARPGDemoPlayerController : public APlayerController
 public:
 	AARPGDemoPlayerController();
 
-	UPROPERTY(BlueprintReadOnly)
-	UCustomSaveGame* SaveGameInstance;
+	
 
 public:
 	virtual void BeginPlay() override;

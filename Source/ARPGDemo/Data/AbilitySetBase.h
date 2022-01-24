@@ -34,7 +34,7 @@ public:
 	/**
 	 * @brief 最大等级
 	 */
-	UPROPERTY(BlueprintReadOnly, Category = "MaxLevel")
+	UPROPERTY(BlueprintReadOnly, Category = "Level")
 	FGameplayAttributeData MaxLevel;
 	ATTRIBUTE_ACCESSORS(UAbilitySetBase, MaxLevel);
 	
@@ -62,7 +62,7 @@ public:
 	/**
 	 * @brief 最大经验值
 	 */
-	UPROPERTY(BlueprintReadOnly, Category = "MaxXP")
+	UPROPERTY(BlueprintReadOnly, Category = "XP")
 	FGameplayAttributeData MaxXP;
 	ATTRIBUTE_ACCESSORS(UAbilitySetBase, MaxXP);
 

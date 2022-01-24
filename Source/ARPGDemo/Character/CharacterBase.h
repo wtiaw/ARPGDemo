@@ -18,7 +18,7 @@ protected:
 	TWeakObjectPtr<UAbilitySetBase> AbilitySetBase;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "GAS|Abilities")
-	TSubclassOf<UGameplayEffect> DefaultAttributes;
+	TArray<TSubclassOf<UGameplayEffect>> DefaultAttributes;
 	
 	UPROPERTY(EditAnywhere, Category = Abilities)
 	int32 CharacterLevel;
@@ -35,6 +35,6 @@ public:
 	virtual int32 GetCharacterLevel() const;
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
-	
-	void AddStartupGameplayAbilities();
+
+	virtual void AddStartupGameplayAbilities(int Level);
 };

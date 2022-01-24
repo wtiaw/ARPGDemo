@@ -25,6 +25,24 @@ APlayerCharacter::APlayerCharacter()
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	const auto PS = GetPlayerState<AARPGDemoPlayerState>();
+
+	if(PS)
+	{
+		AbilitySystemComponent = PS->AbilitySystemComponent;
+		
+		PS->GetAbilitySystemComponent()->InitAbilityActorInfo(PS, this);
+
+		AbilitySetBase = PS->GetAttributeSetBase();
+
+		CharacterLevel = AARPGDemoGameMode::Instance->SaveGameInstance->Level;
+		
+		AddStartupGameplayAbilities(CharacterLevel);
+		
+		GetAbilitySystemComponent()->GiveAbility(
+			FGameplayAbilitySpec(GameplayAbility_Avoid, 1, static_cast<int32>(EGASAbilityInputID::Avoid),this));
+	}
 }
 
 void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -57,21 +75,7 @@ void APlayerCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	const auto PS = GetPlayerState<AARPGDemoPlayerState>();
-
-	if(PS)
-	{
-		AbilitySystemComponent = PS->AbilitySystemComponent;
-		
-		PS->GetAbilitySystemComponent()->InitAbilityActorInfo(PS, this);
-
-		AbilitySetBase = PS->GetAttributeSetBase();
-
-		AddStartupGameplayAbilities();
-		
-		GetAbilitySystemComponent()->GiveAbility(
-			FGameplayAbilitySpec(GameplayAbility_Avoid, 1, static_cast<int32>(EGASAbilityInputID::Avoid),this));
-	}
+	
 }
 
 void APlayerCharacter::Zoom(float Value)
@@ -104,5 +108,28 @@ void APlayerCharacter::MoveRight(float Value)
 		
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		AddMovementInput(Direction, Value);
+	}
+}
+
+void APlayerCharacter::AddStartupGameplayAbilities(int Level)
+{
+	if(!AbilitySystemComponent.IsValid())
+	{
+		return;
+	}
+
+	if (DefaultAttributes.Num() == 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("%s() Missing DefaultAttributes for %s. Please fill in the character's Blueprint."), *FString(__FUNCTION__), *GetName());
+		return;
+	}
+	
+	FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
+	EffectContext.AddSourceObject(this);
+
+	for(auto i :DefaultAttributes)
+	{
+		FGameplayEffectSpecHandle NewHandle = AbilitySystemComponent->MakeOutgoingSpec(i, Level, EffectContext);
+		AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*NewHandle.Data.Get());
 	}
 }

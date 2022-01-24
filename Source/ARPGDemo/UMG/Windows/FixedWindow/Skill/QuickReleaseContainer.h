@@ -61,6 +61,9 @@ public:
 
 	UPROPERTY()
 	USkillBar* Parent;
+
+	UPROPERTY(BlueprintReadWrite)
+	UWidgetAnimation* Active;
 	
 private:
 	float TimeRemaining;
