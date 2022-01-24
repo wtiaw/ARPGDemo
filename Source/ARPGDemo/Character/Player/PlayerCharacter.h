@@ -49,13 +49,28 @@ public:
 	
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
+	/**
+	 * @brief 视角缩放
+	 */
 	void Zoom(float Value);
-	
+
+	/**
+	 * @brief 前后移动
+	 */
 	void MoveForward(float Value);
-	
+
+	/**
+	 * @brief 左右移动
+	 */
 	void MoveRight(float Value);
 
+	/**
+	 * @brief 初始化GE
+	 */
 	virtual void AddStartupGameplayAbilities(int Level) override;
 
+	/**
+	 * @brief 初始化GA
+	 */
 	void InitAbility();
 };

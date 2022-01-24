@@ -11,8 +11,9 @@
 
 class UCustomSaveGame;
 class UDataTable;
+
 /**
- * 
+ * @brief 技能容器
  */
 UCLASS()
 class ARPGDEMO_API USkillItemContainer : public UUserWidget
@@ -27,34 +28,59 @@ public:
 	UDataTable* AbilityDataTable;
 
 	/**
-	 * @brief 技能数据表的行数
+	 * @brief 技能数据表的行名
 	 */
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Skill Item|Data")
 	FName AbilityName;
 
+	/**
+	 * @brief 技能
+	 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget))
 	USkillItem* SkillItem;
 
+	/**
+	 * @brief 技能等级
+	 */
 	UPROPERTY(Meta = (BindWidget))
 	UTextBlock* Level;
 
+	/**
+	 * @brief 技能升级按钮
+	 */
 	UPROPERTY(Meta = (BindWidget))
 	UButton* Btn_LevelUp;
 
+	/**
+	 * @brief 技能降级按钮
+	 */
 	UPROPERTY(Meta = (BindWidget))
 	UButton* Btn_LevelDown;
 
 private:
+	/**
+	 * @brief 技能数据
+	 */
 	FAbilityData* AbilityData;
 
+	/**
+	 * @brief 存档实例
+	 */
+	UPROPERTY()
 	UCustomSaveGame* Save;
 	
 public:
 	virtual void NativePreConstruct() override;
 	virtual void NativeConstruct() override;
-	
+
+	/**
+	 * @brief 从技能数据表中获得技能数据
+	 */
 	void SetAbilityData();
 
+	/**
+	 * @brief 设置技能等级文本
+	 */
 	void SetLevelText();
 
 	/**
@@ -81,5 +107,8 @@ public:
 	 */
 	bool CheckLevelDown();
 
+	/**
+	 * @brief 设置按钮
+	 */
 	void CheckButton();
 };

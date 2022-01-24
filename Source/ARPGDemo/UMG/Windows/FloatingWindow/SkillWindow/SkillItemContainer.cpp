@@ -25,6 +25,7 @@ void USkillItemContainer::NativeConstruct()
 	
 	if(Save)
 	{
+		//是否存在这个映射，如果不存在就添加，如果存在就更改等级
 		if(!Save->SkillDatas.Contains(AbilityData->AbilityId))
 		{
 			Save->SkillDatas.Emplace(AbilityData->AbilityId,AbilityData->Level);
@@ -70,9 +71,11 @@ void USkillItemContainer::LevelUp()
 {
 	if(CheckLevelUp())
 	{
+		//修改节能功能等级，同时修改技能等级
 		AbilityData->Level++;
 		Save->SkillDatas[AbilityData->AbilityId] = AbilityData->Level;
-		
+
+		//设置技能等级文本
 		SetLevelText();
 		SkillItem->GiveAbility();
 		SkillItem->SetIcon();
@@ -85,9 +88,11 @@ void USkillItemContainer::LevelDown()
 {
 	if(CheckLevelDown())
 	{
+		//修改节能功能等级，同时修改技能等级
 		AbilityData->Level--;
 		Save->SkillDatas[AbilityData->AbilityId] = AbilityData->Level;
-		
+
+		//设置技能等级文本
 		SetLevelText();
 		SkillItem->GiveAbility();
 		SkillItem->SetIcon();

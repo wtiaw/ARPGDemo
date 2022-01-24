@@ -136,6 +136,7 @@ public:
 	
 	/**
 	 * @brief 授予玩家能力
+	 * @param bTerminate 是否中止技能
 	 */
 	void GiveAbility(bool bTerminate = false);
 };
