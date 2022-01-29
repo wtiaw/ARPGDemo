@@ -2,8 +2,9 @@
 
 
 #include "HUDHealthBar.h"
-#include "ARPGDemo/GameMode/ARPGDemoGameMode.h"
-#include "ARPGDemo/GameMode/PlayerState/ARPGDemoPlayerState.h"
+#include "ARPGDemo/GamePlay/Gamming/GameMode/ARPGDemoGameMode.h"
+#include "ARPGDemo/GamePlay/Gamming/PlayerState/ARPGDemoPlayerState.h"
+
 
 
 void UHUDHealthBar::NativeConstruct()

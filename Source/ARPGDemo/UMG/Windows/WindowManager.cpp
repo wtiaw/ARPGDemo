@@ -2,7 +2,8 @@
 
 
 #include "WindowManager.h"
-#include "ARPGDemo/GameMode/ARPGDemoGameMode.h"
+
+#include "ARPGDemo/GamePlay/Gamming/GameMode/ARPGDemoGameMode.h"
 #include "BaseWindow/FloatingWindowBase.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Components/CanvasPanelSlot.h"
@@ -14,15 +15,15 @@ UWindowManager* UWindowManager::Instance = nullptr;
 
 UWindowManager::UWindowManager()
 {
-	static ConstructorHelpers::FClassFinder<UUserWidget> MainWindowClassFinder(TEXT("/Game/ARPGDemo/Blueprints/UMG/Windows/MainWindow/WBP_MainWindow"));
+	static ConstructorHelpers::FClassFinder<UUserWidget> MainWindowClassFinder(TEXT("/Game/ARPGDemo/Blueprints/UMG/Gamming/Windows/MainWindow/WBP_MainWindow"));
 	if (MainWindowClassFinder.Succeeded())
 		MainWindowClass = MainWindowClassFinder.Class;
 
-	static ConstructorHelpers::FClassFinder<UUserWidget> FloatingMainWindowClassFinder(TEXT("/Game/ARPGDemo/Blueprints/UMG/Windows/MainWindow/WBP_FloatingMainWindow"));
+	static ConstructorHelpers::FClassFinder<UUserWidget> FloatingMainWindowClassFinder(TEXT("/Game/ARPGDemo/Blueprints/UMG/Gamming/Windows/MainWindow/WBP_FloatingMainWindow"));
 	if (FloatingMainWindowClassFinder.Succeeded())
 		FloatingMainWindowClass = FloatingMainWindowClassFinder.Class;
 
-	static ConstructorHelpers::FClassFinder<UBaseWindow> MenuMainWindowClassFinder(TEXT("/Game/ARPGDemo/Blueprints/UMG/Windows/Menu/WBP_MainMenu"));
+	static ConstructorHelpers::FClassFinder<UBaseWindow> MenuMainWindowClassFinder(TEXT("/Game/ARPGDemo/Blueprints/UMG/Gamming/Windows/Menu/WBP_MainMenu"));
 	if (MenuMainWindowClassFinder.Succeeded())
 		MenuMainWindowClass = MenuMainWindowClassFinder.Class;
 }

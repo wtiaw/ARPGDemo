@@ -2,9 +2,7 @@
 
 
 #include "FunctionLibraryInput.h"
-
-#include "ARPGDemo/GameMode/PlayerController/ControllerRegistrar.h"
-#include "ARPGDemo/UMG/Windows/WindowManager.h"
+#include "ARPGDemo/GamePlay/Gamming/PlayerController/ControllerRegister.h"
 #include "GameFramework/InputSettings.h"
 
 TArray<FKey> UFunctionLibraryInput::GetActionKey(FName InActionName)
@@ -45,7 +43,7 @@ FName UFunctionLibraryInput::GetActionName(FKey InActionKey)
 
 void UFunctionLibraryInput::ExecuteActionByActionName(FName InActionName)
 {
-	const auto Register = UControllerRegistrar::GetInstance();
+	const auto Register = UControllerRegister::GetInstance();
 	
 	const FString ActionName = InActionName.ToString();
 	if (ActionName == TEXT("OpenSkillWindow"))

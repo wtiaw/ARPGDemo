@@ -4,7 +4,7 @@
 #include "SkillItem.h"
 
 #include "SkillItem_Visual.h"
-#include "ARPGDemo/GameMode/PlayerState/ARPGDemoPlayerState.h"
+#include "ARPGDemo/GamePlay/Gamming/PlayerState/ARPGDemoPlayerState.h"
 #include "ARPGDemo/UMG/Widgets/Drag/DragOperation.h"
 #include "ARPGDemo/UMG/Windows/FixedWindow/Skill/QuickReleaseContainer.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
